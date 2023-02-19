@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+ 
+  predatabase:
+    container_name: predatabase
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      #MYSQL_PASSWORD: ${MYSQL_PASSWORD:-symfony}
+      MYSQL_DATABASE: symfony_docker
+    volumes: 
+      - db-data:/var/lib/mysql
+    ports:
+      - 3309:3306
+    networks:
+      - dev
+        
+  www:
+    build:
+      context: .
+      dockerfile: ./php/Dockerfile
+    image: thetiptop
+    container_name: www_docker_symfony
+    depends_on:
+      - predatabase
+    command: ["/wait-for.sh" , "predatabase:3306" ,"--" , "/docker-entrypoint.sh"]
+   
+    volumes:
+      - ./php/vhosts:/etc/apache2/sites-enabled
+    ports:
+      - "8741:80"
+    environment:
+      DATABASE_URL: "mysql://root:root@predatabase:3306/symfony_docker"
+      
+    restart: always
+    networks:
+      - dev
+     
+
+networks:
+  dev:
+  
+
+
+volumes:
+  db-data:
+  
