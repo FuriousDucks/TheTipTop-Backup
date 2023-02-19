@@ -1,116 +1,49 @@
 version: "3.8"
 
 services:
-  traefik:
-    image: traefik:2.7.0
-    container_name: traefik
-    command:
-      - --api=true
-      - --api.dashboard=true
-      - --api.insecure=true
-      - --entryPoints.web.address=:80
-      - --providers.docker.network=web
-      - --providers.docker.watch=true
-      - --providers.docker.exposedbydefault=false
-      - --log=true
-      - --log.level=debug
-      - --accesslog=true
-    ports:
-      - "80:80"
-      - "8080:8080"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.traefik.rule=Host(`traefik.workflow.com`)
-      - traefik.http.services.traefik.loadbalancer.server.port=8080
-    networks:
-      - dev
-
-  gitea-db:
-    image: postgres:14
-    container_name: gitea-db
+ 
+  predatabase:
+    container_name: predatabase
+    image: mysql:8.0
     restart: always
     environment:
-      - POSTGRES_USER=gitea
-      - POSTGRES_PASSWORD=gitea
-      - POSTGRES_DB=gitea
-    volumes:
-      - ./data/jenkins:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.gitea-db.rule=Host(`gitea-db.workflow.com`)
-      - traefik.http.services.gitea-db.loadbalancer.server.port=5432
-    networks:
-      - gitea
-
-  gitea:
-    image: gitea/gitea:1.16.8
-    container_name: gitea
-    restart: always
+      MYSQL_ROOT_PASSWORD: root
+      #MYSQL_PASSWORD: ${MYSQL_PASSWORD:-symfony}
+      MYSQL_DATABASE: symfony_docker
+    volumes: 
+      - db-data:/var/lib/mysql
     ports:
-      - "3000:3000"
-      - "2222:22"
-    environment:
-      - USER_UID=1000
-      - USER_GID=1000
-      - DB_TYPE=postgres
-      - DB_HOST=gitea-db:5432
-      - DB_NAME=gitea
-      - DB_USER=gitea
-      - DB_PASSWD=gitea
-      - SSH_DOMAIN=46.101.35.94
-      - SSH_PORT=22
-      - SSH_LISTEN_PORT=22
-      - SSH_ROOT_PATH=/data/git/gitea-repositories
-      - SSH_SERVER_CIPHERS=aes128-ctr,aes192-ctr,aes256-ctr
-      - SSH_SERVER_KEY_EXCHANGES=diffie-hellman-group-exchange-sha256
-      - DOMAIN=46.101.35.94
-      - ROOT_URL=http://46.101.35.94:3000/
-      - DISABLE_SSH=false
-      - DISABLE_ROUTER_LOG=false
-      - DISABLE_REGISTRATION=true
-      - DISABLE_WEBHOOKS=false
-      - ALLOWED_HOST_LIST=*
-    volumes:
-      - ./data/gitea:/data
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.gitea.rule=Host(`46.101.35.94:3000`)
-      - traefik.http.services.gitea.loadbalancer.server.port=3000
-    networks:
-      - gitea
-      - dev
-
-  jenkins:
-    image: jenkins/jenkins:lts
-    container_name: jenkins
-    user: root
-    restart: always
-    ports:
-      - "8081:8080"
-      - "50000:50000"
-    environment:
-      - TZ=Europe/Paris
-      - JENKINS_URL=http://46.101.35.94:8081
-    volumes:
-      - ./data/jenkins:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.jenkins.rule=Host(`46.101.35.94:8081`)
-      - traefik.http.services.jenkins.loadbalancer.server.port=8081
+      - 3309:3306
     networks:
       - dev
+        
+  www:
+    build:
+      context: .
+      dockerfile: ./php/Dockerfile
+    image: thetiptop
+    container_name: www_docker_symfony
+    depends_on:
+      - predatabase
+    command: ["/wait-for.sh" , "predatabase:3306" ,"--" , "/docker-entrypoint.sh"]
+   
+    volumes:
+      - ./php/vhosts:/etc/apache2/sites-enabled
+    ports:
+      - "8741:80"
+    environment:
+      DATABASE_URL: "mysql://root:root@predatabase:3306/symfony_docker"
+      
+    restart: always
+    networks:
+      - dev
+     
 
 networks:
   dev:
-  gitea:
+  
+
+
+volumes:
+  db-data:
+  
