@@ -6,10 +6,6 @@ pipeline{
         registry = 'docker.io'
         registryUrl = 'https://index.docker.io/v1/'
     }
-    tools{
-        // install docker
-        docker 'docker:latest'
-    }
     stages{
         // checkout code from git
         stage('Checkout'){
