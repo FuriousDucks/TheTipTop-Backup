@@ -8,6 +8,13 @@ pipeline{
         PATH = "$PATH:/usr/bin"
     }
     
+    tools{
+        maven 'maven'
+        jdk 'jdk'
+        sonarqube 'sonarqube'
+        docker 'docker'
+    }
+    
     stages{
         // checkout code from git
         stage('Checkout'){
