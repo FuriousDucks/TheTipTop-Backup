@@ -6,9 +6,9 @@ pipeline{
         registry = 'docker.io'
         registryUrl = 'https://index.docker.io/v1/'
     }
-    tools{
-        // install sonarqube scanner
-        maven 'docker'
+    options{
+        buildDiscarder(logRotator(numToKeepStr: '5'))
+        newContainerPerStage()
     }
     stages{
         // checkout code from git
@@ -44,7 +44,6 @@ pipeline{
                     sh 'docker exec -it php php bin/phpunit --coverage-html=coverage --coverage-clover=coverage.xml'
                     // run test cases phpunit and report couverage and phpunit-report to store test result
                     sh 'docker exec -it php php bin/phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
-                    // make directory for test result
                     sh 'mkdir -p test-results'
                     // copy test result to test-results directory
                     sh 'docker cp php:/var/www/html/storage/logs/phpunit.junit.xml test-results'
