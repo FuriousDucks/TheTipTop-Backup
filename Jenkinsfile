@@ -1,16 +1,18 @@
 pipeline{
-    agent docker{
-        image 'php'
-        args '-v /var/run/docker.sock:/var/run/docker.sock'
-    }
+    agent docker
     environment{
         imageName = 'thetiptop'
         registryCredential = 'dockerhub'
         registry = 'docker.io'
         registryUrl = 'https://index.docker.io/v1/'
-        PATH = "$PATH:/usr/bin"
     }
     
+    tools{
+        // install sonarqube scanner
+        maven 'SonarQube'
+        // install docker
+        docker 'docker'
+    }
     stages{
         // checkout code from git
         stage('Checkout'){
