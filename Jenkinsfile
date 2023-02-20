@@ -1,11 +1,17 @@
 pipeline{
     agent any
-    /* environment{
+    environment{
         imageName = 'thetiptop'
         registryCredential = 'dockerhub'
         registry = 'docker.io'
         registryUrl = 'https://index.docker.io/v1/'
-    } */
+    }
+    tools{
+        // install sonarqube scanner
+        maven 'SonarQube'
+        // install docker
+        docker 'docker'
+    }
     stages{
         // checkout code from git
         stage('Checkout'){
@@ -53,6 +59,23 @@ pipeline{
                 }
             }
         }
+        
+        // Analyze code with SonarQube with couverage and phpunit-report
+        /* stage('SonarQube'){
+            steps{
+                script{
+                    withSonarQubeEnv('sonarqube'){
+                        ssh '${tool(SonarQube)}/bin/sonar-scanner \
+                        -D sonar.projectKey=thetiptop \
+                        -D sonar.source=. \
+                        -D sonar.coverage.exclusions=**/tests/**/* \
+                        -D sonar.php.coverage.reportPaths=storage/logs/coverage.xml \
+                        -D sonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml'
+                    }
+                }
+            }
+        } */
+
         // build docker image
         /* stage('Build'){
             steps{
@@ -61,12 +84,38 @@ pipeline{
                 }
             }
         } */
+
         // push docker image to docker hub
         /* stage('Push'){
             steps{
                 script{
                     docker.withRegistry(registryUrl, registryCredential){
                         docker.image(imageName).push()
+                    }
+                }
+            }
+        } */
+
+        // deploy docker image to preprod server with ssh
+        /* stage('Deploy'){
+            steps{
+                script{
+                    sshagent(['ssh-key']){
+                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@preprod "docker pull thetiptop"'
+                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@preprod "docker stop thetiptop"'
+                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@preprod "docker rm thetiptop"'
+                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@preprod "docker run -d -p 80:80 --name thetiptop thetiptop"'
+                    }
+                }
+            }
+        } */
+
+        // check status preprod server if it is running or not with ssh and notify by email if it is not running
+        /* stage('Check'){
+            steps{
+                script{
+                    sshagent(['ssh-key']){
+                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@preprod "docker ps"'
                     }
                 }
             }
