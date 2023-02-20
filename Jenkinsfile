@@ -18,6 +18,12 @@ pipeline{
         }
         // Remove all containers and volumes
         stage('Clean'){
+            agent{
+                docker{
+                    image 'docker'
+                    args '-v /var/run/docker.sock:/var/run/docker.sock'
+                }
+            }
             steps{
                 script{
                     sh "docker compose down -v"
@@ -27,6 +33,12 @@ pipeline{
         }
         // start docker container with docker compose file
         stage('Start'){
+            agent{
+                docker{
+                    image 'docker'
+                    args '-v /var/run/docker.sock:/var/run/docker.sock'
+                }
+            }
             steps{
                 script{
                     sh 'docker-compose up -d'
