@@ -1,11 +1,11 @@
 pipeline{
     agent any
-    environment{
+    /* environment{
         imageName = 'thetiptop'
         registryCredential = 'dockerhub'
         registry = 'docker.io'
         registryUrl = 'https://index.docker.io/v1/'
-    }
+    } */
     stages{
         // checkout code from git
         stage('Checkout'){
@@ -20,7 +20,6 @@ pipeline{
                 script{
                     sh "docker compose down -v"
                     sh "docker system prune -af --volumes"
-                    sh "ls"
                 }
             }
         }
@@ -55,15 +54,15 @@ pipeline{
             }
         }
         // build docker image
-        stage('Build'){
+        /* stage('Build'){
             steps{
                 script{
                     docker.build(imageName)
                 }
             }
-        }
+        } */
         // push docker image to docker hub
-        stage('Push'){
+        /* stage('Push'){
             steps{
                 script{
                     docker.withRegistry(registryUrl, registryCredential){
@@ -71,6 +70,6 @@ pipeline{
                     }
                 }
             }
-        }
+        } */
     }
 }
