@@ -5,7 +5,7 @@ pipeline{
         registryCredential = 'dockerhub'
         registry = 'docker.io'
         registryUrl = 'https://index.docker.io/v1/'
-        PATH = "$PATH:/usr/local/bin"
+        PATH = "$PATH:/usr/bin"
     }
     
     stages{
