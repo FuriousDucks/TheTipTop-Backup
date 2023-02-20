@@ -8,7 +8,7 @@ pipeline{
     }
     tools{
         // install sonarqube scanner
-        maven 'SonarQube'
+        maven 'docker'
     }
     stages{
         // checkout code from git
