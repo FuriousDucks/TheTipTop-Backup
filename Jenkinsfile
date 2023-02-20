@@ -68,7 +68,6 @@ pipeline{
                         ssh '${tool(SonarQube)}/bin/sonar-scanner \
                         -D sonar.projectKey=thetiptop \
                         -D sonar.source=. \
-                        -D sonar.coverage.exclusions=**/tests/**/* \
                         -D sonar.php.coverage.reportPaths=storage/logs/coverage.xml \
                         -D sonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml'
                     }
