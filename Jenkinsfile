@@ -1,17 +1,14 @@
 pipeline{
-    agent docker
+    agent any
     environment{
         imageName = 'thetiptop'
         registryCredential = 'dockerhub'
         registry = 'docker.io'
         registryUrl = 'https://index.docker.io/v1/'
     }
-    
     tools{
         // install sonarqube scanner
         maven 'SonarQube'
-        // install docker
-        docker 'docker'
     }
     stages{
         // checkout code from git
