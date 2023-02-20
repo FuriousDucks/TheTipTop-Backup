@@ -18,8 +18,9 @@ pipeline{
         stage('Clean'){
             steps{
                 script{
-                    sh 'docker rm -f $(docker ps -a -q)'
-                    sh 'docker volume rm $(docker volume ls -q)'
+                    sh "docker compose down -v"
+                    sh "docker system prune -af --volumes"
+                    sh "ls"
                 }
             }
         }
