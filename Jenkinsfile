@@ -47,6 +47,12 @@ pipeline{
         }
         // run test cases phpunit
         stage('Test'){
+            agent{
+                docker{
+                    image 'php'
+                    args '-v /var/run/docker.sock:/var/run/docker.sock'
+                }
+            }
             steps{
                 script{
                     // install phpunit-bridge and browser-kit and css-selector
