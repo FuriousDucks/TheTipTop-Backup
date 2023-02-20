@@ -47,7 +47,7 @@ services:
     environment:
       - APP_ENV=dev
       - APP_DEBUG=true
-      - APP_URL=http://localhost:8000
+      - APP_URL=http://46.101.35.94:8000/
       - DB_CONNECTION=mysql
       - DB_HOST=mysql
       - DB_PORT=3306
