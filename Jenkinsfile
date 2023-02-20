@@ -7,10 +7,8 @@ pipeline{
         registryUrl = 'https://index.docker.io/v1/'
     }
     tools{
-        // install sonarqube scanner
-        maven 'SonarQube'
         // install docker
-        docker 'docker'
+        docker 'docker:latest'
     }
     stages{
         // checkout code from git
