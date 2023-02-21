@@ -31,14 +31,15 @@ pipeline{
         // start docker container with docker compose file
         stage('Start'){
             steps{
+                echo 'Start docker container'
                 /* script{
                     sh 'docker compose up -d'
                 } */
             }
         }
         // run test cases phpunit
-        stage('Test'){
-            /* steps{
+        /* stage('Test'){
+            steps{
                 script{
                     // install phpunit-bridge and browser-kit and css-selector
                     sh 'docker exec -it php composer require symfony/phpunit-bridge symfony/browser-kit symfony/css-selector --dev'
@@ -49,14 +50,14 @@ pipeline{
                     // copy test result to test-results directory
                     sh 'docker cp php:/var/www/html/storage/logs/phpunit.junit.xml test-results'
                 }
-            } */
+            }
             // publish test result
-            /* post{
+            post{
                 always{
                     junit 'test-results/phpunit.junit.xml'
                 }
-            } */
-        }
+            }
+        } */
         
         // Analyze code with SonarQube with couverage and phpunit-report
         /* stage('SonarQube'){
