@@ -29,14 +29,13 @@ pipeline{
         // start docker container with docker compose file
         stage('Start'){
             steps{
-                echo 'Start docker container'
-                /* script{
+                script{
                     sh 'docker compose up -d'
-                } */
+                }
             }
         }
         // run test cases phpunit
-        /* stage('Test'){
+        stage('Test'){
             steps{
                 script{
                     // install phpunit-bridge and browser-kit and css-selector
@@ -55,10 +54,10 @@ pipeline{
                     junit 'test-results/phpunit.junit.xml'
                 }
             }
-        } */
+        }
         
         // Analyze code with SonarQube with couverage and phpunit-report
-        /* stage('SonarQube'){
+        stage('SonarQube'){
             steps{
                 script{
                     withSonarQubeEnv('sonarqube'){
@@ -70,51 +69,55 @@ pipeline{
                     }
                 }
             }
-        } */
+        }
 
         // build docker image
-        /* stage('Build'){
+        stage('Build'){
             steps{
-                script{
+               /*  script{
                     docker.build(imageName)
-                }
+                } */
+                echo 'Built'
             }
-        } */
+        }
 
         // push docker image to docker hub
-        /* stage('Push'){
+        stage('Push'){
             steps{
-                script{
+                /* script{
                     docker.withRegistry(registryUrl, registryCredential){
                         docker.image(imageName).push()
                     }
-                }
+                } */
+                echo 'Pushed'
             }
-        } */
+        }
 
         // deploy docker image to preprod server with ssh
-        /* stage('Deploy'){
+        stage('Deploy'){
             steps{
-                script{
+                /* script{
                     sshagent(['ssh-key']){
                         sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@preprod "docker pull thetiptop"'
                         sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@preprod "docker stop thetiptop"'
                         sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@preprod "docker rm thetiptop"'
                         sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@preprod "docker run -d -p 80:80 --name thetiptop thetiptop"'
                     }
-                }
+                } */
+                echo 'Deployed'
             }
-        } */
+        }
 
         // check status preprod server if it is running or not with ssh and notify by email if it is not running
-        /* stage('Check'){
+        stage('Check'){
             steps{
-                script{
+                /* script{
                     sshagent(['ssh-key']){
                         sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@preprod "docker ps"'
                     }
-                }
+                } */
+                echo 'Checked'
             }
-        } */
+        }
     }
 }
