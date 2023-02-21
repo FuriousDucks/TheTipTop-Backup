@@ -24,9 +24,8 @@ pipeline{
         stage('Clean'){
             steps{
                 script{
-                    sh 'which docker'
-                    // sh "docker compose down -v"
-                    // sh "docker system prune -af --volumes"
+                    sh "docker compose down -v"
+                    sh "docker system prune -af --volumes"
                 }
             }
         }
