@@ -10,7 +10,7 @@ pipeline{
         buildDiscarder(logRotator(numToKeepStr: '5'))
     }
     tools{
-        'org.jenkinsci.plugins.docker.commons.tools.DockerTool' 'docker'
+        'org.jenkinsci.plugins.docker.commons.tools.DockerTool' '18.09'
     }
     stages{
         // checkout code from git
