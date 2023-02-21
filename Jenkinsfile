@@ -5,6 +5,7 @@ pipeline{
         registryCredential = 'dockerhub'
         registry = 'docker.io'
         registryUrl = 'https://index.docker.io/v1/'
+        DOCKER_CERT_PATH  = '/var/jenkins_home/.docker'
     }
     options{
         buildDiscarder(logRotator(numToKeepStr: '5'))
