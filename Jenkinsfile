@@ -7,8 +7,8 @@ pipeline{
         registryUrl = 'https://index.docker.io/v1/'
     }
     options{
+        // keep 5 builds only
         buildDiscarder(logRotator(numToKeepStr: '5'))
-        newContainerPerStage()
     }
     stages{
         // checkout code from git
@@ -22,6 +22,7 @@ pipeline{
         stage('Clean'){
             steps{
                 script{
+                    sh 'which docker'
                     sh "docker compose down -v"
                     sh "docker system prune -af --volumes"
                 }
