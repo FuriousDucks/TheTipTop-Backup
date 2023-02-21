@@ -7,7 +7,6 @@ pipeline{
         registryUrl = 'https://index.docker.io/v1/'
     }
     options{
-        // keep 5 builds only
         buildDiscarder(logRotator(numToKeepStr: '5'))
     }
     stages{
