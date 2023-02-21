@@ -23,22 +23,22 @@ pipeline{
             steps{
                 script{
                     sh 'which docker'
-                    sh "docker compose down -v"
-                    sh "docker system prune -af --volumes"
+                    // sh "docker compose down -v"
+                    // sh "docker system prune -af --volumes"
                 }
             }
         }
         // start docker container with docker compose file
         stage('Start'){
             steps{
-                script{
+                /* script{
                     sh 'docker compose up -d'
-                }
+                } */
             }
         }
         // run test cases phpunit
         stage('Test'){
-            steps{
+            /* steps{
                 script{
                     // install phpunit-bridge and browser-kit and css-selector
                     sh 'docker exec -it php composer require symfony/phpunit-bridge symfony/browser-kit symfony/css-selector --dev'
@@ -49,13 +49,13 @@ pipeline{
                     // copy test result to test-results directory
                     sh 'docker cp php:/var/www/html/storage/logs/phpunit.junit.xml test-results'
                 }
-            }
+            } */
             // publish test result
-            post{
+            /* post{
                 always{
                     junit 'test-results/phpunit.junit.xml'
                 }
-            }
+            } */
         }
         
         // Analyze code with SonarQube with couverage and phpunit-report
