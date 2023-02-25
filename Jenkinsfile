@@ -22,8 +22,8 @@ pipeline{
         stage('Clean'){
             steps{
                 script{
-                    sh 'docker stop $(docker ps -a -q --filter ancestor=web)'
-                    sh 'docker rm $(docker ps -a -q --filter ancestor=web)'
+                    sh 'docker stop web'
+                    sh 'docker rm web'
                     sh 'docker system prune -f --volumes'
                     echo 'Cleaned'
                 }
