@@ -22,8 +22,8 @@ pipeline{
         stage('Clean'){
             steps{
                 script{
-                    sh 'docker ps | grep -v "www" | awk '{print $1}' | xargs docker kill || true'
-                    sh 'docker ps -a | grep -v "www" | awk '{print $1}' | xargs docker rm -f || true'
+                    sh 'docker ps | grep "www" -v | awk -F " " \'{ if(NR>1) print $1}\' | xargs docker kill || true'
+                    sh 'docker ps -a | grep "www" -v | awk -F " " \'{ if(NR>1) print $1}\' | xargs docker rm || true'
                     // sh 'docker system prune -f --volumes'
                     echo 'Cleaned'
                 }
