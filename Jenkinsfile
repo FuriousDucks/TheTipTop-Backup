@@ -22,8 +22,9 @@ pipeline{
         stage('Clean'){
             steps{
                 script{
-                    sh 'docker compose down -v'
-                    sh 'docker system prune -f --volumes'
+                    sh 'docker ps | grep -v "www" | awk '{print $1}' | xargs docker kill || true'
+                    sh 'docker ps -a | grep -v "www" | awk '{print $1}' | xargs docker rm -f || true'
+                    // sh 'docker system prune -f --volumes'
                     echo 'Cleaned'
                 }
             }
@@ -32,7 +33,7 @@ pipeline{
         stage('Start'){
             steps{
                 script{
-                    sh 'docker compose up --detach'
+                    sh 'docker compose up -d'
                     echo 'Started'
                 }
             }
