@@ -22,8 +22,8 @@ pipeline{
         stage('Clean'){
             steps{
                 script{
-                    sh 'docker ps | grep "ci-" -v | awk -F " " \'{ if(NR>1) print $1}\' | xargs docker kill || true'
-                    sh 'docker ps -a | grep "ci-" -v | awk -F " " \'{ if(NR>1) print $1}\' | xargs docker rm || true'
+                    sh 'docker ps | grep "devops-" -v | awk -F " " \'{ if(NR>1) print $1}\' | xargs docker kill || true'
+                    sh 'docker ps -a | grep "devops-" -v | awk -F " " \'{ if(NR>1) print $1}\' | xargs docker rm || true'
                     sh 'docker system prune -f --volumes'
                     echo 'Cleaned'
                 }
