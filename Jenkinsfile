@@ -32,7 +32,7 @@ pipeline{
         stage('Start'){
             steps{
                 script{
-                    sh 'docker compose up -d'
+                    sh 'docker compose up --detach'
                     echo 'Started'
                 }
             }
