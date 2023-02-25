@@ -22,7 +22,9 @@ pipeline{
         stage('Clean'){
             steps{
                 script{
-                    sh 'docker stop web mysql && docker rm web mysql'
+                    sh 'docker ps | grep -v "ci-" | awk '{print $1}' | xargs docker kill || true'
+                    sh 'docker ps -a | grep -v "ci-" | awk '{print $1}' | xargs docker rm || true'
+                    
                     sh 'docker system prune -f --volumes'
                     echo 'Cleaned'
                 }
