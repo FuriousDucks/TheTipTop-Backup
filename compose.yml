@@ -16,7 +16,7 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     restart: always
-    container_name: devops-phpmyadmin
+    container_name: cicd-phpmyadmin
     ports:
       - 5001:80
     environment:
@@ -33,7 +33,7 @@ services:
     build:
       context: .
       dockerfile: ./php/Dockerfile
-    container_name: devops-web
+    container_name: cicd-web
     restart: unless-stopped
     ports:
       - "8000:80"
