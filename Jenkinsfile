@@ -22,8 +22,8 @@ pipeline{
         stage('Clean'){
             steps{
                 script{
-                    sh 'docker stop web mysql'
-                    sh 'docker rm web mysql'
+                    sh 'docker stop web /mysql'
+                    sh 'docker rm web /mysql'
                     sh 'docker system prune -f --volumes'
                     echo 'Cleaned'
                 }
