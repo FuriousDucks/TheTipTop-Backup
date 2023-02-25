@@ -21,8 +21,9 @@ pipeline{
         stage('Clean'){
             steps{
                 script{
-                    sh 'docker compose down -v'
-                    sh 'docker system prune -f --volumes'
+                    /* sh 'docker compose down -v'
+                    sh 'docker system prune -f --volumes' */
+                    echo 'Cleaned'
                 }
             }
         }
@@ -30,7 +31,8 @@ pipeline{
         stage('Start'){
             steps{
                 script{
-                    sh 'docker compose up -d'
+                    // sh 'docker compose up -d'
+                    echo 'Started'
                 }
             }
         }
