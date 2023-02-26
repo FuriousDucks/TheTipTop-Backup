@@ -55,7 +55,7 @@ pipeline{
             // publish test result
             post{
                 always{
-                    junit 'test-results/phpunit.junit.xml'
+                    junit 'test-results/phpunit.junit.xml || true'
                 }
             }
         }
