@@ -22,9 +22,8 @@ pipeline{
         stage('Clean'){
             steps{
                 script{
-                    sh 'docker ps | grep "cicd-" -v | awk -F " " \'{ if(NR>1) print $1}\' | xargs docker kill || true'
-                    sh 'docker ps -a | grep "cicd-" -v | awk -F " " \'{ if(NR>1) print $1}\' | xargs docker rm || true'
-                    sh 'docker system prune -f --volumes'
+                    sh 'docker compose down -v || true'
+                    sh 'docker system prune -f --volumes || true'
                     echo 'Cleaned'
                 }
             }
