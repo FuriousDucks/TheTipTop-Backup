@@ -42,7 +42,7 @@ pipeline{
             steps{
                 script{
                     // install phpunit-bridge and browser-kit and css-selector
-                    sh 'docker exec -t web composer require --dev symfony/test-pack symfony/panther'
+                    sh 'docker exec -t web composer require --dev symfony/test-pack symfony/panther --no-interaction --no-progress --no-suggest'
                     sh 'docker exec -t web vendor/bin/simple-phpunit --coverage-html=coverage --coverage-clover=coverage.xml'
                     // run test cases phpunit and report couverage and phpunit-report to store test result
                     sh 'docker exec -t web vendor/bin/simple-phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
