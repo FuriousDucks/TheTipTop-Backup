@@ -48,7 +48,7 @@ pipeline{
                     sh 'docker exec -t web vendor/bin/simple-phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
                     sh 'mkdir -p test-results'
                     // copy test result to test-results directory
-                    sh 'docker compose cp www:/var/www/thetiptop-devops/thetiptop/thetiptop/storage/logs/phpunit.junit.xml test-results'
+                    sh 'docker cp web:/var/www/html/storage/logs/phpunit.junit.xml test-results'
                     echo 'Tested'
                 }
             }
