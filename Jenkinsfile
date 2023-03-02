@@ -15,16 +15,14 @@ pipeline{
             steps{
                 deleteDir()
                 checkout scm
-                echo 'Checked out'
             }
         }
         // Remove all containers and volumes
         stage('Clean'){
             steps{
                 script{
-                    sh 'docker compose down -v || true'
-                    sh 'docker system prune -f --volumes || true'
-                    echo 'Cleaned'
+                    sh 'docker compose down -v'
+                    sh 'docker system prune -af --volumes'
                 }
             }
         }
@@ -32,8 +30,7 @@ pipeline{
         stage('Start'){
             steps{
                 script{
-                    sh 'docker compose up -d'
-                    echo 'Started'
+                    sh 'docker compose up -d --build --force-recreate --remove-orphans' 
                 }
             }
         }
@@ -49,7 +46,6 @@ pipeline{
                     sh 'mkdir -p test-results'
                     // copy test result to test-results directory
                     sh 'docker cp web:/var/www/html/thetiptop/storage ${WORKSPACE}'
-                    echo 'Tested'
                 }
             }
             // publish test result
@@ -71,7 +67,6 @@ pipeline{
                         -D sonar.php.coverage.reportPaths=storage/logs/coverage.xml \
                         -D sonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml'
                     } */
-                    echo 'Analyzed'
                 }
             }
         }
@@ -82,7 +77,6 @@ pipeline{
                /*  script{
                     docker.build(imageName)
                 } */
-                echo 'Built'
             }
         }
 
@@ -94,7 +88,6 @@ pipeline{
                         docker.image(imageName).push()
                     }
                 } */
-                echo 'Pushed'
             }
         }
 
@@ -109,7 +102,6 @@ pipeline{
                         sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@preprod "docker run -d -p 80:80 --name thetiptop thetiptop"'
                     }
                 } */
-                echo 'Deployed'
             }
         }
 
@@ -121,7 +113,6 @@ pipeline{
                         sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@preprod "docker ps"'
                     }
                 } */
-                echo 'Checked'
             }
         }
     }
