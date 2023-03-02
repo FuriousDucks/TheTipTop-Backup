@@ -21,7 +21,7 @@ pipeline{
         stage('Clean'){
             steps{
                 script{
-                    sh 'docker compose down -v --rmi all --remove-orphans --force'
+                    sh 'docker compose down -v --rmi all --remove-orphans'
                     sh 'docker system prune -af --volumes'
                 }
             }
