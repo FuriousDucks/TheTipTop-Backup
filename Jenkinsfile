@@ -30,7 +30,7 @@ pipeline{
         stage('Start'){
             steps{
                 script{
-                    sh 'docker compose up -d --build --force-recreate --remove-orphans' 
+                    sh 'docker compose up -d --build --remove-orphans' 
                 }
             }
         }
@@ -60,14 +60,13 @@ pipeline{
         stage('SonarQube'){
             steps{
                 script{
-                    /* withSonarQubeEnv('sonarqube'){
+                    withSonarQubeEnv('sonarqube'){
                         ssh '${tool(SonarQube)}/bin/sonar-scanner \
                         -D sonar.projectKey=thetiptop \
                         -D sonar.source=. \
                         -D sonar.php.coverage.reportPaths=storage/logs/coverage.xml \
                         -D sonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml'
-                    } */
-                    echo 'SonarQube'
+                    }
                 }
             }
         }
