@@ -6,9 +6,9 @@ pipeline{
         registry = 'docker.io'
         registryUrl = 'https://index.docker.io/v1/'
     }
-    options{
+    /* options{
         buildDiscarder(logRotator(numToKeepStr: '5'))
-    }
+    } */
     stages{
         // checkout code from git
         stage('Checkout'){
