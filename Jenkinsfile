@@ -77,6 +77,8 @@ pipeline{
                /*  script{
                     docker.build(imageName)
                 } */
+
+                echo 'Build'
             }
         }
 
@@ -88,6 +90,7 @@ pipeline{
                         docker.image(imageName).push()
                     }
                 } */
+                echo 'Push'
             }
         }
 
@@ -102,6 +105,7 @@ pipeline{
                         sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@preprod "docker run -d -p 80:80 --name thetiptop thetiptop"'
                     }
                 } */
+                echo 'Deploy'
             }
         }
 
@@ -113,6 +117,7 @@ pipeline{
                         sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@preprod "docker ps"'
                     }
                 } */
+                echo 'Check'
             }
         }
     }
