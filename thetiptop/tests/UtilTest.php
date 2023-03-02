@@ -9,5 +9,7 @@ class UtilTest extends TestCase
     public function testSomething(): void
     {
         $this->assertTrue(true);
+
+        $this->assertTrue(true);
     }
 }
