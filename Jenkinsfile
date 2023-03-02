@@ -30,7 +30,7 @@ pipeline{
         stage('Start'){
             steps{
                 script{
-                    sh 'docker compose up -d --build --force-recreate --remove-orphans' 
+                    sh 'docker compose up -d --build --remove-orphans' 
                 }
             }
         }
