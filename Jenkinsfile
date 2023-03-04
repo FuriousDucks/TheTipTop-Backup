@@ -69,11 +69,12 @@ pipeline{
             environment{
                 SONAR_HOST_URL = 'http://46.101.35.94:4000'
                 SONAR_LOGIN = 'sqp_fabaeb33f2ac71e0ad51dc9e525df34e982a6091'
+                SCANNER_HOME = tool 'SonarQube'
             }
             steps{
                 script{
                     withSonarQubeEnv('sonarqube'){
-                        ssh '${tool(SonarQube)}/bin/sonar-scanner \
+                        ssh '${SCANNER_HOME}/bin/sonar-scanner \
                         -Dsonar.projectKey=TheTipTop \
                         -Dsonar.sources=. \
                         -Dsonar.host.url=${SONAR_HOST_URL} \
