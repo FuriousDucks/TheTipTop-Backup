@@ -2,7 +2,7 @@ pipeline{
     agent any
     environment{
         imageName = 'thetiptop'
-        registryCredential = 'dockerhub'
+        registryCredential = 'dockerhubcreds'
         registry = 'docker.io'
         registryUrl = 'https://index.docker.io/v1/'
     }
@@ -10,53 +10,61 @@ pipeline{
         buildDiscarder(logRotator(numToKeepStr: '5'))
     }
     stages{
-        // checkout code from git
         stage('Checkout'){
             steps{
                 deleteDir()
                 checkout scm
             }
         }
-        // Remove all containers and volumes
         stage('Clean'){
             steps{
                 script{
-                    sh 'docker compose down -v --rmi all --remove-orphans'
+                    sh 'docker compose down -v'
                     sh 'docker system prune -af --volumes'
                 }
             }
         }
-        // start docker container with docker compose file
         stage('Start'){
             steps{
                 script{
-                    sh 'docker compose up -d --build --remove-orphans' 
+                    sh 'docker compose up -d' 
                 }
             }
         }
-        // run test cases phpunit
+        stage('Install dependencies'){
+            steps{
+                script{
+                    sh 'docker exec -t web composer install --no-interaction --no-progress --no-suggest'
+                }
+            }
+        }
+
+        stage('Update database'){
+            steps{
+                script{
+                    sh 'docker exec -t web php bin/console doctrine:database:create --if-not-exists'
+                    sh 'docker exec -t web php bin/console doctrine:migrations:migrate --no-interaction'
+                }
+            }
+        }
+
         stage('Test'){
             steps{
                 script{
-                    // install phpunit-bridge and browser-kit and css-selector
                     sh 'docker exec -t web composer require --dev symfony/test-pack symfony/panther --no-interaction --no-progress --no-suggest'
                     sh 'docker exec -t web vendor/bin/simple-phpunit --coverage-html=coverage --coverage-clover=coverage.xml'
-                    // run test cases phpunit and report couverage and phpunit-report to store test result
                     sh 'docker exec -t web vendor/bin/simple-phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
                     sh 'mkdir -p test-results'
-                    // copy test result to test-results directory
                     sh 'docker cp web:/var/www/html/thetiptop/storage ${WORKSPACE}'
                 }
             }
-            // publish test result
             post{
                 always{
                     junit 'test-results/*.xml'
                 }
             }
         }
-        
-        // Analyze code with SonarQube with couverage and phpunit-report
+
         stage('SonarQube'){
             steps{
                 script{
@@ -74,9 +82,9 @@ pipeline{
         // build docker image
         stage('Build'){
             steps{
-               /*  script{
+                script{
                     docker.build(imageName)
-                } */
+                }
 
                 echo 'Build'
             }
@@ -85,11 +93,11 @@ pipeline{
         // push docker image to docker hub
         stage('Push'){
             steps{
-                /* script{
+                script{
                     docker.withRegistry(registryUrl, registryCredential){
                         docker.image(imageName).push()
                     }
-                } */
+                }
                 echo 'Push'
             }
         }
@@ -106,6 +114,16 @@ pipeline{
                     }
                 } */
                 echo 'Deploy preprod'
+            }
+        }
+
+        stage('Merging'){
+            steps{
+                script{
+                    sh 'git checkout master'
+                    sh 'git merge develop'
+                    sh 'git push origin master'
+                }
             }
         }
 
