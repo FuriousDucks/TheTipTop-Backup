@@ -49,7 +49,6 @@ services:
       - mysql
     networks:
       - dev
-      - mysql-network
 
 networks:
   dev:
