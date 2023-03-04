@@ -13,21 +13,21 @@ services:
     networks:
       - mysql-network
       - dev
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    restart: always
-    container_name: phpmyadmin
-    ports:
-      - 5001:80
-    environment:
-      - PMA_HOST=mysql
-      - PMA_USER=root
-      - PMA_PASSWORD=root
-      - PMA_NAME=mysql
-    depends_on:
-      - mysql
-    networks:
-      - mysql-network
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin
+  #   restart: always
+  #   container_name: phpmyadmin
+  #   ports:
+  #     - 5001:80
+  #   environment:
+  #     - PMA_HOST=mysql
+  #     - PMA_USER=root
+  #     - PMA_PASSWORD=root
+  #     - PMA_NAME=mysql
+  #   depends_on:
+  #     - mysql
+  #   networks:
+  #     - mysql-network
 
   www:
     build:
