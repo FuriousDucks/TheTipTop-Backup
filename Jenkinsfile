@@ -95,7 +95,7 @@ pipeline{
         }
 
         // deploy docker image to preprod server with ssh
-        stage('Deploy'){
+        stage('Deploy preprod'){
             steps{
                 /* script{
                     sshagent(['ssh-key']){
@@ -105,7 +105,21 @@ pipeline{
                         sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@preprod "docker run -d -p 80:80 --name thetiptop thetiptop"'
                     }
                 } */
-                echo 'Deploy'
+                echo 'Deploy preprod'
+            }
+        }
+
+        stage('Deploy prod'){
+            steps{
+                /* script{
+                    sshagent(['ssh-key']){
+                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@prod "docker pull thetiptop"'
+                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@prod "docker stop thetiptop"'
+                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@prod "docker rm thetiptop"'
+                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@prod "docker run -d -p 80:80 --name thetiptop thetiptop"'
+                    }
+                } */
+                echo 'Deploy prod'
             }
         }
 
