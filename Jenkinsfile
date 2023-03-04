@@ -66,14 +66,18 @@ pipeline{
         }
 
         stage('SonarQube'){
+            environment{
+                SONAR_HOST_URL = 'http://46.101.35.94:4000'
+                SONAR_LOGIN = 'sqp_fabaeb33f2ac71e0ad51dc9e525df34e982a6091'
+            }
             steps{
                 script{
                     withSonarQubeEnv('sonarqube'){
                         ssh '${tool(SonarQube)}/bin/sonar-scanner \
                         -Dsonar.projectKey=TheTipTop \
                         -Dsonar.sources=. \
-                        -Dsonar.host.url=http://46.101.35.94:4000 \
-                        -Dsonar.login=sqp_fabaeb33f2ac71e0ad51dc9e525df34e982a6091 \
+                        -Dsonar.host.url=${SONAR_HOST_URL} \
+                        -Dsonar.login=${SONAR_LOGIN} \
                         -Dsonar.php.coverage.reportPaths=storage/logs/coverage.xml \
                         -Dsonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml'
                     }
