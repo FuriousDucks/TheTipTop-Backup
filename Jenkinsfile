@@ -75,7 +75,6 @@ pipeline{
                         -D sonar.php.coverage.reportPaths=storage/logs/coverage.xml \
                         -D sonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml'
                     }
-                    echo 'SonarQube'
                 }
             }
         }
