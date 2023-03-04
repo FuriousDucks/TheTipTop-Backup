@@ -75,11 +75,11 @@ pipeline{
                         -D sonar.php.coverage.reportPaths=storage/logs/coverage.xml \
                         -D sonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml'
                     }
+                    echo 'SonarQube'
                 }
             }
         }
 
-        // build docker image
         stage('Build'){
             steps{
                 script{
@@ -90,7 +90,6 @@ pipeline{
             }
         }
 
-        // push docker image to docker hub
         stage('Push'){
             steps{
                 script{
@@ -101,8 +100,7 @@ pipeline{
                 echo 'Push'
             }
         }
-
-        // deploy docker image to preprod server with ssh
+        
         stage('Deploy preprod'){
             steps{
                 /* script{
@@ -141,7 +139,6 @@ pipeline{
             }
         }
 
-        // check status preprod server if it is running or not with ssh and notify by email if it is not running
         stage('Check'){
             steps{
                 /* script{
