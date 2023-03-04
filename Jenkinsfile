@@ -70,10 +70,12 @@ pipeline{
                 script{
                     withSonarQubeEnv('sonarqube'){
                         ssh '${tool(SonarQube)}/bin/sonar-scanner \
-                        -D sonar.projectKey=thetiptop \
-                        -D sonar.source=. \
-                        -D sonar.php.coverage.reportPaths=storage/logs/coverage.xml \
-                        -D sonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml'
+                        -Dsonar.projectKey=TheTipTop \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=http://46.101.35.94:4000 \
+                        -Dsonar.login=sqp_fabaeb33f2ac71e0ad51dc9e525df34e982a6091 \
+                        -Dsonar.php.coverage.reportPaths=storage/logs/coverage.xml \
+                        -Dsonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml'
                     }
                 }
             }
