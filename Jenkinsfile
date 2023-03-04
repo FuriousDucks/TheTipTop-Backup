@@ -73,9 +73,9 @@ pipeline{
             }
 
             tools{
-                sonarqube 'SonarQube'
+                SonarQube 'SonarQube'
             }
-            
+
             steps{
                 script{
                     withSonarQubeEnv('SonarQube'){
