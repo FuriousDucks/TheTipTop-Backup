@@ -71,9 +71,11 @@ pipeline{
                 SONAR_LOGIN = 'sqp_fabaeb33f2ac71e0ad51dc9e525df34e982a6091'
                 SCANNER_HOME = tool 'SonarQube'
             }
+
             tools{
                 sonarqube 'SonarQube'
             }
+            
             steps{
                 script{
                     withSonarQubeEnv('SonarQube'){
