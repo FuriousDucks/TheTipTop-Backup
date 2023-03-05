@@ -4,6 +4,8 @@ pipeline{
         imageName = 'ebenbrah/thetiptop'
         registryCredential = 'dockerhubtoken'
         registry = 'https://index.docker.io/v1/'
+        dockerUsername = 'ebenbrah'
+        dockerPassword = 'Kniza1998Idhem'
     }
     options{
         buildDiscarder(logRotator(numToKeepStr: '5'))
@@ -101,12 +103,11 @@ pipeline{
         stage('Push'){
             steps{
                 script{
-                    docker.withRegistry(registry, registryCredential){
-                        docker.image(imageName).push("${env.BUILD_NUMBER}")
-                        docker.image(imageName).push('latest')
+                    withCredentials([usernamePassword(credentialsId: registryCredential, usernameVariable: dockerUsername, passwordVariable: dockerPassword)]){
+                        sh 'docker login -u $USERNAME -p $PASSWORD $registry'
+                        sh 'docker push $imageName'
                     }
                 }
-                echo 'Push'
             }
         }
         
