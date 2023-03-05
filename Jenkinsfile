@@ -6,9 +6,9 @@ pipeline{
         registry = 'docker.io'
         registryUrl = 'https://index.docker.io/v1/'
     }
-    /* options{
+    options{
         buildDiscarder(logRotator(numToKeepStr: '5'))
-    } */
+    }
     stages{
         stage('Checkout'){
             steps{
@@ -89,7 +89,10 @@ pipeline{
         stage('Build'){
             steps{
                 script{
-                    docker.build(imageName)
+                    // docker.build(imageName)
+                    docker.image(imageName).inside{
+                        sh 'docker build -t thetiptop .'
+                    }
                 }
 
                 echo 'Build'
@@ -100,7 +103,8 @@ pipeline{
             steps{
                 script{
                     docker.withRegistry(registryUrl, registryCredential){
-                        docker.image(imageName).push()
+                        docker.image(imageName).push("${env.BUILD_NUMBER}")
+                        docker.image(imageName).push('latest')
                     }
                 }
                 echo 'Push'
