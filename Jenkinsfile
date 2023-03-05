@@ -3,7 +3,6 @@ pipeline{
     environment{
         imageName = 'ebenbrah/thetiptop'
         registryCredential = 'dockerhubtoken'
-        registry = 'docker.io'
         registryUrl = 'https://index.docker.io/v1/'
     }
     options{
@@ -102,9 +101,9 @@ pipeline{
         stage('Push'){
             steps{
                 script{
-                    docker.withRegistry(registryUrl, registryCredential){
+                    withCredentials([usernamePassword(credentialsId: registryCredential)]){
                         docker.image(imageName).push("${env.BUILD_NUMBER}")
-                        docker.image(imageName).push('latest')
+                        docker.image(imageName).push("latest")
                     }
                 }
                 echo 'Push'
