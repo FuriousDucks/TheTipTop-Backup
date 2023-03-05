@@ -1,7 +1,7 @@
 pipeline{
     agent any
     environment{
-        imageName = 'thetiptop'
+        imageName = 'ebenbrah/thetiptop'
         registryCredential = 'dockerhubcreds'
         registry = 'docker.io'
         registryUrl = 'https://index.docker.io/v1/'
