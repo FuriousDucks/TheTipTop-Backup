@@ -3,7 +3,6 @@ pipeline{
     environment{
         imageName = 'ebenbrah/thetiptop'
         registryCredential = 'dockerhubtoken'
-        registryUrl = 'https://index.docker.io/v1/'
     }
     options{
         buildDiscarder(logRotator(numToKeepStr: '5'))
@@ -101,7 +100,7 @@ pipeline{
         stage('Push'){
             steps{
                 script{
-                    withCredentials([usernamePassword(credentialsId: registryCredential)]){
+                    withCredentials([credentialsId: registryCredential]){
                         docker.image(imageName).push("${env.BUILD_NUMBER}")
                         docker.image(imageName).push("latest")
                     }
@@ -121,16 +120,6 @@ pipeline{
                     }
                 } */
                 echo 'Deploy preprod'
-            }
-        }
-
-        stage('Merging'){
-            steps{
-                script{
-                    sh 'git checkout master'
-                    sh 'git merge develop'
-                    sh 'git push origin master'
-                }
             }
         }
 
