@@ -104,8 +104,8 @@ pipeline{
             steps{
                 script{
                     withCredentials([usernamePassword(credentialsId: registryCredential, usernameVariable: dockerUsername, passwordVariable: dockerPassword)]){
-                        sh 'docker login -u $USERNAME -p $PASSWORD $registry'
-                        sh 'docker push $imageName'
+                        sh 'docker login -u ${dockerUsername} -p ${dockerPassword} ${registry}'
+                        sh 'docker push ${imageName}'
                     }
                 }
             }
