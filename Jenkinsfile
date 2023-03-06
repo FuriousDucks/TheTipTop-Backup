@@ -7,9 +7,9 @@ pipeline{
         dockerUsername = 'ebenbrah'
         dockerPassword = 'Kniza1998Idhem'
     }
-    options{
+    /* options{
         buildDiscarder(logRotator(numToKeepStr: '5'))
-    }
+    } */
     stages{
         stage('Checkout'){
             steps{
