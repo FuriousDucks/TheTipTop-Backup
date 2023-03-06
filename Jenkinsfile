@@ -90,9 +90,9 @@ pipeline{
         stage('Build'){
             steps{
                 script{
-                    // docker.build(imageName)
-                    docker.image(imageName).inside{
-                        sh 'docker build -t thetiptop .'
+                    withCredentials([usernamePassword(credentialsId: registryCredential, usernameVariable: dockerUsername, passwordVariable: dockerPassword)]){
+                        sh 'docker login -u ${dockerUsername} -p ${dockerPassword} ${registry}'
+                        sh 'docker build -t ${imageName} .'
                     }
                 }
 
