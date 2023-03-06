@@ -107,7 +107,7 @@ pipeline{
                 }
             }
         }
-        
+
         stage('Deploy preprod'){
             steps{
                 /* script{
@@ -144,6 +144,13 @@ pipeline{
                     }
                 } */
                 echo 'Check'
+            }
+        }
+    }
+    post{
+        always{
+            script{
+                sh 'docker logout'
             }
         }
     }
