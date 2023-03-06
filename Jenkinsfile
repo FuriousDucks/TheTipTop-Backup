@@ -7,9 +7,9 @@ pipeline{
         dockerUsername = 'ebenbrah'
         dockerPassword = 'Kniza1998Idhem'
     }
-    /* options{
+    options{
         buildDiscarder(logRotator(numToKeepStr: '5'))
-    } */
+    }
     stages{
         stage('Checkout'){
             steps{
@@ -90,7 +90,7 @@ pipeline{
         stage('Build'){
             steps{
                 script{
-                    withCredentials([usernamePassword(credentialsId: registryCredential)]){
+                    textCredentials(registryCredential) {
                         sh 'docker build -t ${imageName} .'
                     }
                 }
