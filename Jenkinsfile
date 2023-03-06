@@ -90,7 +90,7 @@ pipeline{
         stage('Build'){
             steps{
                 script{
-                    withCredentials([string(credentialsId: registryCredential)]){
+                    docker.withRegistry(registry, registryCredential){
                         sh 'docker build -t ${imageName} .'
                     }
                 }
@@ -100,7 +100,7 @@ pipeline{
         stage('Push'){
             steps{
                 script{
-                    withCredentials([string(credentialsId: registryCredential)]){
+                    docker.withRegistry(registry, registryCredential){
                         sh 'docker push ${imageName}'
                     }
                 }
