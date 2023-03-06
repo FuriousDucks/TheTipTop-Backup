@@ -2,10 +2,9 @@ pipeline{
     agent any
     environment{
         imageName = 'ebenbrah/thetiptop'
-        registryCredential = 'dockerhubtoken'
+        // registryCredential = 'dockerhubtoken'
+        registryCredential = 'dockerhubuser'
         registry = 'https://index.docker.io/v1/'
-        dockerUsername = 'ebenbrah'
-        dockerPassword = 'Kniza1998Idhem'
     }
     options{
         buildDiscarder(logRotator(numToKeepStr: '5'))
@@ -90,6 +89,7 @@ pipeline{
         stage('Build'){
             steps{
                 script{
+                    // with credentials build the image
                     docker.withRegistry(registry, registryCredential){
                         sh 'docker build -t ${imageName} .'
                     }
