@@ -90,21 +90,17 @@ pipeline{
         stage('Build'){
             steps{
                 script{
-                    withCredentials([usernamePassword(credentialsId: registryCredential, usernameVariable: dockerUsername, passwordVariable: dockerPassword)]){
-                        sh 'docker login -u ${dockerUsername} -p ${dockerPassword} ${registry}'
+                    withCredentials([usernamePassword(credentialsId: registryCredential)]){
                         sh 'docker build -t ${imageName} .'
                     }
                 }
-
-                echo 'Build'
             }
         }
 
         stage('Push'){
             steps{
                 script{
-                    withCredentials([usernamePassword(credentialsId: registryCredential, usernameVariable: dockerUsername, passwordVariable: dockerPassword)]){
-                        sh 'docker login -u ${dockerUsername} -p ${dockerPassword} ${registry}'
+                    withCredentials([usernamePassword(credentialsId: registryCredential)]){
                         sh 'docker push ${imageName}'
                     }
                 }
