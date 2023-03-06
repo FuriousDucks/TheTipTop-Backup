@@ -90,7 +90,7 @@ pipeline{
         stage('Build'){
             steps{
                 script{
-                    textCredentials(registryCredential) {
+                    withCredentials([string(credentialsId: registryCredential)]){
                         sh 'docker build -t ${imageName} .'
                     }
                 }
