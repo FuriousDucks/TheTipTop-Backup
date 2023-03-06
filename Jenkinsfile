@@ -2,8 +2,8 @@ pipeline{
     agent any
     environment{
         imageName = 'ebenbrah/thetiptop'
-        // registryCredential = 'dockerhubtoken'
-        registryCredential = 'dockerhubuser'
+        registryUsername= 'ebenbrah'
+        registryCredential = 'dockerhubtoken'
         registry = 'https://index.docker.io/v1/'
     }
     options{
@@ -89,9 +89,9 @@ pipeline{
         stage('Build'){
             steps{
                 script{
-                    // with credentials build the image
-                    docker.withRegistry(registry, registryCredential){
-                        sh 'docker build -t ${imageName} .'
+                    withCredentials([string(credentialsId: registryCredential, variable: 'DOCKERHUB_TOKEN')]) {
+                        sh 'echo $DOCKERHUB_TOKEN | docker login --username ${registryUsername} --password-stdin'
+                        sh 'docker build -t ${imageName}:${BUILD_NUMBER} .'
                     }
                 }
             }
@@ -100,8 +100,9 @@ pipeline{
         stage('Push'){
             steps{
                 script{
-                    docker.withRegistry(registry, registryCredential){
-                        sh 'docker push ${imageName}'
+                     withCredentials([string(credentialsId: registryCredential, variable: 'DOCKERHUB_TOKEN')]) {
+                        sh 'echo $DOCKERHUB_TOKEN | docker login --username ${registryUsername} --password-stdin'
+                        sh 'docker push ${imageName}:${BUILD_NUMBER}'
                     }
                 }
             }
