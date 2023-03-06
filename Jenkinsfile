@@ -89,7 +89,6 @@ pipeline{
         stage('Build'){
             steps{
                 script{
-                    docker.build("${imageName}:${BUILD_NUMBER}")
                     docker.build("${imageName}:latest")
                 }
             }
@@ -98,9 +97,8 @@ pipeline{
         stage('Push'){
             steps{
                 script{
-                     withCredentials([string(credentialsId: registryCredential, variable: 'DOCKERHUB_TOKEN')]) {
+                    withCredentials([string(credentialsId: registryCredential, variable: 'DOCKERHUB_TOKEN')]) {
                         sh 'echo $DOCKERHUB_TOKEN | docker login --username ${registryUsername} --password-stdin'
-                        sh 'docker push ${imageName}:${BUILD_NUMBER}'
                         sh 'docker push ${imageName}:latest'
                     }
                 }
