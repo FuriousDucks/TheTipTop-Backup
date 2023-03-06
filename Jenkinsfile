@@ -7,9 +7,9 @@ pipeline{
         dockerUsername = 'ebenbrah'
         dockerPassword = 'Kniza1998Idhem'
     }
-   /*  options{
+    options{
         buildDiscarder(logRotator(numToKeepStr: '5'))
-    } */
+    }
     stages{
         stage('Checkout'){
             steps{
@@ -100,7 +100,7 @@ pipeline{
         stage('Push'){
             steps{
                 script{
-                    withCredentials([usernamePassword(credentialsId: registryCredential)]){
+                    withCredentials([string(credentialsId: registryCredential)]){
                         sh 'docker push ${imageName}'
                     }
                 }
