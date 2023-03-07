@@ -92,7 +92,8 @@ pipeline{
                 script{
                     withCredentials([string(credentialsId: registryCredential, variable: 'DOCKERHUB_TOKEN')]) {
                         sh 'echo $DOCKERHUB_TOKEN | docker login --username ${registryUsername} --password-stdin'
-                        docker.push("${imageName}:latest")
+                        sh 'docker tag ${imageName} ${registry}${imageName}:latest'
+                        sh 'docker push ${registry}${imageName}'
                     }
                 }
             }
