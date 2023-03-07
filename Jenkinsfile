@@ -6,6 +6,9 @@ pipeline{
         registryUsername= 'ebenbrah'
         registryCredential = 'dockerhubuser'
         registry = 'https://index.docker.io/v1/'
+        SONAR_HOST_URL = 'http://46.101.35.94:4000'
+        SONAR_LOGIN = 'sqp_fabaeb33f2ac71e0ad51dc9e525df34e982a6091'
+        SCANNER_HOME = tool 'SonarQube'
     }
     options{
         buildDiscarder(logRotator(numToKeepStr: '5'))
@@ -68,15 +71,10 @@ pipeline{
         }
 
         stage('SonarQube'){
-            environment{
-                SONAR_HOST_URL = 'http://46.101.35.94:4000'
-                SONAR_LOGIN = 'sqp_fabaeb33f2ac71e0ad51dc9e525df34e982a6091'
-                SCANNER_HOME = tool 'SonarQube'
-            }
             steps{
                 script{
                     withSonarQubeEnv('SonarQube'){
-                        ssh '${SCANNER_HOME}/bin/sonar-scanner \
+                        ssh 'sonar-scanner \
                         -Dsonar.projectKey=TheTipTop \
                         -Dsonar.sources=. \
                         -Dsonar.host.url=${SONAR_HOST_URL} \
@@ -84,7 +82,6 @@ pipeline{
                         -Dsonar.php.coverage.reportPaths=storage/logs/coverage.xml \
                         -Dsonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml'
                     }
-                    echo SCANNER_HOME
                 }
             }
         }
