@@ -77,13 +77,15 @@ pipeline{
                         ssh '${SCANNER_HOME}/bin/sonar-scanner \
                         -D sonar.projectKey=TheTipTop \
                         -D sonar.sources=. \
-                        -D sonar.host.url=${SONAR_HOST_URL} \
-                        -D sonar.login=${SONAR_LOGIN} \
                         -D sonar.php.coverage.reportPaths=storage/logs/coverage.xml \
                         -D sonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml'
                     }
                     withSonarQubeEnv(installationName: 'SonarQube'){
-                        sh 'sonar-scanner'
+                        ssh '${SCANNER_HOME}/bin/sonar-scanner \
+                        -D sonar.projectKey=TheTipTop \
+                        -D sonar.sources=. \
+                        -D sonar.php.coverage.reportPaths=storage/logs/coverage.xml \
+                        -D sonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml'
                     }
                 }
             }
