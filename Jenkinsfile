@@ -95,8 +95,9 @@ pipeline{
                         sh 'echo $DOCKERHUB_TOKEN | docker login --username ${registryUsername} --password-stdin'
                         docker.image(localImageName).push("${env.BUILD_NUMBER}")
                     } */
-                    docker.withRegistry(registry, registryCredential) {
-                        docker.image(imageName).push("${env.BUILD_NUMBER}")
+                    docker.withRegistry(registry, registryCredential){
+                        sh 'docker login -u ${registryUsername} -p ${registryCredential}'
+                        docker.image(localImageName).push("${env.BUILD_NUMBER}")
                     }
                 }
             }
