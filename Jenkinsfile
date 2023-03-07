@@ -88,21 +88,12 @@ pipeline{
             }
         }
         
-        stage('Build'){
-            steps{
-                script{
-                    docker.build(localImageName)
-                }
-            }
-        }
-
         stage('Push'){
             steps{
                 script{
                     withCredentials([string(credentialsId: registryCredential, variable: 'DOCKERHUB_TOKEN')]) {
                         sh 'echo $DOCKERHUB_TOKEN | docker login --username ${registryUsername} --password-stdin'
-                        sh 'docker tag thetiptop ${imageName}'
-                        sh 'docker push ${registry}${imageName}'
+                        docker.image(localImageName).push("${env.BUILD_NUMBER}")
                     }
                 }
             }
