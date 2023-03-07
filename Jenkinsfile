@@ -91,9 +91,12 @@ pipeline{
         stage('Push'){
             steps{
                 script{
-                    withCredentials([string(credentialsId: registryCredential, variable: 'DOCKERHUB_TOKEN')]) {
+                    /* withCredentials([string(credentialsId: registryCredential, variable: 'DOCKERHUB_TOKEN')]) {
                         sh 'echo $DOCKERHUB_TOKEN | docker login --username ${registryUsername} --password-stdin'
                         docker.image(localImageName).push("${env.BUILD_NUMBER}")
+                    } */
+                    docker.withRegistry(registry, registryCredentials) {
+                        docker.image(imageName).push("${env.BUILD_NUMBER}")
                     }
                 }
             }
