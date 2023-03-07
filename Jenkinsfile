@@ -74,14 +74,7 @@ pipeline{
             steps{
                 script{
                     withSonarQubeEnv('SonarQube'){
-                        ssh '${SCANNER_HOME}/bin/sonar-scanner \
-                        -D sonar.projectKey=TheTipTop \
-                        -D sonar.sources=. \
-                        -D sonar.php.coverage.reportPaths=storage/logs/coverage.xml \
-                        -D sonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml'
-                    }
-                    withSonarQubeEnv(installationName: 'SonarQube'){
-                        ssh '${SCANNER_HOME}/bin/sonar-scanner \
+                        ssh '${tool("SCANNER_HOME")}/bin/sonar-scanner \
                         -D sonar.projectKey=TheTipTop \
                         -D sonar.sources=. \
                         -D sonar.php.coverage.reportPaths=storage/logs/coverage.xml \
