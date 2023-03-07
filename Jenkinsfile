@@ -6,9 +6,9 @@ pipeline{
         registryCredential = 'dockerhubtoken'
         registry = 'https://index.docker.io/v1/'
     }
-    /* options{
+    options{
         buildDiscarder(logRotator(numToKeepStr: '5'))
-    } */
+    }
     stages{
         stage('Checkout'){
             steps{
@@ -83,6 +83,14 @@ pipeline{
                         -Dsonar.php.coverage.reportPaths=storage/logs/coverage.xml \
                         -Dsonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml'
                     }
+                }
+            }
+        }
+        
+        stage('Build'){
+            steps{
+                script{
+                    sh 'docker build -t thetiptop-dsp .'
                 }
             }
         }
