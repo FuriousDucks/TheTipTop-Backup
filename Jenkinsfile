@@ -1,11 +1,11 @@
 pipeline{
     agent any
     environment{
-        imageName = 'ebenbrah/thetiptop_thetiptop_develop-www'
+        imageName = 'ebenbrah/thetiptop'
         localImageName = 'thetiptop_thetiptop_develop-www'
         registryUsername= 'ebenbrah'
         registryCredential = 'dockerhubuser'
-        registry = 'https://index.docker.io/v1/'
+        registry = 'docker.io'
     }
     options{
         buildDiscarder(logRotator(numToKeepStr: '5'))
@@ -97,7 +97,7 @@ pipeline{
                     } */
                     withCredentials([usernamePassword(credentialsId: registryCredential, passwordVariable: 'password', usernameVariable: 'username')]){
                         sh 'docker login -u $username -p $password $registry'
-                        docker.image(imageName).push("${env.BUILD_NUMBER}")
+                        docker.image(localImageName).push("${env.BUILD_NUMBER}")
                     }
                 }
             }
