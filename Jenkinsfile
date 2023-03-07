@@ -2,7 +2,7 @@ pipeline{
     agent any
     environment{
         imageName = 'ebenbrah/thetiptop'
-        localImageName = 'www'
+        localImageName = 'thetiptop_thetiptop_develop-www'
         registryUsername= 'ebenbrah'
         registryCredential = 'dockerhubtoken'
         registry = 'https://index.docker.io/v1/'
