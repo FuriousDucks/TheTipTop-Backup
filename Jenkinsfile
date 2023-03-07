@@ -5,7 +5,7 @@ pipeline{
         localImageName = 'thetiptop_thetiptop_develop-www'
         registryUsername= 'ebenbrah'
         registryCredential = 'dockerhubuser'
-        registry = 'docker.io'
+        registry = 'https://index.docker.io/v1/'
     }
     options{
         buildDiscarder(logRotator(numToKeepStr: '5'))
@@ -97,7 +97,7 @@ pipeline{
                     } */
                     withCredentials([usernamePassword(credentialsId: registryCredential, passwordVariable: 'password', usernameVariable: 'username')]){
                         sh 'docker login -u $username -p $password $registry'
-                        docker.image(localImageName).push("${env.BUILD_NUMBER}")
+                        docker.image(imageName).push("${env.BUILD_NUMBER}")
                     }
                 }
             }
