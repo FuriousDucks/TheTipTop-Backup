@@ -87,15 +87,7 @@ pipeline{
             }
         }
 
-        stage('Build'){
-            steps{
-                script{
-                    docker.build("${imageName}:latest")
-                }
-            }
-        }
-
-        stage('Build & Push'){
+        stage('Push'){
             steps{
                 script{
                     withCredentials([string(credentialsId: registryCredential, variable: 'DOCKERHUB_TOKEN')]) {
