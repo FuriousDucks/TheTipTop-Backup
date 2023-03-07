@@ -6,9 +6,9 @@ pipeline{
         registryCredential = 'dockerhubtoken'
         registry = 'https://index.docker.io/v1/'
     }
-    options{
+    /* options{
         buildDiscarder(logRotator(numToKeepStr: '5'))
-    }
+    } */
     stages{
         stage('Checkout'){
             steps{
