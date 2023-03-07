@@ -74,13 +74,13 @@ pipeline{
             steps{
                 script{
                     withSonarQubeEnv('SonarQube'){
-                        ssh 'sonar-scanner \
-                        -Dsonar.projectKey=TheTipTop \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=${SONAR_HOST_URL} \
-                        -Dsonar.login=${SONAR_LOGIN} \
-                        -Dsonar.php.coverage.reportPaths=storage/logs/coverage.xml \
-                        -Dsonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml'
+                        ssh '${SCANNER_HOME}/bin/sonar-scanner \
+                        -D sonar.projectKey=TheTipTop \
+                        -D sonar.sources=. \
+                        -D sonar.host.url=${SONAR_HOST_URL} \
+                        -D sonar.login=${SONAR_LOGIN} \
+                        -D sonar.php.coverage.reportPaths=storage/logs/coverage.xml \
+                        -D sonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml'
                     }
                 }
             }
