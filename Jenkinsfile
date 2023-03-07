@@ -19,8 +19,9 @@ pipeline{
         stage('Clean'){
             steps{
                 script{
-                    sh 'docker compose down -v'
-                    sh 'docker system prune -af --volumes'
+                    // sh 'docker compose down -v'
+                    // sh 'docker system prune -af --volumes'
+                    sh 'docker compose down'
                 }
             }
         }
@@ -86,21 +87,20 @@ pipeline{
             }
         }
 
-        /* stage('Build'){
+        stage('Build'){
             steps{
                 script{
                     docker.build("${imageName}:latest")
                 }
             }
-        } */
+        }
 
         stage('Build & Push'){
             steps{
                 script{
                     withCredentials([string(credentialsId: registryCredential, variable: 'DOCKERHUB_TOKEN')]) {
                         sh 'echo $DOCKERHUB_TOKEN | docker login --username ${registryUsername} --password-stdin'
-                        sh 'docker build -t ${imageName}:latest .'
-                        sh 'docker push ${imageName}:latest'
+                        docker.push("${imageName}:latest")
                     }
                 }
             }
