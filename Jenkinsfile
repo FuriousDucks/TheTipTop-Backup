@@ -4,7 +4,7 @@ pipeline{
         imageName = 'ebenbrah/thetiptop'
         localImageName = 'thetiptop_thetiptop_develop-www'
         registryUsername= 'ebenbrah'
-        registryCredential = 'dockerhubtoken'
+        registryCredential = 'dockerhubuser'
         registry = 'https://index.docker.io/v1/'
     }
     options{
@@ -95,9 +95,10 @@ pipeline{
                         sh 'echo $DOCKERHUB_TOKEN | docker login --username ${registryUsername} --password-stdin'
                         docker.image(localImageName).push("${env.BUILD_NUMBER}")
                     } */
-                    docker.withRegistry(registry, registryCredential){
-                        sh 'docker login -u ${registryUsername} -p ${registryCredential}'
-                        docker.image(localImageName).push("${env.BUILD_NUMBER}")
+                    withCredentials([usernamePassword(credentialsId: registryCredential, passwordVariable: 'password', usernameVariable: 'username')]){
+                        sh 'docker login -u $username -p $password $registry'
+                        sh 'docker tag $localImageName $imageName'
+                        sh 'docker push $localImageName'
                     }
                 }
             }
