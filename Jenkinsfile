@@ -2,6 +2,7 @@ pipeline{
     agent any
     environment{
         imageName = 'ebenbrah/thetiptop'
+        localImageName = 'www'
         registryUsername= 'ebenbrah'
         registryCredential = 'dockerhubtoken'
         registry = 'https://index.docker.io/v1/'
@@ -32,13 +33,13 @@ pipeline{
                 }
             }
         }
-        stage('Install dependencies'){
+        /* stage('Install dependencies'){
             steps{
                 script{
                     sh 'docker exec -t web composer install --no-interaction --no-progress --no-suggest'
                 }
             }
-        }
+        } */
 
         stage('Update database'){
             steps{
@@ -90,7 +91,7 @@ pipeline{
         stage('Build'){
             steps{
                 script{
-                    docker.build(imageName)
+                    docker.build(localImageName)
                 }
             }
         }
