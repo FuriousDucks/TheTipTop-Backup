@@ -86,13 +86,13 @@ pipeline{
             }
         }
 
-        stage('Build'){
+        /* stage('Build'){
             steps{
                 script{
                     docker.build("${imageName}:latest")
                 }
             }
-        }
+        } */
 
         stage('Push'){
             steps{
