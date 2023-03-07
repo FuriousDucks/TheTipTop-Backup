@@ -76,13 +76,18 @@ pipeline{
             steps{
                 script{
                     withSonarQubeEnv('SonarQube'){
-                        ssh '${SCANNER_HOME}/bin/sonar-scanner \
-                        -Dsonar.projectKey=TheTipTop \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=${SONAR_HOST_URL} \
-                        -Dsonar.login=${SONAR_LOGIN} \
-                        -Dsonar.php.coverage.reportPaths=storage/logs/coverage.xml \
-                        -Dsonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml'
+                        // ssh '${SCANNER_HOME}/bin/sonar-scanner \
+                        // -Dsonar.projectKey=TheTipTop \
+                        // -Dsonar.sources=. \
+                        // -Dsonar.host.url=${SONAR_HOST_URL} \
+                        // -Dsonar.login=${SONAR_LOGIN} \
+                        // -Dsonar.php.coverage.reportPaths=storage/logs/coverage.xml \
+                        // -Dsonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml'
+                        ssh 'sonar-scanner \
+                            -Dsonar.projectKey=TheTipTop \
+                            -Dsonar.sources=. \
+                            -Dsonar.host.url=http://46.101.35.94:4000 \
+                            -Dsonar.login=sqp_fabaeb33f2ac71e0ad51dc9e525df34e982a6091'
                     }
                 }
             }
@@ -93,7 +98,7 @@ pipeline{
                 script{
                     /* withCredentials([string(credentialsId: registryCredential, variable: 'DOCKERHUB_TOKEN')]) {
                         sh 'echo $DOCKERHUB_TOKEN | docker login --username ${registryUsername} --password-stdin'
-                        docker.image(localImageName).push("${env.BUILD_NUMBER}")
+                        docker.image(imageName).push("${env.BUILD_NUMBER}")
                     } */
                     withCredentials([usernamePassword(credentialsId: registryCredential, passwordVariable: 'password', usernameVariable: 'username')]){
                         sh 'docker login -u $username -p $password $registry'
