@@ -93,7 +93,7 @@ pipeline{
                     } */
                     withCredentials([usernamePassword(credentialsId: registryCredential, passwordVariable: 'password', usernameVariable: 'username')]){
                         sh 'docker login -u $username -p $password $registry'
-                        docker.image(localImageName).push("${env.BUILD_NUMBER}")
+                        docker.image(imageName).push("${env.BUILD_NUMBER}")
                     }
                 }
             }
