@@ -84,6 +84,14 @@ pipeline{
             }
         }
         
+        stage('Build') {
+            steps {
+                script {
+                    def dockerImage = docker.build("${imageName}:${env.BUILD_NUMBER}")
+                }
+            }
+        }
+
         stage('Push'){
             steps{
                 script{
@@ -93,7 +101,7 @@ pipeline{
                     } */
                     withCredentials([usernamePassword(credentialsId: registryCredential, passwordVariable: 'password', usernameVariable: 'username')]){
                         sh 'docker login -u $username -p $password $registry'
-                        docker.image(imageName).push("${env.BUILD_NUMBER}")
+                        dockerImage.push()
                     }
                 }
             }
