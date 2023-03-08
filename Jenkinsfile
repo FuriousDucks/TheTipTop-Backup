@@ -83,14 +83,6 @@ pipeline{
                 }
             }
         }
-        
-        stage('Build') {
-            steps {
-                script {
-                    sh 'docker build -t ${localImageName} .'
-                }
-            }
-        }
 
         stage('Push'){
             steps{
