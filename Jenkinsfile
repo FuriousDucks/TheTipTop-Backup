@@ -2,7 +2,6 @@ pipeline{
     agent any
     environment{
         imageName = 'ebenbrah/thetiptop'
-        localImageName = 'thetiptop_thetiptop_develop-www'
         registryUsername= 'ebenbrah'
         registryCredential = 'dockerhubuser'
         registry = 'https://index.docker.io/v1/'
@@ -10,9 +9,9 @@ pipeline{
         SONAR_LOGIN = 'sqp_fabaeb33f2ac71e0ad51dc9e525df34e982a6091'
         SCANNER_HOME = tool 'SonarQube'
     }
-    /* options{
+    options{
         buildDiscarder(logRotator(numToKeepStr: '5'))
-    } */
+    }
     stages{
         stage('Checkout'){
             steps{
@@ -87,30 +86,11 @@ pipeline{
         stage('Push'){
             steps{
                 script{
-                    /* withCredentials([string(credentialsId: registryCredential, variable: 'DOCKERHUB_TOKEN')]) {
-                        sh 'echo $DOCKERHUB_TOKEN | docker login --username ${registryUsername} --password-stdin'
-                        docker.image(imageName).push("${env.BUILD_NUMBER}")
-                    } */
                     withCredentials([usernamePassword(credentialsId: registryCredential, passwordVariable: 'password', usernameVariable: 'username')]){
-                        // sh 'docker login -u $username -p $password $registry'
-                        docker.login(registry, registryCredential)
+                        sh 'docker login -u $username -p $password $registry'
                         docker.image(imageName).push("${env.BUILD_NUMBER}")
                     }
                 }
-            }
-        }
-
-        stage('Deploy preprod'){
-            steps{
-                /* script{
-                    sshagent(['ssh-key']){
-                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@preprod "docker pull thetiptop"'
-                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@preprod "docker stop thetiptop"'
-                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@preprod "docker rm thetiptop"'
-                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@preprod "docker run -d -p 80:80 --name thetiptop thetiptop"'
-                    }
-                } */
-                echo 'Deploy preprod'
             }
         }
 
@@ -132,7 +112,7 @@ pipeline{
             steps{
                 /* script{
                     sshagent(['ssh-key']){
-                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@preprod "docker ps"'
+                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@prod "docker ps"'
                     }
                 } */
                 echo 'Check'
