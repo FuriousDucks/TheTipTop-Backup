@@ -2,6 +2,7 @@ pipeline{
     agent any
     environment{
         imageName = 'ebenbrah/thetiptop'
+        localImageName = 'web'
         registryUsername= 'ebenbrah'
         registryCredential = 'dockerhubuser'
         registry = 'https://index.docker.io/v1/'
@@ -88,8 +89,8 @@ pipeline{
                 script{
                     withCredentials([usernamePassword(credentialsId: registryCredential, passwordVariable: 'password', usernameVariable: 'username')]){
                         sh 'docker login -u $username -p $password $registry'
-                        docker.image(imageName).push("${env.BUILD_NUMBER}")
-                        docker.image(imageName).push('latest')
+                        docker.image(localImageName).push("${imageName}:$BUILD_NUMBER")
+                        docker.image(localImageName).push("${imageName}:latest")
                     }
                 }
             }
