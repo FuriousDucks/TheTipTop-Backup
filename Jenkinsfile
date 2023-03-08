@@ -89,8 +89,8 @@ pipeline{
                 script{
                     withCredentials([usernamePassword(credentialsId: registryCredential, passwordVariable: 'password', usernameVariable: 'username')]){
                         sh 'docker login -u $username -p $password $registry'
-                        docker.image('thetiptop').push("$BUILD_NUMBER")
-                        docker.image('thetiptop').push("latest")
+                        docker.image(imageName).push("$BUILD_NUMBER")
+                        docker.image(imageName).push("latest")
                     }
                 }
             }
