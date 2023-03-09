@@ -73,8 +73,13 @@ pipeline{
         stage('Push'){
             steps{
                 script{
-                    withCredentials([usernamePassword(credentialsId: registryCredential, passwordVariable: 'password', usernameVariable: 'username')]){
-                        // sh 'docker login -u $username -p $password $registry'
+                    /* withCredentials([usernamePassword(credentialsId: registryCredential, passwordVariable: 'password', usernameVariable: 'username')]){
+                        sh 'docker login -u $username -p $password $registry'
+                        docker.image(imageName).push("${env.BUILD_NUMBER}")
+                        docker.image(imageName).push('latest')
+                    } */
+
+                    docker.withRegistry(registry, 'dockerhubtoken'){
                         docker.image(imageName).push("${env.BUILD_NUMBER}")
                         docker.image(imageName).push('latest')
                     }
