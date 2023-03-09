@@ -78,11 +78,11 @@ pipeline{
                         docker.image(imageName).push("${env.BUILD_NUMBER}")
                         docker.image(imageName).push('latest')
                     } */
-
-                    docker.withRegistry(registry, 'dockerhubtoken'){
-                        docker.image(imageName).push("${env.BUILD_NUMBER}")
-                        docker.image(imageName).push('latest')
-                    }
+                    sh 'docker login -u ${registryUsername} -p ${registryCredential}'
+                    sh 'docker tag ${localImageName} ${imageName}:${env.BUILD_NUMBER}'
+                    sh 'docker tag ${localImageName} ${imageName}:latest'
+                    sh 'docker push ${imageName}:${env.BUILD_NUMBER}'
+                    sh 'docker push ${imageName}:latest'
                 }
             }
         }
