@@ -76,17 +76,13 @@ pipeline{
         stage('Push'){
             steps{
                 script{
-                    /* withCredentials([usernamePassword(credentialsId: registryCredential, passwordVariable: 'password', usernameVariable: 'username')]){
-                        sh 'docker login -u $username -p $password $registry'
-                        docker.image(imageName).push("${env.BUILD_NUMBER}")
-                        docker.image(imageName).push('latest')
-                    } */
-
-                    sh 'docker login -u ${registryUsername} --password-stdin ${registryCredential}'
-                    sh 'docker tag ${localImageName} ${imageName}:${env.BUILD_NUMBER}'
-                    sh 'docker tag ${localImageName} ${imageName}:latest'
-                    sh 'docker push ${imageName}:${env.BUILD_NUMBER}'
-                    sh 'docker push ${imageName}:latest'
+                    withCredentials([string(credentialsId: registryCredentialToken, variable: 'token')]){
+                        sh 'echo $token | docker login -u $registryUsername --password-stdin $registry'
+                        sh 'docker tag ${localImageName} ${imageName}:${env.BUILD_NUMBER}'
+                        sh 'docker tag ${localImageName} ${imageName}:latest'
+                        sh 'docker push ${imageName}:${env.BUILD_NUMBER}'
+                        sh 'docker push ${imageName}:latest'
+                    }
                 }
             }
         }
