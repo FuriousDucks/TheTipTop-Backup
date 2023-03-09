@@ -36,22 +36,22 @@ pipeline{
                 }
             }
         }
-        /* stage('Install dependencies'){
+        stage('Install dependencies'){
             steps{
                 script{
                     sh 'docker exec -t web composer install --no-interaction --no-progress --no-suggest'
                 }
             }
-        } */
+        }
 
-        /* stage('Update database'){
+        stage('Update database'){
             steps{
                 script{
                     sh 'docker exec -t web php bin/console doctrine:database:create --if-not-exists'
                     sh 'docker exec -t web php bin/console doctrine:migrations:migrate --no-interaction'
                 }
             }
-        } */
+        }
 
         stage('Test'){
             steps{
