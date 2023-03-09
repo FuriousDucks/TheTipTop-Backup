@@ -52,7 +52,7 @@ COPY ./wait-for-it.sh /wait-for-it.sh
 
 RUN chmod +x /wait-for-it.sh
 
-RUN echo "memory_limit=-1" > $PHP_INI_DIR/conf.d/memory-limit.ini
+RUN echo "memory_limit=-1" > $PHP_INI_DIR/conf.d/php.ini
 
 # RUN npm install --force && \
 #     npm run build
