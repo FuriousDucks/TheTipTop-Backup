@@ -38,14 +38,6 @@ pipeline{
                 }
             }
         }
-
-        stage('Install dependencies'){
-            steps{
-                script{
-                    sh 'docker exec -t web composer update --no-interaction'
-                }
-            }
-        }
         
         stage('Test'){
             steps{
