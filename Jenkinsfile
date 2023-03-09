@@ -10,9 +10,11 @@ pipeline{
         SONAR_LOGIN = 'sqp_fabaeb33f2ac71e0ad51dc9e525df34e982a6091'
         SCANNER_HOME = tool 'SonarQube'
     }
-    /* options{
+    
+    options{
         buildDiscarder(logRotator(numToKeepStr: '5'))
-    } */
+    }
+
     stages{
         stage('Checkout'){
             steps{
@@ -37,27 +39,10 @@ pipeline{
             }
         }
         
-        /* stage('Install dependencies'){
-            steps{
-                script{
-                    sh 'docker exec -t web composer install --no-interaction --no-progress --no-suggest'
-                }
-            }
-        } */
-
-        /*stage('Update database'){
-            steps{
-                script{
-                    sh 'docker exec -t web php bin/console doctrine:database:create --if-not-exists'
-                    sh 'docker exec -t web php bin/console doctrine:migrations:migrate --no-interaction'
-                }
-            }
-        } */
-
         stage('Test'){
             steps{
                 script{
-                    // sh 'docker exec -t web composer require --dev symfony/test-pack symfony/panther --no-interaction --no-progress --no-suggest'
+                    sh 'docker exec -t web composer require --dev symfony/phpunit-bridge symfony/browser-kit symfony/css-selector --no-interaction --no-progress --no-suggest'
                     sh 'docker exec -t web vendor/bin/simple-phpunit --coverage-html=coverage --coverage-clover=coverage.xml'
                     sh 'docker exec -t web vendor/bin/simple-phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
                     sh 'mkdir -p test-results'
