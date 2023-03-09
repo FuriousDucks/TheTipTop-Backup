@@ -36,7 +36,7 @@ pipeline{
                 }
             }
         }
-        stage('Install dependencies'){
+        /* stage('Install dependencies'){
             steps{
                 script{
                     sh 'docker exec -t web composer install --no-interaction --no-progress --no-suggest'
@@ -51,7 +51,7 @@ pipeline{
                     sh 'docker exec -t web php bin/console doctrine:migrations:migrate --no-interaction'
                 }
             }
-        }
+        } */
 
         stage('Test'){
             steps{
