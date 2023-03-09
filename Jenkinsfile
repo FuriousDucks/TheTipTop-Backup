@@ -5,6 +5,7 @@ pipeline{
         localImageName = 'web'
         registryUsername= 'ebenbrah'
         registryCredential = 'dockerhubuser'
+        registryCredentialToken = 'dockerhubtoken'
         registry = 'https://index.docker.io/v1/'
         SONAR_HOST_URL = 'http://46.101.35.94:4000'
         SONAR_LOGIN = 'sqp_fabaeb33f2ac71e0ad51dc9e525df34e982a6091'
@@ -63,6 +64,8 @@ pipeline{
                         ssh '${tool("SCANNER_HOME")}/bin/sonar-scanner \
                         -D sonar.projectKey=TheTipTop \
                         -D sonar.sources=. \
+                        -D sonar.host.url=${env.SONAR_HOST_URL} \
+                        -D sonar.login=${env.SONAR_LOGIN} \
                         -D sonar.php.coverage.reportPaths=storage/logs/coverage.xml \
                         -D sonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml'
                     }
@@ -78,7 +81,7 @@ pipeline{
                         docker.image(imageName).push("${env.BUILD_NUMBER}")
                         docker.image(imageName).push('latest')
                     } */
-                    
+
                     sh 'docker login -u ${registryUsername} --password-stdin ${registryCredential}'
                     sh 'docker tag ${localImageName} ${imageName}:${env.BUILD_NUMBER}'
                     sh 'docker tag ${localImageName} ${imageName}:latest'
