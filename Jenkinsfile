@@ -56,7 +56,7 @@ pipeline{
         stage('Test'){
             steps{
                 script{
-                    sh 'docker exec -t web composer require --dev symfony/test-pack symfony/panther --no-interaction --no-progress --no-suggest'
+                    sh 'docker exec -t web composer require --dev symfony/test-pack --no-interaction --no-progress --no-suggest'
                     sh 'docker exec -t web vendor/bin/simple-phpunit --coverage-html=coverage --coverage-clover=coverage.xml'
                     sh 'docker exec -t web vendor/bin/simple-phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
                     sh 'mkdir -p test-results'
