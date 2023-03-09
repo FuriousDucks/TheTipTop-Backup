@@ -38,11 +38,19 @@ pipeline{
                 }
             }
         }
+
+        stage('Install dependencies'){
+            steps{
+                script{
+                    sh 'docker exec -t web composer install --no-interaction --prefer-dist'
+                }
+            }
+        }
         
         stage('Test'){
             steps{
                 script{
-                    sh 'docker exec -t web composer require --dev symfony/phpunit-bridge symfony/browser-kit symfony/css-selector'
+                    sh 'docker exec -t web composer require --dev symfony/test-pack symfony/panther'
                     sh 'docker exec -t web vendor/bin/simple-phpunit --coverage-html=coverage --coverage-clover=coverage.xml'
                     sh 'docker exec -t web vendor/bin/simple-phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
                     sh 'mkdir -p test-results'
