@@ -61,7 +61,7 @@ pipeline{
             steps{
                 script{
                     withSonarQubeEnv('SonarQube'){
-                        ssh 'sonar-scanner \
+                        sh '${SCANNER_HOME}/bin/sonar-scanner \
                         -Dsonar.projectKey=TheTipTop \
                         -Dsonar.sources=. \
                         -Dsonar.host.url=${env.SONAR_HOST_URL} \
