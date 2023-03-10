@@ -12,9 +12,9 @@ pipeline{
         SCANNER_HOME = tool 'SonarQube'
     }
     
-    options{
+    /* options{
         buildDiscarder(logRotator(numToKeepStr: '5'))
-    }
+    } */
 
     stages{
         stage('Checkout'){
