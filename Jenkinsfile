@@ -85,7 +85,6 @@ pipeline{
                         sh 'docker push ${imageName}:${env.BUILD_NUMBER}'
                         sh 'docker push ${imageName}:latest'
                     }
-                    echo 'Pushed'
                 }
             }
         }
