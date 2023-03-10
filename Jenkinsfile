@@ -62,12 +62,12 @@ pipeline{
                 script{
                     withSonarQubeEnv('SonarQube'){
                         ssh '${SCANNER_HOME}/bin/sonar-scanner \
-                        -D sonar.projectKey=TheTipTop \
-                        -D sonar.sources=./thetiptop \
-                        -D sonar.host.url=${env.SONAR_HOST_URL} \
-                        -D sonar.login=${env.SONAR_LOGIN} \
-                        -D sonar.php.coverage.reportPaths=storage/logs/coverage.xml \
-                        -D sonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml'
+                        -Dsonar.projectKey=TheTipTop \
+                        -Dsonar.sources=./thetiptop \
+                        -Dsonar.host.url=${env.SONAR_HOST_URL} \
+                        -Dsonar.login=${env.SONAR_LOGIN} \
+                        -Dsonar.php.coverage.reportPaths=storage/logs/coverage.xml \
+                        -Dsonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml'
                     }
                 }
             }
@@ -81,6 +81,7 @@ pipeline{
                         sh 'docker push ${imageName}:${env.BUILD_NUMBER}'
                         sh 'docker push ${imageName}:latest'
                     }
+                    echo 'Pushed'
                 }
             }
         }
