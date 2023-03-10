@@ -8,13 +8,13 @@ pipeline{
         registryCredentialToken = 'dockerhubtoken'
         registry = 'https://index.docker.io/v1/'
         SONAR_HOST_URL = 'http://46.101.35.94:4000'
-        SONAR_LOGIN = 'sqp_d0f92f1793bac86ed88d0990172c1db21aa35f8f'
+        SONAR_LOGIN = 'sqp_0effeac12cdcd4df6c3d7411f4aa319396dafcc9'
         SCANNER_HOME = tool 'SonarQube'
     }
     
-    /* options{
+    options{
         buildDiscarder(logRotator(numToKeepStr: '5'))
-    } */
+    }
 
     stages{
         stage('Checkout'){
