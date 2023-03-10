@@ -8,7 +8,7 @@ pipeline{
         registryCredentialToken = 'dockerhubtoken'
         registry = 'https://index.docker.io/v1/'
         SONAR_HOST_URL = 'http://46.101.35.94:4000'
-        SONAR_LOGIN = 'sqp_fabaeb33f2ac71e0ad51dc9e525df34e982a6091'
+        SONAR_LOGIN = 'sqp_d0f92f1793bac86ed88d0990172c1db21aa35f8f'
         SCANNER_HOME = tool 'SonarQube'
     }
     
@@ -63,7 +63,7 @@ pipeline{
                     withSonarQubeEnv('SonarQube'){
                         ssh '${SCANNER_HOME}/bin/sonar-scanner \
                         -D sonar.projectKey=TheTipTop \
-                        -D sonar.sources=. \
+                        -D sonar.sources=./thetiptop \
                         -D sonar.host.url=${env.SONAR_HOST_URL} \
                         -D sonar.login=${env.SONAR_LOGIN} \
                         -D sonar.php.coverage.reportPaths=storage/logs/coverage.xml \
@@ -73,12 +73,6 @@ pipeline{
             }
         }
     
-        stage('Build') {
-            steps {
-                sh 'docker build -t ${imageName}:${BUILD_NUMBER} .'
-            }
-        }
-
         stage('Push'){
             steps{
                 script{
