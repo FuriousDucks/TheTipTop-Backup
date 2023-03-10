@@ -61,9 +61,9 @@ pipeline{
             steps{
                 script{
                     withSonarQubeEnv('SonarQube'){
-                        ssh '${SCANNER_HOME}/bin/sonar-scanner \
+                        ssh 'sonar-scanner \
                         -Dsonar.projectKey=TheTipTop \
-                        -Dsonar.sources=./thetiptop \
+                        -Dsonar.sources=. \
                         -Dsonar.host.url=${env.SONAR_HOST_URL} \
                         -Dsonar.login=${env.SONAR_LOGIN} \
                         -Dsonar.php.coverage.reportPaths=storage/logs/coverage.xml \
