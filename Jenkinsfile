@@ -72,6 +72,18 @@ pipeline{
                 }
             }
         }
+
+        stage('Build') {
+            steps {
+                sh 'docker build -t ${imageName} ./php'
+            }
+        }
+
+        stage('Tag') {
+            steps {
+                sh 'docker tag ${imageName} ${imageName}:$BUILD_NUMBER'
+            }
+        }
     
         stage('Push'){
             steps{
