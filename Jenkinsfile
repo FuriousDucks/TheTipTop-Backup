@@ -72,6 +72,12 @@ pipeline{
                 }
             }
         }
+    
+        stage('Build') {
+            steps {
+                sh 'docker build -t ${imageName}:${env.BUILD_NUMBER} ${localImageName}'
+            }
+        }
 
         stage('Push'){
             steps{
