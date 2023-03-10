@@ -87,6 +87,13 @@ pipeline{
                     }
                 }
             }
+                /* post{
+        always{
+            script{
+                sh 'docker logout'
+            }
+        }
+    } */
         }
 
         stage('Deploy prod'){
@@ -111,13 +118,6 @@ pipeline{
                     }
                 } */
                 echo 'Check'
-            }
-        }
-    }
-    post{
-        always{
-            script{
-                sh 'docker logout'
             }
         }
     }
