@@ -65,17 +65,9 @@ pipeline{
                         -Dsonar.projectKey=TheTipTop \
                         -Dsonar.sources=. \
                         -Dsonar.host.url=${env.SONAR_HOST_URL} \
-                        -Dsonar.login=${env.SONAR_LOGIN} \
-                        -Dsonar.php.coverage.reportPaths=storage/logs/coverage.xml \
-                        -Dsonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml'
+                        -Dsonar.login=${env.SONAR_LOGIN}'
                     }
                 }
-            }
-        }
-
-        stage('Build') {
-            steps {
-                sh 'docker build -t ${imageName} ./php'
             }
         }
 
