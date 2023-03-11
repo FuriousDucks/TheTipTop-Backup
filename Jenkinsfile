@@ -74,7 +74,9 @@ pipeline{
             steps{
                 script{
                     docker.withRegistry('', registryCredential){
-                        dockerImage = docker.build("thetiptop:${env.BUILD_NUMBER}")
+                        docker.image("thetitop").inside{
+                            dockerImage = docker.build("thetiptop:${env.BUILD_NUMBER}")
+                        }
                     }
                 }
             }
