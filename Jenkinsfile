@@ -75,11 +75,9 @@ pipeline{
             steps{
                 script{
                    docker.withRegistry('', registryCredential){
-                        docker.image(IMAGE_NAME).inside{
-                            sh 'docker tag ${LOCAL_IMAGE} ${IMAGE_NAME}:$BUILD_NUMBER'
-                            sh 'docker push ${IMAGE_NAME}:$BUILD_NUMBER'
-                            sh 'docker push ${IMAGE_NAME}:latest'
-                        }
+                        sh 'docker tag ${LOCAL_IMAGE} ${IMAGE_NAME}:$BUILD_NUMBER'
+                        sh 'docker push ${IMAGE_NAME}:$BUILD_NUMBER'
+                        sh 'docker push ${IMAGE_NAME}:latest'
                     }
                 }
             }
