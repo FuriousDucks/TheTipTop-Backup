@@ -89,6 +89,8 @@ pipeline{
                         docker.image(imageName).push('latest')
                     } */
                      withDockerRegistry([credentialsId: registryCredential, url: registry]){
+                        // docker tag thetiptop:local thetiptop:latest
+                        sh 'docker tag thetiptop:local thetiptop:latest'
                         docker.image(imageName).push("${env.BUILD_NUMBER}")
                         docker.image(imageName).push('latest')
                     }
