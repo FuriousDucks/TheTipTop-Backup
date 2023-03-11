@@ -7,8 +7,6 @@ pipeline{
         registryCredentialToken = 'dockerhubtoken'
         registry = 'https://index.docker.io/v1/'
         SCANNER_HOME = tool 'sonar-scanner'
-        nexusUrl = 'http://46.101.35.94:8082'
-        nexusCredential = 'nexus'
     }
     
     options{
@@ -78,10 +76,10 @@ pipeline{
                     /* withCredentials([usernamePassword(credentialsId: registryCredential, usernameVariable: 'DOCKERHUB_CREDS_USR', passwordVariable: 'DOCKERHUB_CREDS_PSW')]){
                         // sh 'echo $token | docker login -u $registryUsername --password-stdin $registry'
                         docker.withRegistry(registry, registryCredential){
-                            docker.image(localImageName).inside{
-                                sh 'docker build -t $localImageName .'
-                                sh 'docker tag $localImageName:local $registryUsername/$localImageName:${env.BUILD_NUMBER}'
-                                sh 'docker push $registryUsername/$localImageName'
+                            docker.image(imageName).inside{
+                                sh 'docker build -t $imageName .'
+                                sh 'docker tag $imageName:local $registryUsername/$imageName:${env.BUILD_NUMBER}'
+                                sh 'docker push $registryUsername/$imageName'
                             }
                         }
                     } */
