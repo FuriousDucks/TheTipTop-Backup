@@ -9,6 +9,7 @@ pipeline{
         SCANNER_HOME = tool 'sonar-scanner'
         nexusUrl = 'http://46.101.35.94:8082'
         nexusCredential = 'nexus'
+        dockerImage = ''
     }
     
     options{
@@ -98,20 +99,20 @@ pipeline{
             steps{
                 script{
                     docker.withRegistry(registry, registryCredential){
-                        docker.image(imageName).inside{
-                            sh 'docker build -t $imageName .'
-                        }
+                        docker.build imageName
                     }
                 }
             }
         }
 
-        stage('Push to Nexus'){
+        stage('Push'){
             steps{
                 script{
                     docker.withRegistry(nexusUrl, nexusCredential){
-                        docker.image(imageName).push('${env.BUILD_NUMBER}')
-                        docker.image(imageName).push('latest')
+                        // docker.image(imageName).push('${env.BUILD_NUMBER}')
+                        // docker.image(imageName).push('latest')
+                        dockerImage.push('${env.BUILD_NUMBER}')
+                        dockerImage.push('latest')
                     }
                 }
             }
