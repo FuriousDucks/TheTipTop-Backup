@@ -71,23 +71,13 @@ pipeline{
             }
         }
 
-        stage('Build'){
-            steps{
-                script{
-                    docker.withRegistry(registry, registryCredential){
-                        docker.image(imageName).inside{
-                            dockerImage = docker.build(imageName + ":${env.BUILD_NUMBER}")
-                        }
-                    }
-                }
-            }
-        }
-
         stage('Push'){
             steps{
                 script{
-                    docker.withRegistry('', registryCredential){
-                        docker.image(imageName).push("${env.BUILD_NUMBER}")
+                    withCredentials([usernamePassword(credentialsId: registryCredential, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
+                        sh 'docker login -u $USERNAME -p $PASSWORD'
+                        sh 'docker tag $localImage $imageName:${env.BUILD_NUMBER}'
+                        sh 'docker push $imageName:${env.BUILD_NUMBER}'
                     }
                 }
             }
