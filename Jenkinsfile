@@ -75,8 +75,8 @@ pipeline{
                 script{
                     docker.withRegistry('', registryCredential){
                         docker.image("${imageName}").inside{
-                            sh 'docker build -t thetiptop .'
-                            sh 'docker push ${imageName}:${env.BUILD_NUMBER}'
+                            sh 'docker build -t thetiptop:${env.BUILD_NUMBER} .'
+                            sh 'docker push ${imageName}'
                             sh 'docker push ${imageName}:latest'
                         }
                     }
