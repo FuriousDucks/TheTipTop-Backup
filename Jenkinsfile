@@ -74,7 +74,7 @@ pipeline{
                 script{
                     withCredentials([usernamePassword(credentialsId: registryCredential, usernameVariable: 'DOCKERHUB_CREDS_USR', passwordVariable: 'DOCKERHUB_CREDS_PSW')]){
                         // sh 'echo $token | docker login -u $registryUsername --password-stdin $registry'
-                        docker.withRegistry(registry, registryCredentialToken){
+                        docker.withRegistry(registry, registryCredential){
                             docker.image(imageName).inside{
                                 sh 'docker build -t $localImageName .'
                                 sh 'docker tag $localImageName $imageName'
