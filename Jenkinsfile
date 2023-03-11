@@ -73,7 +73,7 @@ pipeline{
             steps{
                 script{
                     withCredentials([string(credentialsId: registryCredentialToken, variable: 'token')]){
-                        sh 'echo $token | docker login -u $registryUsername --password-stdin $registry'
+                        // sh 'echo $token | docker login -u $registryUsername --password-stdin $registry'
                         sh 'docker push ${imageName}:${env.BUILD_NUMBER}'
                     }
                 }
