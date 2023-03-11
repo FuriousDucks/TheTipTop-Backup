@@ -84,13 +84,13 @@ pipeline{
                     }
                 }
             }
-            post{
+            /* post{
                 always{
                     script{
                         sh 'docker logout'
                     }
                 }
-            }
+            } */
         }
 
         stage('Deploy prod'){
