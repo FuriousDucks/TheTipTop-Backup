@@ -2,6 +2,7 @@ pipeline{
     agent any
     environment{
         imageName = 'ebenbrah/thetiptop'
+        localImage = 'thetiptop'
         registryCredential = 'dockerhubuser'
         registryCredentialToken = 'dockerhubtoken'
         registry = 'https://index.docker.io/v1/'
@@ -74,7 +75,7 @@ pipeline{
             steps{
                 script{
                     docker.withRegistry('', registryCredential){
-                        docker.image("${imageName}").inside{
+                        docker.image("${localImage}").inside{
                             sh 'docker push ${imageName}:${env.BUILD_NUMBER}'
                             sh 'docker push ${imageName}:latest'
                         }
