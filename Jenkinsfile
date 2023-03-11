@@ -72,10 +72,10 @@ pipeline{
             }
         }
 
-        /* stage('Push'){
+        stage('Push'){
             steps{
                 script{
-                    withCredentials([usernamePassword(credentialsId: registryCredential, usernameVariable: 'DOCKERHUB_CREDS_USR', passwordVariable: 'DOCKERHUB_CREDS_PSW')]){
+                    /* withCredentials([usernamePassword(credentialsId: registryCredential, usernameVariable: 'DOCKERHUB_CREDS_USR', passwordVariable: 'DOCKERHUB_CREDS_PSW')]){
                         // sh 'echo $token | docker login -u $registryUsername --password-stdin $registry'
                         docker.withRegistry(registry, registryCredential){
                             docker.image(localImageName).inside{
@@ -84,22 +84,11 @@ pipeline{
                                 sh 'docker push $registryUsername/$localImageName'
                             }
                         }
-                    }
+                    } */
 
                     withDockerRegistry([credentialsId: registryCredentialToken, url: registry]){
-                        sh 'docker build -t $registryUsername/$localImageName:lastest .'
-                        sh 'docker push $registryUsername/$localImageName'
-                    }
-                }
-            }
-        } */
-
-        stage('Push'){
-            steps{
-                script{
-                    withDockerRegistry([credentialsId: nexusCredential, url: nexusUrl]){
                         docker.image(imageName).push("${env.BUILD_NUMBER}")
-                        docker.image(imageName).push("latest")
+                        docker.image(imageName).push('latest')
                     }
                 }
             }
