@@ -22,8 +22,8 @@ pipeline{
                 checkout scm
             }
         }
-        
-        stage('Clean'){
+
+        /* stage('Clean'){
             steps{
                 script{
                     sh 'docker compose down -v'
@@ -32,13 +32,14 @@ pipeline{
                 }
             }
         }
+
         stage('Start'){
             steps{
                 script{
                     sh 'docker compose up -d' 
                 }
             }
-        }
+        } */
         
         stage('Test'){
             steps{
@@ -93,7 +94,7 @@ pipeline{
             }
         } */
 
-        stage('Push'){
+        stage('Push to Nexus'){
             steps{
                 script{
                     docker.withRegistry(nexusUrl, nexusCredential){
