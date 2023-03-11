@@ -97,7 +97,7 @@ pipeline{
         stage('Push'){
             steps{
                 script{
-                    docker.withRegistry(nexusUrl, nexusCredential) {
+                    withDockerRegistry([credentialsId: nexusCredential, url: nexusUrl]){
                         docker.image(imageName).push("${env.BUILD_NUMBER}")
                         docker.image(imageName).push("latest")
                     }
