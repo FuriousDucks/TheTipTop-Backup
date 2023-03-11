@@ -16,7 +16,7 @@ services:
     build:
       context: .
       dockerfile: ./php/Dockerfile
-    container_name: web
+    container_name: thetiptop
     restart: unless-stopped
     ports:
       - "8000:80"
