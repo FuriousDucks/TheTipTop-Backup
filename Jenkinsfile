@@ -72,7 +72,7 @@ pipeline{
         stage('Push'){
             steps{
                 script{
-                    withCredentials([string(credentialsId: registryCredentialToken, variable: 'token')]){
+                    withCredentials([usernamePassword(credentialsId: registryCredential, usernameVariable: 'DOCKERHUB_CREDS_USR', passwordVariable: 'DOCKERHUB_CREDS_PSW')]){
                         // sh 'echo $token | docker login -u $registryUsername --password-stdin $registry'
                         docker.withRegistry(registry, registryCredentialToken){
                             docker.image(imageName).inside{
