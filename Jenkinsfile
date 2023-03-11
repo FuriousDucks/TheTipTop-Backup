@@ -74,7 +74,10 @@ pipeline{
                 script{
                     withCredentials([string(credentialsId: registryCredentialToken, variable: 'token')]){
                         // sh 'echo $token | docker login -u $registryUsername --password-stdin $registry'
-                        sh 'docker push ${imageName}:${env.BUILD_NUMBER}'
+                        docker.withRegistry('https://index.docker.io/v1/', 'dockerhubtoken'){
+                            sh 'docker tag ${imageName}:${env.BUILD_NUMBER} ${imageName}:latest'
+                            sh 'docker push ${imageName}:latest'
+                        }
                     }
                 }
             }
