@@ -6,6 +6,7 @@ pipeline{
         registryCredentialToken = 'dockerhubtoken'
         registry = 'https://index.docker.io/v1/'
         SCANNER_HOME = tool 'sonar-scanner'
+        dockerImage = ''
     }
     
     options{
@@ -69,13 +70,20 @@ pipeline{
             }
         }
 
+        stage('Build') {
+             steps{
+                script {
+                    dockerImage = docker.build imageName + ":${env.BUILD_NUMBER}"
+                }
+            }
+        }
+
         stage('Push'){
             steps{
                 script{
-                    docker.withRegistry(registry, registryCredential){
+                    docker.withRegistry('', registryCredential){
                         sh 'docker tag thetiptop:local ${imageName}:${env.BUILD_NUMBER}'
-                        docker.image(imageName).push("${env.BUILD_NUMBER}")
-                        docker.image(imageName).push('latest')
+                        dockerImage.push()
                     }
                 }
             }
