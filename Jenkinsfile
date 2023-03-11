@@ -77,7 +77,7 @@ pipeline{
                         docker.withRegistry(registry, registryCredential){
                             docker.image(localImageName).inside{
                                 sh 'docker build -t $localImageName .'
-                                sh 'docker tag $localImageName $registryUsername/$localImageName:${env.BUILD_NUMBER}'
+                                sh 'docker tag $localImageName:local $registryUsername/$localImageName:${env.BUILD_NUMBER}'
                                 sh 'docker push $registryUsername/$localImageName'
                             }
                         }
