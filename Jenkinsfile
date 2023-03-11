@@ -9,7 +9,7 @@ pipeline{
         registry = 'https://index.docker.io/v1/'
         SONAR_HOST_URL = 'http://46.101.35.94:9091'
         SONAR_LOGIN = 'sqp_0effeac12cdcd4df6c3d7411f4aa319396dafcc9'
-        SCANNER_HOME = tool 'sonnar-scanner'
+        SCANNER_HOME = tool 'sonar-scanner'
     }
     
     options{
