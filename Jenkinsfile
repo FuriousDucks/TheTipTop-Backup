@@ -22,7 +22,8 @@ pipeline{
                 checkout scm
             }
         }
-        /* stage('Clean'){
+        
+        stage('Clean'){
             steps{
                 script{
                     sh 'docker compose down -v'
@@ -37,7 +38,7 @@ pipeline{
                     sh 'docker compose up -d' 
                 }
             }
-        } */
+        }
         
         stage('Test'){
             steps{
