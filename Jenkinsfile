@@ -84,7 +84,11 @@ pipeline{
                         }
                     } */
 
-                    withDockerRegistry([credentialsId: registryCredentialToken, url: registry]){
+                    /* withDockerRegistry([credentialsId: registryCredentialToken, url: registry]){
+                        docker.image(imageName).push("${env.BUILD_NUMBER}")
+                        docker.image(imageName).push('latest')
+                    } */
+                     withDockerRegistry([credentialsId: registryCredential, url: registry]){
                         docker.image(imageName).push("${env.BUILD_NUMBER}")
                         docker.image(imageName).push('latest')
                     }
