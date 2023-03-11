@@ -98,10 +98,11 @@ pipeline{
         stage('Push'){
             steps{
                 script{
-                    docker.withRegistry(nexusUrl, nexusCredential){
-                        docker.image(localImageName).inside{
-                            sh 'echo $token | docker login -u $registryUsername --password-stdin $registry'
-                            sh 'docker push $registryUsername/$localImageName'
+                    withCredentials([usernamePassword(credentialsId: registryCredential, usernameVariable: 'NEXUS_CREDS_USR', passwordVariable: 'NEXUS_CREDS_PSW')]){
+                       docker.withRegistry(registry, registryCredential){
+                            sh 'docker login -u $NEXUS_CREDS_USR -p $NEXUS_CREDS_PSW'
+                            docker.image(imageName).push("${env.BUILD_NUMBER}")
+                            docker.image(imageName).push('latest')
                         }
                     }
                 }
