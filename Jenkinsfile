@@ -76,6 +76,7 @@ pipeline{
                 script{
                     docker.withRegistry('', registryCredential){
                         docker.image("${localImage}").inside{
+                            sh 'docker build -t ${imageName}:${env.BUILD_NUMBER} .'
                             sh 'docker push ${imageName}:${env.BUILD_NUMBER}'
                             sh 'docker push ${imageName}:latest'
                         }
