@@ -76,8 +76,8 @@ pipeline{
                 script{
                     withCredentials([usernamePassword(credentialsId: registryCredential, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
                         sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin $registry'
-                        sh 'docker tag thetiptop ebenbrah/thetiptop:${env.BUILD_NUMBER}'
-                        sh 'docker push ebenbrah/thetiptop:${env.BUILD_NUMBER}'
+                        sh 'docker tag thetiptop ebenbrah/thetiptop:latest'
+                        sh 'docker push ebenbrah/thetiptop:latest'
                     }
                 }
             }
