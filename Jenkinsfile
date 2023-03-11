@@ -75,9 +75,9 @@ pipeline{
             steps{
                 script{
                     withCredentials([usernamePassword(credentialsId: registryCredential, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
-                        sh 'docker login -u $USERNAME -p $PASSWORD'
-                        sh 'docker tag $localImage $imageName:${env.BUILD_NUMBER}'
-                        sh 'docker push $imageName:${env.BUILD_NUMBER}'
+                        sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin $registry'
+                        sh 'docker tag thetiptop ebenbrah/thetiptop:${env.BUILD_NUMBER}'
+                        sh 'docker push ebenbrah/thetiptop:${env.BUILD_NUMBER}'
                     }
                 }
             }
