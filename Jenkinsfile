@@ -2,7 +2,7 @@ pipeline{
     agent any
     environment{
         imageName = 'ebenbrah/thetiptop'
-        localImageName = 'web'
+        localImageName = 'web:local'
         registryUsername= 'ebenbrah'
         registryCredential = 'dockerhubuser'
         registryCredentialToken = 'dockerhubtoken'
@@ -68,19 +68,13 @@ pipeline{
                 }
             }
         }
-
-        stage('Tag') {
-            steps {
-                sh 'docker tag ${imageName} ${imageName}:$BUILD_NUMBER'
-            }
-        }
     
         stage('Push'){
             steps{
                 script{
                     withCredentials([string(credentialsId: registryCredentialToken, variable: 'token')]){
                         sh 'echo $token | docker login -u $registryUsername --password-stdin $registry'
-                        sh 'docker tag ${imageName} ${imageName}:${env.BUILD_NUMBER}'
+                        sh 'docker tag ${localImageName} ${imageName}:${env.BUILD_NUMBER}'
                         sh 'docker push ${imageName}:${env.BUILD_NUMBER}'
                         sh 'docker push ${imageName}:latest'
                     }
