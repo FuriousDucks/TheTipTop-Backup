@@ -94,6 +94,18 @@ pipeline{
             }
         } */
 
+        stage('Build'){
+            steps{
+                script{
+                    docker.withRegistry(registry, registryCredential){
+                        docker.image(imageName).inside{
+                            sh 'docker build -t $imageName .'
+                        }
+                    }
+                }
+            }
+        }
+
         stage('Push to Nexus'){
             steps{
                 script{
