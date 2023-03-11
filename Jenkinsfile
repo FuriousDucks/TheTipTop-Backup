@@ -101,8 +101,8 @@ pipeline{
                             docker.image(localImageName).inside{
                                 sh 'docker login -u $NEXUS_CREDS_USR -p $NEXUS_CREDS_PSW $nexusUrl'
                                 sh 'docker build -t $localImageName .'
-                                sh 'docker tag $localImageName:local $registryUsername/$localImageName:${env.BUILD_NUMBER}'
-                                sh 'docker push $registryUsername/$localImageName'
+                                sh 'docker tag $localImageName:local $registryUsername/$imageName:${env.BUILD_NUMBER}'
+                                sh 'docker push $registryUsername/$imageName'
                             }
                         }
                     }
