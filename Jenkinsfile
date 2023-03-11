@@ -60,12 +60,10 @@ pipeline{
         stage('SonarQube'){
             steps{
                 script{
-                    withSonarQubeEnv(installationName: 'SonarQube'){
+                    withSonarQubeEnv('SonarQube'){
                         sh '${SCANNER_HOME}/bin/sonar-scanner \
                         -D sonar.projectKey=TheTipTop \
-                        -D sonar.sources=. \
-                        -D sonar.host.url=${env.SONAR_HOST_URL} \
-                        -D sonar.login=${env.SONAR_LOGIN}'
+                        -D sonar.sources=.'
                     }
                 }
             }
