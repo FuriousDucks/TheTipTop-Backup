@@ -72,7 +72,7 @@ pipeline{
         stage('Build') {
             steps {
                 script {
-                    docker.build("${imageName}:latest", "-f Dockerfile ./php")
+                    sh 'docker build -t ${imageName} ./php'
                 }
             }
         }
