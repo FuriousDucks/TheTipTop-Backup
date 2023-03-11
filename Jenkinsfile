@@ -70,6 +70,16 @@ pipeline{
             }
         }
 
+        stage('Build'){
+            steps{
+                script{
+                    docker.withRegistry('', registryCredential){
+                        dockerImage = docker.build("thetiptop:${env.BUILD_NUMBER}")
+                    }
+                }
+            }
+        }
+
         stage('Push'){
             steps{
                 script{
