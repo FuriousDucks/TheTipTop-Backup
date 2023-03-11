@@ -70,20 +70,15 @@ pipeline{
             }
         }
 
-        stage('Build') {
-             steps{
-                script {
-                    dockerImage = docker.build "thetiptop:${env.BUILD_NUMBER}"
-                }
-            }
-        }
-
         stage('Push'){
             steps{
                 script{
                     docker.withRegistry('', registryCredential){
-                        sh 'docker tag thetiptop:local ${imageName}:${env.BUILD_NUMBER}'
-                        dockerImage.push()
+                        docker.image("${imageName}").inside{
+                            sh 'docker build -t thetiptop .'
+                            sh 'docker push ${imageName}:${env.BUILD_NUMBER}'
+                            sh 'docker push ${imageName}:latest'
+                        }
                     }
                 }
             }
