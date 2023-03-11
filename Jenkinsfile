@@ -9,7 +9,6 @@ pipeline{
         SCANNER_HOME = tool 'sonar-scanner'
         nexusUrl = 'http://46.101.35.94:8082'
         nexusCredential = 'nexus'
-        dockerImage = ''
     }
     
     options{
@@ -98,12 +97,9 @@ pipeline{
         stage('Push'){
             steps{
                 script{
-                    withCredentials([usernamePassword(credentialsId: nexusCredential, usernameVariable: 'NEXUS_CREDS_USR', passwordVariable: 'NEXUS_CREDS_PSW')]){
-                       docker.withRegistry(nexusUrl, nexusCredential){
-                            sh 'docker login -u $NEXUS_CREDS_USR -p $NEXUS_CREDS_PSW'
-                            docker.image(imageName).push("${env.BUILD_NUMBER}")
-                            docker.image(imageName).push('latest')
-                        }
+                    docker.withRegistry(nexusUrl, nexusCredential) {
+                        docker.image(imageName).push("${env.BUILD_NUMBER}")
+                        docker.image(imageName).push("latest")
                     }
                 }
             }
