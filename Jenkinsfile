@@ -1,7 +1,7 @@
 pipeline{
     agent any
     environment{
-        imageName = 'ebenbrah/thetiptop'
+        imageName = 'thetiptop'
         localImageName = 'web'
         registryUsername= 'ebenbrah'
         registryCredential = 'dockerhubuser'
@@ -96,15 +96,9 @@ pipeline{
         stage('Push to Nexus'){
             steps{
                 script{
-                    withCredentials([usernamePassword(credentialsId: nexusCredential, usernameVariable: 'NEXUS_CREDS_USR', passwordVariable: 'NEXUS_CREDS_PSW')]){
-                        docker.withRegistry(nexusUrl, nexusCredential){
-                            docker.image(localImageName).inside{
-                                sh 'docker login -u $NEXUS_CREDS_USR -p $NEXUS_CREDS_PSW $nexusUrl'
-                                sh 'docker build -t $localImageName .'
-                                sh 'docker tag $localImageName:local $registryUsername/$imageName:${env.BUILD_NUMBER}'
-                                sh 'docker push $registryUsername/$imageName'
-                            }
-                        }
+                    docker.withRegistry(nexusUrl, nexusCredential){
+                        docker.image(imageName).push(${env.BUILD_NUMBER})
+                        docker.image(imageName).push('latest')
                     }
                 }
             }
