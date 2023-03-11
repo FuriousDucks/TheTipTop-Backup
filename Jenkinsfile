@@ -97,11 +97,13 @@ pipeline{
             steps{
                 script{
                     withCredentials([usernamePassword(credentialsId: nexusCredential, usernameVariable: 'NEXUS_CREDS_USR', passwordVariable: 'NEXUS_CREDS_PSW')]){
-                        sh 'docker build -t $localImageName .'
-                        sh 'docker tag $localImageName:local $registryUsername/$localImageName:${env.BUILD_NUMBER}'
-                        sh 'docker tag $localImageName:local $registryUsername/$localImageName:latest'
-                        sh 'docker login -u $NEXUS_CREDS_USR -p $NEXUS_CREDS_PSW $nexusUrl'
-                        sh 'docker push $nexusUrl/repository/docker/$localImageName'
+                        docker.withRegistry(nexusUrl, nexusCredential){
+                            docker.image(localImageName).inside{
+                                sh 'docker build -t $localImageName .'
+                                sh 'docker tag $localImageName:local $registryUsername/$localImageName:${env.BUILD_NUMBER}'
+                                sh 'docker push $registryUsername/$localImageName'
+                            }
+                        }
                     }
                 }
             }
