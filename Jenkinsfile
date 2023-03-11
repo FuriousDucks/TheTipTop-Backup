@@ -2,7 +2,6 @@ pipeline{
     agent any
     environment{
         imageName = 'ebenbrah/thetiptop'
-        registryUsername= 'ebenbrah'
         registryCredential = 'dockerhubuser'
         registryCredentialToken = 'dockerhubtoken'
         registry = 'https://index.docker.io/v1/'
@@ -42,11 +41,11 @@ pipeline{
         stage('Test'){
             steps{
                 script{
-                    sh 'docker exec -t ${imageName} composer require --dev symfony/test-pack symfony/panther dbrekelmans/bdi --no-interaction --no-progress'
-                    sh 'docker exec -t ${imageName} vendor/bin/simple-phpunit --coverage-html=coverage --coverage-clover=coverage.xml'
-                    sh 'docker exec -t ${imageName} vendor/bin/simple-phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
+                    sh 'docker exec -t web composer require --dev symfony/test-pack symfony/panther dbrekelmans/bdi --no-interaction --no-progress'
+                    sh 'docker exec -t web vendor/bin/simple-phpunit --coverage-html=coverage --coverage-clover=coverage.xml'
+                    sh 'docker exec -t web vendor/bin/simple-phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
                     sh 'mkdir -p test-results'
-                    sh 'docker cp ${imageName}:/var/www/html/thetiptop/storage ${WORKSPACE}'
+                    sh 'docker cp web:/var/www/html/thetiptop/storage ${WORKSPACE}'
                 }
             }
             post{
@@ -73,22 +72,6 @@ pipeline{
         stage('Push'){
             steps{
                 script{
-                    /* withCredentials([usernamePassword(credentialsId: registryCredential, usernameVariable: 'DOCKERHUB_CREDS_USR', passwordVariable: 'DOCKERHUB_CREDS_PSW')]){
-                        // sh 'echo $token | docker login -u $registryUsername --password-stdin $registry'
-                        docker.withRegistry(registry, registryCredential){
-                            docker.image(imageName).inside{
-                                sh 'docker build -t $imageName .'
-                                sh 'docker tag $imageName:local $registryUsername/$imageName:${env.BUILD_NUMBER}'
-                                sh 'docker push $registryUsername/$imageName'
-                            }
-                        }
-                    } */
-
-
-                    /* withDockerRegistry([credentialsId: registryCredential, url: registry]){
-                        docker.image(imageName).push("${env.BUILD_NUMBER}")
-                        docker.image(imageName).push('latest')
-                    } */
                     docker.withRegistry(registry, registryCredential){
                         docker.image(imageName).push("${env.BUILD_NUMBER}")
                         docker.image(imageName).push('latest')
