@@ -93,7 +93,7 @@ pipeline{
             }
         } */
 
-        stage('Push to Nexus'){
+        stage('Push'){
             steps{
                 script{
                     docker.withRegistry(nexusUrl, nexusCredential){
