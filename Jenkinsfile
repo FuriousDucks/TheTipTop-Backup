@@ -74,7 +74,7 @@ pipeline{
         stage('Build'){
             steps{
                 script{
-                    docker.withRegistry(registry, registryCredentialToken){
+                    docker.withRegistry(registry, registryCredential){
                         docker.image(imageName).inside{
                             dockerImage = docker.build(imageName + ":${env.BUILD_NUMBER}")
                         }
