@@ -73,7 +73,7 @@ pipeline{
         stage('Build') {
              steps{
                 script {
-                    dockerImage = docker.build imageName + ":${env.BUILD_NUMBER}"
+                    dockerImage = docker.build "thetiptop:${env.BUILD_NUMBER}"
                 }
             }
         }
