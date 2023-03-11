@@ -8,6 +8,8 @@ pipeline{
         registryCredentialToken = 'dockerhubtoken'
         registry = 'https://index.docker.io/v1/'
         SCANNER_HOME = tool 'sonar-scanner'
+        nexusUrl = 'http://46.101.35.94:8082'
+        nexusCredential = 'nexus'
     }
     
     options{
@@ -69,10 +71,10 @@ pipeline{
             }
         }
 
-        stage('Push'){
+        /* stage('Push'){
             steps{
                 script{
-                    /* withCredentials([usernamePassword(credentialsId: registryCredential, usernameVariable: 'DOCKERHUB_CREDS_USR', passwordVariable: 'DOCKERHUB_CREDS_PSW')]){
+                    withCredentials([usernamePassword(credentialsId: registryCredential, usernameVariable: 'DOCKERHUB_CREDS_USR', passwordVariable: 'DOCKERHUB_CREDS_PSW')]){
                         // sh 'echo $token | docker login -u $registryUsername --password-stdin $registry'
                         docker.withRegistry(registry, registryCredential){
                             docker.image(localImageName).inside{
@@ -81,21 +83,28 @@ pipeline{
                                 sh 'docker push $registryUsername/$localImageName'
                             }
                         }
-                    } */
-                    
+                    }
+
                     withDockerRegistry([credentialsId: registryCredentialToken, url: registry]){
                         sh 'docker build -t $registryUsername/$localImageName:lastest .'
                         sh 'docker push $registryUsername/$localImageName'
                     }
                 }
             }
-            /* post{
-                always{
-                    script{
-                        sh 'docker logout'
+        } */
+
+        stage('Push to Nexus'){
+            steps{
+                script{
+                    withCredentials([usernamePassword(credentialsId: nexusCredential, usernameVariable: 'NEXUS_CREDS_USR', passwordVariable: 'NEXUS_CREDS_PSW')]){
+                        sh 'docker build -t $localImageName .'
+                        sh 'docker tag $localImageName:local $registryUsername/$localImageName:${env.BUILD_NUMBER}'
+                        sh 'docker tag $localImageName:local $registryUsername/$localImageName:latest'
+                        sh 'docker login -u $NEXUS_CREDS_USR -p $NEXUS_CREDS_PSW $nexusUrl'
+                        sh 'docker push $nexusUrl/repository/docker/$localImageName'
                     }
                 }
-            } */
+            }
         }
 
         stage('Deploy prod'){
