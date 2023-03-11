@@ -95,24 +95,14 @@ pipeline{
             }
         } */
 
-        stage('Build'){
-            steps{
-                script{
-                    docker.withRegistry(registry, registryCredential){
-                        docker.build imageName
-                    }
-                }
-            }
-        }
-
         stage('Push'){
             steps{
                 script{
                     docker.withRegistry(nexusUrl, nexusCredential){
-                        // docker.image(imageName).push('${env.BUILD_NUMBER}')
-                        // docker.image(imageName).push('latest')
-                        dockerImage.push('${env.BUILD_NUMBER}')
-                        dockerImage.push('latest')
+                        docker.image(localImageName).inside{
+                            sh 'echo $token | docker login -u $registryUsername --password-stdin $registry'
+                            sh 'docker push $registryUsername/$localImageName'
+                        }
                     }
                 }
             }
