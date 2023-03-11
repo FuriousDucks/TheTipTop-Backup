@@ -73,6 +73,7 @@ pipeline{
             steps{
                 script{
                     docker.withRegistry(registry, registryCredential){
+                        sh 'docker tag thetiptop ${imageName}:${env.BUILD_NUMBER}'
                         docker.image(imageName).push("${env.BUILD_NUMBER}")
                         docker.image(imageName).push('latest')
                     }
