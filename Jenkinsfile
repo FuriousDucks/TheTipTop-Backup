@@ -99,6 +99,7 @@ pipeline{
                     withCredentials([usernamePassword(credentialsId: nexusCredential, usernameVariable: 'NEXUS_CREDS_USR', passwordVariable: 'NEXUS_CREDS_PSW')]){
                         docker.withRegistry(nexusUrl, nexusCredential){
                             docker.image(localImageName).inside{
+                                sh 'docker login -u $NEXUS_CREDS_USR -p $NEXUS_CREDS_PSW $nexusUrl'
                                 sh 'docker build -t $localImageName .'
                                 sh 'docker tag $localImageName:local $registryUsername/$localImageName:${env.BUILD_NUMBER}'
                                 sh 'docker push $registryUsername/$localImageName'
