@@ -63,7 +63,9 @@ pipeline{
                     withSonarQubeEnv('SonarQube'){
                         sh '${SCANNER_HOME}/bin/sonar-scanner \
                         -D sonar.projectKey=TheTipTop \
-                        -D sonar.sources=.'
+                        -D sonar.sources=. \
+                        -D sonar.php.coverage.reportPaths=storage/logs/coverage.xml \
+                        -D sonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml'
                     }
                 }
             }
