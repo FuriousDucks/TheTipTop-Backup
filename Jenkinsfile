@@ -74,10 +74,9 @@ pipeline{
         stage('Push'){
             steps{
                 script{
-                    withCredentials([usernamePassword(credentialsId: registryCredential, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
-                        sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin $registry'
-                        sh 'docker tag ${localImage}:local ${imageName}:latest'                        
-                        sh 'docker push ${imageName}:latest'
+                   docker.withRegistry('', registryCredential){
+                        docker.image(imageName).push("$BUILD_NUMBER")
+                        docker.image(imageName).push('latest')
                     }
                 }
             }
