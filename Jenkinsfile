@@ -5,7 +5,6 @@ pipeline{
         LOCAL_IMAGE = 'furiousduck_thetiptop_develop2-www'
         registryCredential = 'dockerhubuser'
         SCANNER_HOME = tool 'sonar-scanner'
-        SCANNER_HOME = tool 'sonar-scanner'
     }
     
     options{
