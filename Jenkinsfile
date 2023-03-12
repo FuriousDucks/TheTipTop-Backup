@@ -4,10 +4,8 @@ pipeline{
         IMAGE_NAME = 'ebenbrah/thetiptop'
         LOCAL_IMAGE = 'furiousduck_thetiptop_develop2-www'
         registryCredential = 'dockerhubuser'
-        registryCredentialToken = 'dockerhubtoken'
-        registry = 'https://index.docker.io/v1/'
         SCANNER_HOME = tool 'sonar-scanner'
-        dockerImage = ''
+        SCANNER_HOME = tool 'sonar-scanner'
     }
     
     options{
@@ -88,7 +86,7 @@ pipeline{
             steps{
                 /* script{
                     sshagent(['ssh-key']){
-                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@prod "docker pull thetiptop"'
+                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@prod "docker pull ebenbrah/thetiptop:latest"'
                         sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@prod "docker stop thetiptop"'
                         sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@prod "docker rm thetiptop"'
                         sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@prod "docker run -d -p 80:80 --name thetiptop thetiptop"'
