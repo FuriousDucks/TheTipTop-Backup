@@ -82,7 +82,7 @@ pipeline{
             }
         }
 
-        stage('Deploy prod'){
+        stage('Deploy'){
             steps{
                 /* script{
                     sshagent(['ssh-key']){
