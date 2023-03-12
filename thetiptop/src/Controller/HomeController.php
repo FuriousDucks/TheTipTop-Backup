@@ -13,6 +13,7 @@ class HomeController extends AbstractController
     {
         return $this->render('pages/home.html.twig', [
             'controller_name' => 'HomeController',
+            'title' => 'Accueil',
         ]);
     }
 }

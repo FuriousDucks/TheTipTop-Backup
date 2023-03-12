@@ -1,3 +1,12 @@
+@import "~bootstrap/scss/bootstrap";
+@import "bootstrap";
+@import "./home.scss";
+
+html,
 body {
-    background-color: lightgray;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
 }
