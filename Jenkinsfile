@@ -7,9 +7,9 @@ pipeline{
         SCANNER_HOME = tool 'sonar-scanner'
     }
     
-    options{
+    /* options{
         buildDiscarder(logRotator(numToKeepStr: '5'))
-    }
+    } */
 
     stages{
         stage('Checkout'){
