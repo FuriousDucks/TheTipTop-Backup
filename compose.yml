@@ -43,6 +43,13 @@ services:
       - SESSION_DRIVER=file
       - SESSION_LIFETIME=120
       - DATABASE_URL=mysql://root:root@mysql:3306/thetiptop
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.www.rule=Host(`dsp-archiwebf22-eb-we-fh.fr`)
+      - traefik.http.routers.www.entrypoints=websecure
+      - traefik.http.routers.www.tls=true
+      - traefik.http.routers.www.tls.certresolver=letsencrypt
+      - traefik.http.services.www.loadbalancer.server.port=8000
     env_file:
       - .env
     depends_on:
