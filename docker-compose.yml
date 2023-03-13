@@ -31,7 +31,7 @@ services:
     environment:
       - APP_ENV=dev
       - APP_DEBUG=true
-      - APP_URL=http://dsp-archiwebf22-eb-we-fh.fr/
+      - APP_URL=https://dsp-archiwebf22-eb-we-fh.fr/
       - DB_CONNECTION=mysql
       - DB_HOST=mysql
       - DB_PORT=3306
@@ -60,4 +60,5 @@ services:
 
 networks:
   dev:
+    name: dev
     driver: bridge
