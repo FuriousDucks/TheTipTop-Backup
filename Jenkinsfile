@@ -2,7 +2,7 @@ pipeline{
     agent any
     environment{
         IMAGE_NAME = 'ebenbrah/thetiptop'
-        LOCAL_IMAGE = 'thetiptop'
+        LOCAL_IMAGE = 'thetiptop-thetiptop'
         registryCredential = 'dockerhubuser'
         SCANNER_HOME = tool 'sonar-scanner'
     }
@@ -29,24 +29,6 @@ pipeline{
             }
         }
 
-        stage('Push to DockerHub'){
-            steps{
-                script{
-                   docker.withRegistry('', registryCredential){
-                        sh 'docker tag ${LOCAL_IMAGE} ${IMAGE_NAME}:$BUILD_NUMBER'
-                        sh 'docker push ${IMAGE_NAME}:$BUILD_NUMBER'
-                        sh 'docker tag ${LOCAL_IMAGE} ${IMAGE_NAME}:latest'
-                        sh 'docker push ${IMAGE_NAME}:latest'
-                    }
-                }
-            }
-            post{
-                always{
-                    sh 'docker logout'
-                }
-            }
-        }
-        
         stage('Start'){
             steps{
                 script{
@@ -82,6 +64,24 @@ pipeline{
                         -D sonar.php.coverage.reportPaths=storage/logs/coverage.xml \
                         -D sonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml'
                     }
+                }
+            }
+        }
+
+        stage('Push to DockerHub'){
+            steps{
+                script{
+                   docker.withRegistry('', registryCredential){
+                        sh 'docker tag ${LOCAL_IMAGE} ${IMAGE_NAME}:$BUILD_NUMBER'
+                        sh 'docker push ${IMAGE_NAME}:$BUILD_NUMBER'
+                        sh 'docker tag ${LOCAL_IMAGE} ${IMAGE_NAME}:latest'
+                        sh 'docker push ${IMAGE_NAME}:latest'
+                    }
+                }
+            }
+            post{
+                always{
+                    sh 'docker logout'
                 }
             }
         }
