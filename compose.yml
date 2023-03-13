@@ -16,7 +16,6 @@ services:
     build:
       context: .
       dockerfile: ./php/Dockerfile
-    image: thetiptop
     container_name: thetiptop
     restart: unless-stopped
     ports:
