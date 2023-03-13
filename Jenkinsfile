@@ -70,7 +70,7 @@ pipeline{
             }
         }
 
-        stage('Push to DockerHub'){
+        stage('Push'){
             steps{
                 script{
                    docker.withRegistry('', registryCredential){
