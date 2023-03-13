@@ -20,7 +20,7 @@ services:
     container_name: web_thetiptop
     restart: unless-stopped
     ports:
-      - "80:80"
+      - "8000:80"
     command:
       [
         "/wait-for-it.sh",
@@ -50,7 +50,7 @@ services:
       - traefik.http.routers.www.entrypoints=websecure
       - traefik.http.routers.www.tls=true
       - traefik.http.routers.www.tls.certresolver=letsencrypt
-      - traefik.http.services.www.loadbalancer.server.port=80
+      - traefik.http.services.www.loadbalancer.server.port=8000
     env_file:
       - .env
     depends_on:
