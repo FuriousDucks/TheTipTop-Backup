@@ -2,7 +2,7 @@ pipeline{
     agent any
     environment{
         IMAGE_NAME = 'ebenbrah/thetiptop'
-        LOCAL_IMAGE = 'thetiptop-thetiptop'
+        LOCAL_IMAGE = 'thetiptop'
         registryCredential = 'dockerhubuser'
         SCANNER_HOME = tool 'sonar-scanner'
     }
