@@ -2,14 +2,14 @@ pipeline{
     agent any
     environment{
         IMAGE_NAME = 'ebenbrah/thetiptop'
-        LOCAL_IMAGE = 'furiousduck_thetiptop_develop2-www'
+        LOCAL_IMAGE = 'furiousduck_thetiptop_develop-www'
         registryCredential = 'dockerhubuser'
         SCANNER_HOME = tool 'sonar-scanner'
     }
     
-    /* options{
+    options{
         buildDiscarder(logRotator(numToKeepStr: '5'))
-    } */
+    }
 
     stages{
         stage('Checkout'){
