@@ -46,7 +46,7 @@ pipeline{
                     sh 'docker exec -t web_thetiptop vendor/bin/simple-phpunit --coverage-html=coverage --coverage-clover=coverage.xml'
                     sh 'docker exec -t web_thetiptop vendor/bin/simple-phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
                     sh 'mkdir -p test-results'
-                    sh 'docker cp thetiptop:/var/www/html/thetiptop/storage ${WORKSPACE}'
+                    sh 'docker cp web_thetiptop:/var/www/html/thetiptop/storage ${WORKSPACE}'
                 }
             }
             post{
