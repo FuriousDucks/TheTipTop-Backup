@@ -42,9 +42,9 @@ pipeline{
         stage('Test'){
             steps{
                 script{
-                    sh 'docker exec -t thetiptop composer require --dev symfony/test-pack symfony/panther dbrekelmans/bdi --no-interaction --no-progress'
-                    sh 'docker exec -t thetiptop vendor/bin/simple-phpunit --coverage-html=coverage --coverage-clover=coverage.xml'
-                    sh 'docker exec -t thetiptop vendor/bin/simple-phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
+                    sh 'docker exec -t web_thetiptop composer require --dev symfony/test-pack symfony/panther dbrekelmans/bdi --no-interaction --no-progress'
+                    sh 'docker exec -t web_thetiptop vendor/bin/simple-phpunit --coverage-html=coverage --coverage-clover=coverage.xml'
+                    sh 'docker exec -t web_thetiptop vendor/bin/simple-phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
                     sh 'mkdir -p test-results'
                     sh 'docker cp thetiptop:/var/www/html/thetiptop/storage ${WORKSPACE}'
                 }

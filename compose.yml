@@ -12,11 +12,12 @@ services:
       - MYSQL_DATABASE=mysql
     networks:
       - dev
-  thetiptop:
+  web:
     build:
       context: .
       dockerfile: ./php/Dockerfile
-    container_name: thetiptop
+    image: thetiptop
+    container_name: web_thetiptop
     restart: unless-stopped
     ports:
       - "8000:80"
