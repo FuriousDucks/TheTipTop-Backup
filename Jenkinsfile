@@ -24,10 +24,8 @@ pipeline{
             steps{
                 script{
                     // sh 'docker compose -f docker-compose.yml down -v'
-                        sh 'docker ps | grep ${CONTAINER_NAME} -v | awk -F " " \'{ if(NR>1) print $1}\' | xargs docker kill || true'
-                        sh 'docker ps -a | grep ${CONTAINER_NAME} -v | awk -F " " \'{ if(NR>1) print $1}\' | xargs docker rm || true'
+                    sh 'docker stop ${CONTAINER_NAME} || true && docker rm ${CONTAINER_NAME} || true'
                     sh 'docker system prune -af --volumes'
-                    // sh 'docker compose down'
                 }
             }
         }
