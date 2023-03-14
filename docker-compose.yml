@@ -11,7 +11,7 @@ services:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=mysql
     networks:
-      - web
+      - dev
   web:
     build:
       context: .
@@ -56,12 +56,8 @@ services:
     depends_on:
       - mysql
     networks:
-      - web
       - dev
 
 networks:
-  web:
-    driver: bridge
   dev:
-    name: dev
     external: true
