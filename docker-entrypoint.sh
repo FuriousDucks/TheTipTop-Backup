@@ -1,3 +1,4 @@
+chmod -R 777 ./public/*
 composer install --no-interaction
 yarn install
 yarn build
