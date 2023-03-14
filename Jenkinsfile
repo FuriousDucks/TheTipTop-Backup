@@ -3,6 +3,7 @@ pipeline{
     environment{
         IMAGE_NAME = 'ebenbrah/thetiptop'
         LOCAL_IMAGE = 'thetiptop'
+        CONTAINER_NAME = 'web_thetiptop'
         registryCredential = 'dockerhubuser'
         SCANNER_HOME = tool 'sonar-scanner'
     }
@@ -23,6 +24,8 @@ pipeline{
             steps{
                 script{
                     sh 'docker compose -f docker-compose.yml down -v'
+                    // stop a container with his name
+                    sh 'docker stop ${CONTAINER_NAME}'
                     sh 'docker system prune -af --volumes'
                     // sh 'docker compose down'
                 }
@@ -32,7 +35,8 @@ pipeline{
         stage('Start'){
             steps{
                 script{
-                    sh 'docker compose up -d' 
+                    // sh 'docker compose up -d'
+                    sh 'docker start ${CONTAINER_NAME}'
                 }
             }
         }
@@ -40,11 +44,11 @@ pipeline{
         stage('Test'){
             steps{
                 script{
-                    sh 'docker exec -t web_thetiptop composer require --dev symfony/test-pack symfony/panther dbrekelmans/bdi --no-interaction --no-progress'
-                    sh 'docker exec -t web_thetiptop vendor/bin/simple-phpunit --coverage-html=coverage --coverage-clover=coverage.xml'
-                    sh 'docker exec -t web_thetiptop vendor/bin/simple-phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
+                    sh 'docker exec -t ${CONTAINER_NAME} composer require --dev symfony/test-pack symfony/panther dbrekelmans/bdi --no-interaction --no-progress'
+                    sh 'docker exec -t ${CONTAINER_NAME} vendor/bin/simple-phpunit --coverage-html=coverage --coverage-clover=coverage.xml'
+                    sh 'docker exec -t ${CONTAINER_NAME} vendor/bin/simple-phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
                     sh 'mkdir -p test-results'
-                    sh 'docker cp web_thetiptop:/var/www/html/thetiptop/storage ${WORKSPACE}'
+                    sh 'docker cp ${CONTAINER_NAME}:/var/www/html/thetiptop/storage ${WORKSPACE}'
                 }
             }
             post{
