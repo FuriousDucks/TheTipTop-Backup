@@ -22,8 +22,6 @@ pipeline{
         stage('Clean'){
             steps{
                 script{
-                    sh 'pwd'
-                    sh 'ls -la'
                     sh 'docker compose -f docker-compose.yml down -v'
                     sh 'docker system prune -af --volumes'
                     // sh 'docker compose down'
