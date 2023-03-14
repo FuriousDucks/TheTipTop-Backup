@@ -19,7 +19,6 @@ RUN apt-get update && apt-get install -y \
 
 RUN  curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# RUN apt install --no-cache nodejs npm
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - \
     && apt-get install -y nodejs
 
@@ -52,6 +51,8 @@ WORKDIR /var/www/html/thetiptop
 COPY ./wait-for-it.sh /wait-for-it.sh
 
 RUN chmod +x /wait-for-it.sh
+
+RUN echo "memory_limit=-1" > $PHP_INI_DIR/conf.d/php.ini
 
 # RUN npm install --force && \
 #     npm run build

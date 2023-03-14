@@ -1,0 +1,61 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8.0.23
+    container_name: mysql
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=mysql
+    networks:
+      - dev
+  web:
+    build:
+      context: .
+      dockerfile: ./php/Dockerfile
+    image: thetiptop
+    container_name: web_thetiptop
+    restart: unless-stopped
+    command:
+      [
+        "/wait-for-it.sh",
+        "mysql:3306",
+        "--",
+        "/docker-entrypoint.sh"
+      ]
+    environment:
+      - APP_ENV=dev
+      - APP_DEBUG=true
+      - APP_URL=https://dsp-archiwebf22-eb-we-fh.fr/
+      - DB_CONNECTION=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=mysql
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+      - BROADCAST_DRIVER=log
+      - CACHE_DRIVER=file
+      - QUEUE_CONNECTION=sync
+      - SESSION_DRIVER=file
+      - SESSION_LIFETIME=120
+      - DATABASE_URL=mysql://root:root@mysql:3306/thetiptop
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.web.rule=Host(`dsp-archiwebf22-eb-we-fh.fr`)
+      - traefik.http.routers.web.entrypoints=websecure
+      - traefik.http.routers.web.tls=true
+      - traefik.http.routers.web.tls.certresolver=letsencrypt
+      - traefik.http.services.web.loadbalancer.server.port=80
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+    networks:
+      - dev
+
+networks:
+  dev:
+    external: true

@@ -1,71 +1,67 @@
 pipeline{
     agent any
     environment{
-        imageName = 'thetiptop'
-        registryCredential = 'dockerhub'
-        registry = 'docker.io'
-        registryUrl = 'https://index.docker.io/v1/'
+        IMAGE_NAME = 'ebenbrah/thetiptop'
+        LOCAL_IMAGE = 'thetiptop'
+        CONTAINER_NAME = 'web_thetiptop'
+        registryCredential = 'dockerhubuser'
+        SCANNER_HOME = tool 'sonar-scanner'
     }
+    
     options{
         buildDiscarder(logRotator(numToKeepStr: '5'))
     }
+
     stages{
-        // checkout code from git
         stage('Checkout'){
             steps{
                 deleteDir()
                 checkout scm
             }
         }
-        // Remove all containers and volumes
+
         stage('Clean'){
             steps{
                 script{
-                    /* sh 'docker compose down -v'
-                    sh 'docker system prune -f --volumes' */
-                    echo 'Cleaned'
+                    // sh 'docker compose -f docker-compose.yml down -v'
+                    sh 'docker stop ${CONTAINER_NAME} || true && docker rm ${CONTAINER_NAME} || true'
+                    sh 'docker system prune -af --volumes'
                 }
             }
         }
-        // start docker container with docker compose file
+
         stage('Start'){
             steps{
                 script{
-                    // sh 'docker compose up -d'
-                    echo 'Started'
-                }
-            }
-        }
-        // run test cases phpunit
-        stage('Test'){
-            steps{
-                script{
-                    // install phpunit-bridge and browser-kit and css-selector
-                    sh 'docker exec -it web composer require symfony/phpunit-bridge symfony/browser-kit symfony/css-selector --dev'
-                    sh 'docker exec -it web vendor/bin/simple-phpunit --coverage-html=coverage --coverage-clover=coverage.xml'
-                    // run test cases phpunit and report couverage and phpunit-report to store test result
-                    sh 'docker exec -it web vendor/bin/simple-phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
-                    sh 'mkdir -p test-results'
-                    // copy test result to test-results directory
-                    sh 'docker cp www:/var/www/html/storage/logs/phpunit.junit.xml test-results'
-                }
-            }
-            // publish test result
-            post{
-                always{
-                    junit 'test-results/phpunit.junit.xml'
+                    sh 'docker compose up -d'
                 }
             }
         }
         
-        // Analyze code with SonarQube with couverage and phpunit-report
+        stage('Test'){
+            steps{
+                script{
+                    sh 'docker exec -t ${CONTAINER_NAME} composer require --dev symfony/test-pack symfony/panther dbrekelmans/bdi --no-interaction --no-progress'
+                    sh 'docker exec -t ${CONTAINER_NAME} vendor/bin/simple-phpunit --coverage-html=coverage --coverage-clover=coverage.xml'
+                    sh 'docker exec -t ${CONTAINER_NAME} vendor/bin/simple-phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
+                    sh 'mkdir -p test-results'
+                    sh 'docker cp ${CONTAINER_NAME}:/var/www/html/thetiptop/storage ${WORKSPACE}'
+                }
+            }
+            post{
+                always{
+                    junit 'storage/logs/*.xml'
+                }
+            }
+        }
+
         stage('SonarQube'){
             steps{
                 script{
-                    withSonarQubeEnv('sonarqube'){
-                        ssh '${tool(SonarQube)}/bin/sonar-scanner \
-                        -D sonar.projectKey=thetiptop \
-                        -D sonar.source=. \
+                    withSonarQubeEnv('SonarQube'){
+                        sh '${SCANNER_HOME}/bin/sonar-scanner \
+                        -D sonar.projectKey=TheTipTop \
+                        -D sonar.sources=. \
                         -D sonar.php.coverage.reportPaths=storage/logs/coverage.xml \
                         -D sonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml'
                     }
@@ -73,52 +69,52 @@ pipeline{
             }
         }
 
-        // build docker image
-        stage('Build'){
+        stage('Archive'){
             steps{
-               /*  script{
-                    docker.build(imageName)
-                } */
-                echo 'Built'
+                archiveArtifacts artifacts: 'storage/logs/*.xml', fingerprint: true
             }
         }
-
-        // push docker image to docker hub
+        
         stage('Push'){
             steps{
-                /* script{
-                    docker.withRegistry(registryUrl, registryCredential){
-                        docker.image(imageName).push()
+                script{
+                   docker.withRegistry('', registryCredential){
+                        sh 'docker tag ${LOCAL_IMAGE} ${IMAGE_NAME}:$BUILD_NUMBER'
+                        sh 'docker push ${IMAGE_NAME}:$BUILD_NUMBER'
+                        sh 'docker tag ${LOCAL_IMAGE} ${IMAGE_NAME}:latest'
+                        sh 'docker push ${IMAGE_NAME}:latest'
                     }
-                } */
-                echo 'Pushed'
+                }
+            }
+            post{
+                always{
+                    sh 'docker logout'
+                }
             }
         }
 
-        // deploy docker image to preprod server with ssh
         stage('Deploy'){
             steps{
                 /* script{
                     sshagent(['ssh-key']){
-                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@preprod "docker pull thetiptop"'
-                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@preprod "docker stop thetiptop"'
-                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@preprod "docker rm thetiptop"'
-                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@preprod "docker run -d -p 80:80 --name thetiptop thetiptop"'
+                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@prod "docker pull ebenbrah/thetiptop:latest"'
+                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@prod "docker stop thetiptop"'
+                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@prod "docker rm thetiptop"'
+                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@prod "docker run -d -p 80:80 --name thetiptop thetiptop"'
                     }
                 } */
-                echo 'Deployed'
+                echo 'Deploy prod'
             }
         }
 
-        // check status preprod server if it is running or not with ssh and notify by email if it is not running
         stage('Check'){
             steps{
                 /* script{
                     sshagent(['ssh-key']){
-                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@preprod "docker ps"'
+                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@prod "docker ps"'
                     }
                 } */
-                echo 'Checked'
+                echo 'Check'
             }
         }
     }
