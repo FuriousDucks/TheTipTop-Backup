@@ -11,7 +11,7 @@ services:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=mysql
     networks:
-      - dev
+      - web
   web:
     build:
       context: .
@@ -19,6 +19,8 @@ services:
     image: thetiptop
     container_name: web_thetiptop
     restart: unless-stopped
+    ports:
+      - 8000:8000
     command:
       [
         "/wait-for-it.sh",
@@ -54,10 +56,12 @@ services:
     depends_on:
       - mysql
     networks:
+      - web
       - dev
 
 networks:
+  web:
+    driver: bridge
   dev:
     name: dev
-    driver: bridge
     external: true
