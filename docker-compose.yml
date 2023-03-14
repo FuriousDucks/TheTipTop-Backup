@@ -19,8 +19,6 @@ services:
     image: thetiptop
     container_name: web_thetiptop
     restart: unless-stopped
-    ports:
-      - "8000:80"
     command:
       [
         "/wait-for-it.sh",
