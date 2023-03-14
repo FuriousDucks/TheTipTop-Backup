@@ -6,6 +6,8 @@ pipeline{
         CONTAINER_NAME = 'web_thetiptop'
         registryCredential = 'dockerhubuser'
         SCANNER_HOME = tool 'sonar-scanner'
+        SONNAR_TOKEN = credentials('sonar-token')
+        SONNAR_URL = 'https://sonarqube.dsp-archiwebf22-eb-we-fh.fr'
     }
     
     options{
@@ -63,7 +65,10 @@ pipeline{
                         -D sonar.projectKey=TheTipTop \
                         -D sonar.sources=. \
                         -D sonar.php.coverage.reportPaths=storage/logs/coverage.xml \
-                        -D sonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml'
+                        -D sonar.php.tests.reportPaths=storage/logs/phpunit.junit.xml \
+                        -D sonar.host.url=${SONNAR_URL} \
+                        -D sonar.login=${SONNAR_TOKEN} \
+                        -D sonar.projectName=TheTipTop'
                     }
                 }
             }
