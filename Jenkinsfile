@@ -69,6 +69,12 @@ pipeline{
             }
         }
 
+        stage('Archive'){
+            steps{
+                archiveArtifacts artifacts: 'storage/logs/*.xml', fingerprint: true
+            }
+        }
+        
         stage('Push'){
             steps{
                 script{
