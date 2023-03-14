@@ -24,8 +24,8 @@ pipeline{
             steps{
                 script{
                     // sh 'docker compose -f docker-compose.yml down -v'
-                    // stop a container with his name
-                    sh 'docker stop ${CONTAINER_NAME}'
+                    // stop a container with his name using awk
+                    sh 'docker ps -a | grep ${CONTAINER_NAME} | awk \'{print $1}\' | xargs docker kill'
                     sh 'docker system prune -af --volumes'
                     // sh 'docker compose down'
                 }
