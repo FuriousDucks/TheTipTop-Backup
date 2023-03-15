@@ -49,16 +49,16 @@ services:
       - traefik.http.routers.web.tls=true
       - traefik.http.routers.web.tls.certresolver=letsencrypt
       - traefik.http.services.web.loadbalancer.server.port=80
-      - "traefik.docker.network=traefik"
+      - traefik.docker.network=traefik
     env_file:
       - .env
     depends_on:
       - mysql
     networks:
       - dev
+      - traefik
 
 networks:
   dev:
   traefik:
-    name: "traefik"
     external: true
