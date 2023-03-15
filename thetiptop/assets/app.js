@@ -3,8 +3,16 @@ import './bootstrap';
 
 const $ = require('jquery');
 
-import * as bootstrap from 'bootstrap'
+import 'bootstrap'
 
-$(document).ready(function() {
-    
+import AOS from 'aos';
+
+import 'slick-carousel';
+
+import 'slick-carousel/slick/slick.css';
+
+import 'slick-carousel/slick/slick-theme.css';
+
+$(document).ready(function () {
+    AOS.init();
 });

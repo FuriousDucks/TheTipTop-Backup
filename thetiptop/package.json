@@ -2,6 +2,7 @@
     "devDependencies": {
         "@babel/core": "^7.17.0",
         "@babel/preset-env": "^7.16.0",
+        "@fortawesome/fontawesome-free": "^6.3.0",
         "@hotwired/stimulus": "^3.0.0",
         "@popperjs/core": "^2.11.6",
         "@symfony/stimulus-bridge": "^3.2.0",
@@ -30,11 +31,12 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "@fortawesome/fontawesome": "^1.1.8",
-        "@fortawesome/fontawesome-free": "^6.3.0",
+        "@fortawesome/fontawesome-svg-core": "^6.3.0",
+        "aos": "^2.3.4",
         "bootstrap": "^5.2.3",
         "css.gg": "^2.0.0",
         "jquery": "^3.6.4",
-        "scss": "^0.2.4"
+        "scss": "^0.2.4",
+        "slick-carousel": "^1.8.1"
     }
 }

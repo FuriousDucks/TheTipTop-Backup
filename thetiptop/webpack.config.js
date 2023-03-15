@@ -7,9 +7,8 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 Encore
     .setOutputPath('public/build/')
     .setPublicPath('/build')
-    // only needed for CDN's or subdirectory deploy
-    //.setManifestKeyPrefix('build/')
     .addEntry('app', './assets/app.js')
+    .addEntry('home', './assets/home.js')
     .addStyleEntry('css/app', './assets/styles/app.scss')
     .enableStimulusBridge('./assets/controllers.json')
     .splitEntryChunks()
@@ -31,7 +30,11 @@ Encore
     //.enableIntegrityHashes(Encore.isProduction())
 
     // uncomment if you're having problems with a jQuery plugin
-    //.autoProvidejQuery()
-;
+    .autoProvidejQuery()
+    .autoProvideVariables({
+        $: 'jquery',
+        jQuery: 'jquery',
+        'window.jQuery': 'jquery',
+    });
 
 module.exports = Encore.getWebpackConfig();

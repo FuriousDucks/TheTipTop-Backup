@@ -1,5 +1,11 @@
 @import "~bootstrap/scss/bootstrap";
 @import "bootstrap";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+
+// Pages
 @import "./home.scss";
 
 html,
@@ -9,4 +15,11 @@ body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+}
+
+
+.main-logo{
+    width: 50px;
+    height: 60px;
+    object-fit: cover;
 }

@@ -1,4 +1,7 @@
 #home{
+    section{
+        margin-top: 15px;
+    }
     #cover-section{
         background-image: url("../../public/images/home/green-tea.jpg");
         background-size: cover;
@@ -6,5 +9,21 @@
         background-repeat: no-repeat;
         height: 721px;
         width: 100vw;
+        .text-container{
+            opacity: 0.9;
+            border-radius: 30px;
+        }
+    }
+
+    #gifts-section{
+        .gifts{
+            .gift{
+                img{
+                    width: 100%;
+                    height: 200px;
+                    object-fit: contain;
+                }
+            }
+        }
     }
 }

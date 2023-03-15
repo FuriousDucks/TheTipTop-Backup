@@ -1,38 +1,134 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-Home
+Accueil
 {% endblock %}
 
 {% block body %}
 
-<section id="home">
-    <div id="cover-section" class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center d-flex align-items-center">
-        <div class="col-md-5 p-lg-5 mx-auto my-5 bg-light">
-            <h1 class="display-4 fw-normal">Punny headlinePunny headline</h1>
-            <p class="lead fw-normal">And an even wittier subheading to boot. Jumpstart your marketing efforts with this
-                example based on Apple’s marketing pages.</p>
-            <a class="btn btn-outline-secondary" href="#">Coming soon</a>
+<div id="home">
+    <section id="cover-section" class="row d-flex align-items-center">
+        <div data-aos="zoom-in-down"
+            class="aos-init col-11 col-md-9 col-lg-6 p-sm-4 p-md-5 mx-auto bg-light text-container">
+            <h1 class="text-center mb-4">Jeu concours Thé Tip Top</h1>
         </div>
-        <div class="product-device shadow-sm d-none d-md-block"></div>
-        <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
-    </div>
-    <div class="container my-5">
-        <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
+    </section>
+    <div class="container mt-5">
+        <section id="desc-section" class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
             <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
-                <h1 class="display-4 fw-bold lh-1">Border hero with cropped image and shadows</h1>
-                <p class="lead">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s
-                    most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid
-                    system, extensive prebuilt components, and powerful JavaScript plugins.</p>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
-                    <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Primary</button>
-                    <button type="button" class="btn btn-outline-secondary btn-lg px-4">Default</button>
-                </div>
+                <h2 class="display-4 fw-bold lh-1">Descriptif du jeu</h2>
+                <p class="lead">Le jeu concours <b>ThéTipTop</b> se déroule sur une durée de 30 jours et offre
+                    la
+                    distribution de 1 500 000 tickets. Pour être éligible à ce concours, il est nécessaire d'acheter des
+                    produits de thé d'une valeur minimale de 49 euros. À cet effet, un ticket de caisse comportant un
+                    code à
+                    10 chiffres sera automatiquement généré.
+                    À l'issue du jeu-concours, un tirage au sort sera effectué parmi tous les participants afin de
+                    déterminer le
+                    gagnant d'un an de thé d'une valeur de 360€
+                </p>
+                <p class="lead">
+                    Afin de participer au jeu-concours, veuillez vous inscrire en entrant votre numéro de ticket.
+                </p>
+                <p class="lead">Il est important de noter que ce jeu-concours est 100 % gagnant.</p>
+                <p class="lead">Attention : Pour le tirage au sort du gros lot, le nombre de participations
+                    d’un client n'augmente
+                    pas ses
+                    chances de gagner.</p>
             </div>
             <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden shadow-lg">
-                <img class="rounded-lg-3" src="bootstrap-docs.png" alt="" width="720">
+                <img class="rounded-lg-3" src="https://getbootstrap.com/docs/5.2/examples/heroes/bootstrap-docs.png" alt="" width="720">
             </div>
-        </div>
+        </section>
+
+        <section id="gifts-section" class="row d-flex align-content-center justify-content-center">
+            <h2 class="text-center">Exemples de cadeaux à gagner</h2>
+            <div class="gifts mt-4">
+                <div class="gift">
+                    <div class="card pt-3" style="width:18rem;">
+                        <img src="{{ asset('/images/home/infuseur_the.webp') }}" class="card-img-top"
+                            alt="infuseur thé">
+                        <div class="card-body">
+                            <h5 class="card-title">Infuseur thé</h5>
+                            <h6 class="card-subtitle mb-2 text-muted price">10&euro;</h6>
+                            <p class="card-text">L'infuseur est composé d'acier inoxydable de qualité alimentaire.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="gift">
+                    <div class="card pt-3" style="width:18rem;">
+                        <img src="{{ asset('/images/home/the_detox_100.jpg') }}" class="card-img-top"
+                            alt="infuseur thé">
+                        <div class="card-body">
+                            <h5 class="card-title">Thé détox</h5>
+                            <h6 class="card-subtitle mb-2 text-muted price">5.76&euro;</h6>
+                            <p class="card-text">Le thé détox est un mélange de thé vert et morceaux de fruits.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="gift">
+                    <div class="card pt-3" style="width:18rem;">
+                        <img src="{{ asset('/images/home/infuseur_the.webp') }}" class="card-img-top"
+                            alt="infuseur thé">
+                        <div class="card-body">
+                            <h5 class="card-title">Infuseur thé</h5>
+                            <h6 class="card-subtitle mb-2 text-muted price">10&euro;</h6>
+                            <p class="card-text">L'infuseur est composé d'acier inoxydable de qualité alimentaire.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="gift">
+                    <div class="card pt-3" style="width:18rem;">
+                        <img src="{{ asset('/images/home/infuseur_the.webp') }}" class="card-img-top"
+                            alt="infuseur thé">
+                        <div class="card-body">
+                            <h5 class="card-title">Infuseur thé</h5>
+                            <h6 class="card-subtitle mb-2 text-muted price">10&euro;</h6>
+                            <p class="card-text">L'infuseur est composé d'acier inoxydable de qualité alimentaire.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="news-section" class="row d-flex align-items-center justify-content-center">
+            <div class="container col-xl-10 col-xxl-8 px-4 py-5">
+                <div class="row align-items-center g-lg-5 py-5">
+                    <div class="col-lg-7 text-center text-lg-start">
+                        <h1 class="display-4 fw-bold lh-1 mb-3">Vertically centered hero sign-up form</h1>
+                        <p class="col-lg-10 fs-4">Below is an example form built entirely with Bootstrap’s form
+                            controls. Each required form group has a validation state that can be triggered by
+                            attempting to submit the form without completing it.</p>
+                    </div>
+                    <div class="col-md-10 mx-auto col-lg-5">
+                        <form class="p-4 p-md-5 border rounded-3 bg-light">
+                            <div class="form-floating mb-3">
+                                <input type="email" class="form-control" id="floatingInput"
+                                    placeholder="name@example.com">
+                                <label for="floatingInput">Email address</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="password" class="form-control" id="floatingPassword"
+                                    placeholder="Password">
+                                <label for="floatingPassword">Password</label>
+                            </div>
+                            <div class="checkbox mb-3">
+                                <label>
+                                    <input type="checkbox" value="remember-me"> Remember me
+                                </label>
+                            </div>
+                            <button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
+                            <hr class="my-4">
+                            <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
-</section>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('home') }}
 {% endblock %}
