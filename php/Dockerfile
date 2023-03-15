@@ -44,7 +44,9 @@ RUN chown -R www-data:www-data /var/www/html/thetiptop
 
 COPY ./php/vhosts/vhosts.conf /etc/apache2/sites-available/000-default.conf
 
-# RUN a2enmod rewrite
+RUN a2enmod rewrite
+
+RUN a2enmod rewrite headers
 
 WORKDIR /var/www/html/thetiptop
 
