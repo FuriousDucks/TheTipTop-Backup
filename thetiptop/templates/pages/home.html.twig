@@ -8,13 +8,25 @@ Accueil
 
 <div id="home">
     <section id="cover-section" class="row d-flex align-items-center">
-        <div data-aos="zoom-in-down"
-            class="aos-init col-11 col-md-9 col-lg-6 p-sm-4 p-md-5 mx-auto bg-light text-container">
-            <h1 class="text-center mb-4">Jeu concours Thé Tip Top</h1>
+        <div class="px-md-4 py-5 my-md-5 text-center title-card text-white d-sm-grid">
+            <img class="d-block mx-auto mb-4 img-card" src="{{ asset('/images/home/TheTipTop-white.png') }}"
+                alt="ThéTipTop logo">
+            <h1 class="display-5 fw-bold">jeu concours ThéTipTop</h1>
+            <div class="col-lg-6 mx-auto">
+                <p class="lead mb-4">ThéTipTop est une société ayant pour activité la promotion de gammes de thés de
+                    très grande qualité avec
+                    des mélanges signatures de l’entreprise, des thés détox, des thés blancs, des thés légumes,
+                    infusions, etc.
+                    L’ensemble des thés sont bios et Handmades</p>
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                    <button type="button" class="btn btn-success btn-lg px-4">Participer au jeu</button>
+                    <button type="button" class="btn btn-light btn-lg px-4">Descriptif du jeu</button>
+                </div>
+            </div>
         </div>
     </section>
     <div class="container mt-5">
-        <section id="desc-section" class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
+        <section id="desc-section" class="row p-4 pb-0 pe-lg-0 pt-0 align-items-center rounded-3 border shadow-lg">
             <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
                 <h2 class="display-4 fw-bold lh-1">Descriptif du jeu</h2>
                 <p class="lead">Le jeu concours <b>ThéTipTop</b> se déroule sur une durée de 30 jours et offre
@@ -37,15 +49,15 @@ Accueil
                     chances de gagner.</p>
             </div>
             <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden shadow-lg">
-                <img class="rounded-lg-3" src="https://getbootstrap.com/docs/5.2/examples/heroes/bootstrap-docs.png" alt="" width="720">
+                <img class="rounded-lg-3 descriptif" src="{{ asset('/images/home/desc.png') }}" alt="Descriptif">
             </div>
         </section>
 
-        <section id="gifts-section" class="row d-flex align-content-center justify-content-center">
-            <h2 class="text-center">Exemples de cadeaux à gagner</h2>
+        <section id="gifts-section" class="row d-flex align-content-center justify-content-center mt-5 py-5">
+            <h2 class="display-4 fw-bold lh-1 text-center mb-5">Cadeaux à gagner</h2>
             <div class="gifts mt-4">
                 <div class="gift">
-                    <div class="card pt-3" style="width:18rem;">
+                    <div class="card pt-3 shadow bg-body-tertiary rounded" style="width:18rem;">
                         <img src="{{ asset('/images/home/infuseur_the.webp') }}" class="card-img-top"
                             alt="infuseur thé">
                         <div class="card-body">
@@ -56,7 +68,7 @@ Accueil
                     </div>
                 </div>
                 <div class="gift">
-                    <div class="card pt-3" style="width:18rem;">
+                    <div class="card pt-3 shadow bg-body-tertiary rounded" style="width:18rem;">
                         <img src="{{ asset('/images/home/the_detox_100.jpg') }}" class="card-img-top"
                             alt="infuseur thé">
                         <div class="card-body">
@@ -67,7 +79,7 @@ Accueil
                     </div>
                 </div>
                 <div class="gift">
-                    <div class="card pt-3" style="width:18rem;">
+                    <div class="card pt-3 shadow bg-body-tertiary rounded" style="width:18rem;">
                         <img src="{{ asset('/images/home/infuseur_the.webp') }}" class="card-img-top"
                             alt="infuseur thé">
                         <div class="card-body">
@@ -78,7 +90,7 @@ Accueil
                     </div>
                 </div>
                 <div class="gift">
-                    <div class="card pt-3" style="width:18rem;">
+                    <div class="card pt-3 shadow bg-body-tertiary rounded" style="width:18rem;">
                         <img src="{{ asset('/images/home/infuseur_the.webp') }}" class="card-img-top"
                             alt="infuseur thé">
                         <div class="card-body">
@@ -91,34 +103,25 @@ Accueil
             </div>
         </section>
         <section id="news-section" class="row d-flex align-items-center justify-content-center">
-            <div class="container col-xl-10 col-xxl-8 px-4 py-5">
+            <div class="container col-12 col-md-10 px-4 py-5">
                 <div class="row align-items-center g-lg-5 py-5">
                     <div class="col-lg-7 text-center text-lg-start">
-                        <h1 class="display-4 fw-bold lh-1 mb-3">Vertically centered hero sign-up form</h1>
-                        <p class="col-lg-10 fs-4">Below is an example form built entirely with Bootstrap’s form
-                            controls. Each required form group has a validation state that can be triggered by
-                            attempting to submit the form without completing it.</p>
+                        <h2 class="display-4 fw-bold lh-1 my-3">Restez informé</h2>
+                        <p class="col-lg-10 fs-4">Inscrivez-vous à notre newsletter pour être informé des dernières
+                            nouveautés
+                            et
+                            promotions.</p>
                     </div>
                     <div class="col-md-10 mx-auto col-lg-5">
+                        {# newsletter form #}
                         <form class="p-4 p-md-5 border rounded-3 bg-light">
                             <div class="form-floating mb-3">
-                                <input type="email" class="form-control" id="floatingInput"
-                                    placeholder="name@example.com">
+                                <input type="email" class="form-control" id="floatingInput" placeholder="">
                                 <label for="floatingInput">Email address</label>
                             </div>
-                            <div class="form-floating mb-3">
-                                <input type="password" class="form-control" id="floatingPassword"
-                                    placeholder="Password">
-                                <label for="floatingPassword">Password</label>
-                            </div>
-                            <div class="checkbox mb-3">
-                                <label>
-                                    <input type="checkbox" value="remember-me"> Remember me
-                                </label>
-                            </div>
-                            <button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
+                            <button class="w-100 btn btn-lg btn-outline-success" type="submit">S'inscrire</button>
                             <hr class="my-4">
-                            <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small>
+                            <small class="text-muted">En cliquant sur S'inscrire, vous acceptez les conditions d'utilisation et la politique de confidentialité.</small>
                         </form>
                     </div>
                 </div>

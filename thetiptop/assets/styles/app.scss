@@ -5,8 +5,18 @@
 @import "~@fortawesome/fontawesome-free/scss/solid";
 @import "~@fortawesome/fontawesome-free/scss/brands";
 
+// Fonts
+@font-face {
+    font-family: "Poppins";
+    src: url("../fonts/Poppins/Poppins-Regular.ttf");
+}
+
 // Pages
 @import "./home.scss";
+
+// Components
+@import "./header.scss";
+@import "./button.scss";
 
 html,
 body {
@@ -15,11 +25,6 @@ body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-}
-
-
-.main-logo{
-    width: 50px;
-    height: 60px;
-    object-fit: cover;
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
 }

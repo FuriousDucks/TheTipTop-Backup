@@ -1,24 +1,42 @@
-#home{
-    section{
+#home {
+    section {
         margin-top: 15px;
     }
-    #cover-section{
+
+    #cover-section {
         background-image: url("../../public/images/home/green-tea.jpg");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         height: 721px;
         width: 100vw;
-        .text-container{
-            opacity: 0.9;
-            border-radius: 30px;
+
+        .title-card {
+            background: #0000008c !important;
+
+            .img-card {
+                width: 100%;
+                height: 200px;
+                object-fit: contain;
+            }
         }
     }
 
-    #gifts-section{
-        .gifts{
-            .gift{
-                img{
+    #desc-section {
+        .descriptif {
+            height: 600px;
+        }
+    }
+
+    #gifts-section {
+        .gifts {
+            .gift {
+                .card {
+                    min-height: 376px;
+                    max-height: 377px;
+                }
+
+                img {
                     width: 100%;
                     height: 200px;
                     object-fit: contain;

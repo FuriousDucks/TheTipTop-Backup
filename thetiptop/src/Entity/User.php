@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -47,12 +45,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $tel = null;
 
-    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Order::class)]
-    private Collection $orders;
+    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()
     {
-        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -185,32 +185,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Order>
-     */
-    public function getOrders(): Collection
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->orders;
+        return $this->createdAt;
     }
 
-    public function addOrder(Order $order): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
-        if (!$this->orders->contains($order)) {
-            $this->orders->add($order);
-            $order->setClient($this);
-        }
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function removeOrder(Order $order): self
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
-        if ($this->orders->removeElement($order)) {
-            // set the owning side to null (unless already changed)
-            if ($order->getClient() === $this) {
-                $order->setClient(null);
-            }
-        }
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

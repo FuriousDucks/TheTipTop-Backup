@@ -3,75 +3,45 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-{# <din class="row justify-center">
-    <div class="col-md-6">
-        <form method="post">
-            <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-            <label for="inputEmail">Email</label>
-            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
-                autocomplete="email" required autofocus>
-            <label for="inputPassword">Password</label>
-            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password"
-                required>
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-            <div class="checkbox mb-3">
-                <label>
-                    <input type="checkbox" name="_remember_me"> Remember me
-                </label>
-            </div>
-            <button class="btn btn-lg btn-primary" type="submit">
-                Sign in
-            </button>
+<div class="row justify-content-center align-items-center py-5" tabindex="-1" role="dialog" id="modalSignin">
+    <div class="col-sm-12 col-md-6" role="document">
+        <div class="modal-content rounded-4 shadow">
             {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
-        
-        </form>
-    </div>
-</din> #}
-<div class="modal modal-signin position-static d-block bg-secondary py-5" tabindex="-1" role="dialog" id="modalSignin">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content rounded-4 shadow">
-            <div class="modal-header p-5 pb-4 border-bottom-0">
-                <!-- <h1 class="modal-title fs-5" >Modal title</h1> -->
-                <h1 class="fw-bold mb-0 fs-2">Sign up for free</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
             <div class="modal-body p-5 pt-0">
-                <form class="">
+                <form method="post">
                     <div class="form-floating mb-3">
                         <input type="email" class="form-control rounded-3" id="floatingInput"
-                            placeholder="name@example.com">
-                        <label for="floatingInput">Email address</label>
+                            placeholder="utilisateur@example.com" value="{{ last_username }}" name="email">
+                        <label for="floatingInput" autofocus>Adresse email</label>
                     </div>
                     <div class="form-floating mb-3">
                         <input type="password" class="form-control rounded-3" id="floatingPassword"
-                            placeholder="Password">
-                        <label for="floatingPassword">Password</label>
+                            placeholder="Password" autocomplete="current-password" name="password">
+                        <label for="floatingPassword">Mot de passe</label>
                     </div>
-                    <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Sign up</button>
-                    <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small>
+                    <div class="checkbox mb-3">
+                        <label>
+                            <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                        </label>
+                    </div>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    <button class="w-50 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Inscription</button>
+                    <br>
+                    <small class="text-muted">En cliquant sur "Inscription", vous acceptez nos conditions d'utilisation
+                        et
+                        notre politique de confidentialité.</small>
                     <hr class="my-4">
-                    <h2 class="fs-5 fw-bold mb-3">Or use a third-party</h2>
-                    <button class="w-100 py-2 mb-2 btn btn-outline-dark rounded-3" type="submit">
-                        <svg class="bi me-1" width="16" height="16">
-                            <use xlink:href="#twitter"></use>
-                        </svg>
-                        Sign up with Twitter
-                    </button>
-                    <button class="w-100 py-2 mb-2 btn btn-outline-primary rounded-3" type="submit">
-                        <svg class="bi me-1" width="16" height="16">
-                            <use xlink:href="#facebook"></use>
-                        </svg>
-                        Sign up with Facebook
-                    </button>
-                    <button class="w-100 py-2 mb-2 btn btn-outline-secondary rounded-3" type="submit">
-                        <svg class="bi me-1" width="16" height="16">
-                            <use xlink:href="#github"></use>
-                        </svg>
-                        Sign up with GitHub
-                    </button>
+                    <h2 class="fs-5 fw-bold mb-3">Ou utilisez un tiers</h2>
+                    <div class="d-flex">
+                        <button class="w-70 btn btn-outline-primary rounded-3 me-2" type="submit">
+                            <i class="fab fa-facebook fs-2" aria-hidden="true"></i>
+                        </button>
+                        <button class="w-70 btn btn-outline-success rounded-3" type="submit">
+                            <i class="fab fa-google fs-2" aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
