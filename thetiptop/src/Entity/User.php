@@ -116,6 +116,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function updateTimestamps(): void
+    {
+        $this->setUpdatedAt(new \DateTimeImmutable());
+        if ($this->getCreatedAt() === null) {
+            $this->setCreatedAt(new \DateTimeImmutable());
+        }
+    }
+
     /**
      * @see UserInterface
      */
