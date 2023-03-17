@@ -26,13 +26,13 @@ pipeline{
             steps{
                 script{
                     // sh 'docker compose -f docker-compose.yml down -v'
-                    sh 'docker stop ${CONTAINER_NAME} || true && docker rm ${CONTAINER_NAME} || true'
+                    sh 'docker stop ${CONTAINER_NAME} && docker rm ${CONTAINER_NAME} || true'
                     sh 'docker system prune -af --volumes'
                 }
             }
         }
 
-        stage('Start'){
+        stage('Deploy Staging'){
             steps{
                 script{
                     sh 'docker compose up -d'
@@ -98,7 +98,7 @@ pipeline{
             }
         }
 
-        stage('Deploy'){
+        stage('Deploy Prod'){
             steps{
                 /* script{
                     sshagent(['ssh-key']){
@@ -112,7 +112,7 @@ pipeline{
             }
         }
 
-        stage('Check'){
+        stage('Check Prod'){
             steps{
                 /* script{
                     sshagent(['ssh-key']){
