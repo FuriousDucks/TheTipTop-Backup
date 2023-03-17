@@ -1,17 +1,6 @@
 version: "3.8"
 
 services:
-  mysql:
-    image: mysql:8.0.23
-    container_name: mysql
-    restart: always
-    ports:
-      - 3306:3306
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=mysql
-    networks:
-      - dev
   web:
     build:
       context: .
@@ -52,13 +41,12 @@ services:
       - traefik.docker.network=traefik
     env_file:
       - .env
-    depends_on:
-      - mysql
     networks:
       - dev
       - traefik
 
 networks:
   dev:
+    name: "dev"
   traefik:
     external: true
