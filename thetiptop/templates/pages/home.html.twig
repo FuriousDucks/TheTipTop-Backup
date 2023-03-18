@@ -11,7 +11,17 @@ Accueil
         <div class="px-md-4 py-5 my-md-5 text-center title-card text-white d-sm-grid">
             <img class="d-block mx-auto mb-4 img-card" src="{{ asset('/images/home/TheTipTop-white.png') }}"
                 alt="ThéTipTop logo">
-            <h1 class="display-5 fw-bold">jeu concours ThéTipTop</h1>
+            {# <h1 class="display-5 fw-bold">Jeu concours ThéTipTop</h1> #}
+
+
+            <h1 class="display-5 fw-bold" {{ stimulus_controller('symfony/ux-typed', {
+                strings: [
+                    'Jeu concours ThéTipTop',
+                ],
+                showCursor: false
+            }) }}></h1>
+
+
             <div class="col-lg-6 mx-auto">
                 <p class="lead mb-4">ThéTipTop est une société ayant pour activité la promotion de gammes de thés de
                     très grande qualité avec
@@ -91,12 +101,34 @@ Accueil
                 </div>
                 <div class="gift">
                     <div class="card pt-3 shadow bg-body-tertiary rounded" style="width:18rem;">
+                        <img src="{{ asset('/images/home/the_detox_100.jpg') }}" class="card-img-top"
+                            alt="infuseur thé">
+                        <div class="card-body">
+                            <h5 class="card-title">Thé détox</h5>
+                            <h6 class="card-subtitle mb-2 text-muted price">5.76&euro;</h6>
+                            <p class="card-text">Le thé détox est un mélange de thé vert et morceaux de fruits.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="gift">
+                    <div class="card pt-3 shadow bg-body-tertiary rounded" style="width:18rem;">
                         <img src="{{ asset('/images/home/infuseur_the.webp') }}" class="card-img-top"
                             alt="infuseur thé">
                         <div class="card-body">
                             <h5 class="card-title">Infuseur thé</h5>
                             <h6 class="card-subtitle mb-2 text-muted price">10&euro;</h6>
                             <p class="card-text">L'infuseur est composé d'acier inoxydable de qualité alimentaire.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="gift">
+                    <div class="card pt-3 shadow bg-body-tertiary rounded" style="width:18rem;">
+                        <img src="{{ asset('/images/home/the_detox_100.jpg') }}" class="card-img-top"
+                            alt="infuseur thé">
+                        <div class="card-body">
+                            <h5 class="card-title">Thé détox</h5>
+                            <h6 class="card-subtitle mb-2 text-muted price">5.76&euro;</h6>
+                            <p class="card-text">Le thé détox est un mélange de thé vert et morceaux de fruits.</p>
                         </div>
                     </div>
                 </div>
@@ -121,7 +153,8 @@ Accueil
                             </div>
                             <button class="w-100 btn btn-lg btn-outline-success" type="submit">S'inscrire</button>
                             <hr class="my-4">
-                            <small class="text-muted">En cliquant sur S'inscrire, vous acceptez les conditions d'utilisation et la politique de confidentialité.</small>
+                            <small class="text-muted">En cliquant sur S'inscrire, vous acceptez les conditions
+                                d'utilisation et la politique de confidentialité.</small>
                         </form>
                     </div>
                 </div>

@@ -42,6 +42,8 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            $user->setCreatedAt(new \DateTimeImmutable());
+            $user->setUpdatedAt(new \DateTimeImmutable());
             $entityManager->persist($user);
             $entityManager->flush();
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,

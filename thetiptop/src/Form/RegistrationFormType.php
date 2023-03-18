@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -16,7 +17,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\LessThan;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class RegistrationFormType extends AbstractType
 {
@@ -37,19 +40,15 @@ class RegistrationFormType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
-            ->add('dateOfBirth', BirthdayType::class, [
-                'widget' => 'single_text',
+            ->add('dateOfBirth', TextType::class, [
                 'label' => 'Date de naissance',
                 'attr' => [
-                    'class' => 'form-control tinymce',
+                    'placeholder' => 'Date de naissance',
+                    'class' => 'form-control datepicker',
                 ],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez renseigner votre date de naissance',
-                    ]),
-                    new Length([
-                        'min' => 18,
-                        'minMessage' => 'Votre date de naissance doit faire au moins {{ limit }} caractères',
                     ]),
                 ],
             ])
@@ -58,6 +57,19 @@ class RegistrationFormType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Téléphone',
                     'class' => 'form-control',
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez renseigner votre numéro de téléphone',
+                    ]),
+                    new Length([
+                        'min' => 10,
+                        'minMessage' => 'Votre numéro de téléphone doit faire au moins {{ limit }} caractères',
+                    ]),
+                    new Regex([
+                        'pattern' => '/^0[1-9]([-. ]?[0-9]{2}){4}$/',
+                        'message' => 'Votre numéro de téléphone doit être au format 0600000000',
+                    ]),
                 ],
             ])
             ->add(
@@ -83,7 +95,9 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('password', PasswordType::class, [
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
+                'attr' => [
+                    'autocomplete' => 'new-password',
+                ],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a password',

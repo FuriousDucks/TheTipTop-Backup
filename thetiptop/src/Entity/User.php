@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte avec cette adresse email')]
@@ -39,17 +40,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $dateOfBirth = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $dateOfBirth = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $tel = null;
 
-    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
+    #[ORM\Column(nullable: true, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
+    #[ORM\Column(nullable: true, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $facebookId = null;
 
     public function __construct()
     {
@@ -129,6 +133,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
+    public function getSalt()
+    {
+        // not needed when using the "bcrypt" algorithm in security.yaml
+    }
+
+
+    /**
+     * @see UserInterface
+     */
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
@@ -171,12 +184,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getDateOfBirth(): ?\DateTimeInterface
+    public function getDateOfBirth(): ?string
     {
         return $this->dateOfBirth;
     }
 
-    public function setDateOfBirth(\DateTimeInterface $dateOfBirth): self
+    public function setDateOfBirth(string $dateOfBirth): self
     {
         $this->dateOfBirth = $dateOfBirth;
 
@@ -215,6 +228,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getFacebookId(): ?string
+    {
+        return $this->facebookId;
+    }
+
+    public function setFacebookId(?string $facebookId): self
+    {
+        $this->facebookId = $facebookId;
 
         return $this;
     }
