@@ -1,36 +1,29 @@
 $('.gifts').slick({
-    dots: false,
     infinite: true,
-    arrows: false,
     speed: 300,
-    centerMode: true,
-    centerPadding: '60px',
-    slidesToShow: 3,
-    slidesToScroll: 3,
+    autoplay: true,
+    slidesToShow: 4,
+    slidesToScroll: 2,
     responsive: [{
+            breakpoint: 1366,
+            settings: {
+                slidesToShow: 4,
+            }
+        }, {
             breakpoint: 1024,
             settings: {
-                arrows: false,
-                centerMode: true,
-                centerPadding: '40px',
-                slidesToShow: 2
+                slidesToShow: 3,
             }
         },
         {
             breakpoint: 768,
             settings: {
-                arrows: false,
-                centerMode: true,
-                centerPadding: '40px',
                 slidesToShow: 2
             }
         },
         {
             breakpoint: 480,
             settings: {
-                arrows: false,
-                centerMode: true,
-                centerPadding: '40px',
                 slidesToShow: 1
             }
         }

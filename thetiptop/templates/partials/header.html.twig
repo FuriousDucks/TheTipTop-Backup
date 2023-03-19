@@ -1,7 +1,7 @@
-<header class="p-3 mb-3 border-bottom">
+<header class="shadow">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+            <a href="{{ path('home') }}" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
                 <img class="main-logo" src="{{ asset('/images/app/logo.png') }}" alt="ThéTipTop logo">
             </a>
 
@@ -18,23 +18,23 @@
                     <i class="fas fa-user-circle fa-2x text-success"></i>
                 </a>
                 <ul class="dropdown-menu text-small">
+                    {% if app.user %}
+                    {% if is_granted('ROLE_USER') %}
                     <li><a class="dropdown-item" href="#">Mon compte</a></li>
                     <li><a class="dropdown-item" href="#">Mes gains</a></li>
                     <li><a class="dropdown-item" href="#">Participer au concours</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
                     <li><a class="dropdown-item" href="#">Statistiques</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="#">Visualiser les gains</a></li>
-
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="#">Connexion</a></li>
-                    <li><a class="dropdown-item" href="#">Déconnexion</a></li>
+                    {% endif %}
+                    {% if is_granted('ROLE_CASHIER') %}
+                    <li><a class="dropdown-item" href="#">Visualiser les gains attribués</a></li>
+                    {% endif %}
+                    <li><a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a></li>
+                    {% else %}
+                    <li><a class="dropdown-item" href="{{ path('app_login') }}">Connexion</a></li>
+                    <li><a class="dropdown-item" href="{{ path('app_register') }}">Inscription</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

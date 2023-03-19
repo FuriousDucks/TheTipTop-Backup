@@ -34,14 +34,14 @@
                         et
                         notre politique de confidentialité.</small> #}
                     <hr class="my-4">
-                    <h2 class="fs-5 fw-bold mb-3">Ou utilisez un tiers</h2>
-                    <div class="d-flex">
-                        <button class="w-70 btn btn-outline-primary rounded-3 me-2" type="submit">
+                    <h2 class="fs-5 fw-bold mb-3 text-center">Ou utilisez un tiers</h2>
+                    <div class="d-flex justify-content-center">
+                        <a class="w-70 btn btn-outline-primary rounded-3 me-2" href="{{ path('login_facebook') }}">
                             <i class="fab fa-facebook fs-2" aria-hidden="true"></i>
-                        </button>
-                        <button class="w-70 btn btn-outline-success rounded-3" type="submit">
+                        </a>
+                        <a class="w-70 btn btn-outline-success rounded-3" href="{{ path('login_google') }}">
                             <i class="fab fa-google fs-2" aria-hidden="true"></i>
-                        </button>
+                        </a>
                     </div>
                 </form>
             </div>
