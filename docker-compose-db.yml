@@ -11,8 +11,11 @@ services:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=mysql
     networks:
-      - dev
+      - mysql-network
+
+  
 
 networks:
-  dev:
+  mysql-network:
+    name: "mysql-network"
     external: true
