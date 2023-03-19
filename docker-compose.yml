@@ -42,11 +42,12 @@ services:
     env_file:
       - .env
     networks:
-      - dev
+      - mysql-network
       - traefik
 
 networks:
-  dev:
-    name: "dev"
+  mysql-network:
+    name: "mysql-network"
+    driver: bridge
   traefik:
     external: true
