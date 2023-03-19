@@ -43,6 +43,7 @@
         "scss": "^0.2.4",
         "slick-carousel": "^1.8.1",
         "stimulus-password-visibility": "^2.1.1",
+        "sweetalert2": "^11.7.3",
         "vanilla-cookieconsent": "^2.8.9"
     }
 }

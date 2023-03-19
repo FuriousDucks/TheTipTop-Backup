@@ -31,6 +31,21 @@
         {% block body %}{% endblock %}
     </div>
     {% include "./partials/footer.html.twig" %}
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {% for label, messages in app.flashes %}
+    {% for message in messages %}
+    <script>
+        Swal.fire({
+            icon: '{{ label }}',
+            title: '{{ (message == "success") ? "Succès" : "Erreur" }}',
+            text: '{{ message }}',
+            showConfirmButton: false,
+            timer: 2000
+        })
+    </script>
+    {% endfor %}
+    {% endfor %}
     {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
     {% endblock %}

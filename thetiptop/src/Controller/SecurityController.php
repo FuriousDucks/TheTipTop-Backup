@@ -16,10 +16,15 @@ class SecurityController extends AbstractController
         if ($this->getUser()) {
             return $this->redirectToRoute('home');
         }
+        
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        if ($error) {
+            $this->addFlash('error', 'Identifiants incorrects');
+        }
+
+        return $this->render('security/login.html.twig', ['last_username' => $lastUsername]);
     }
 
     #[Route(path: '/logout', name: 'app_logout')]

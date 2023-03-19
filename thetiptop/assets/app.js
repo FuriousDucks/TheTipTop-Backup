@@ -17,6 +17,9 @@ import 'jquery-ui/themes/base/all.css';
 import 'vanilla-cookieconsent/dist/cookieconsent.css';
 import 'vanilla-cookieconsent/dist/cookieconsent.js';
 
+import 'sweetalert2/src/sweetalert2.scss';
+
+
 $(document).ready(function () {
     AOS.init();
     $(".datepicker").datepicker({
