@@ -40,7 +40,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank(message: 'Le mot de passe est obligatoire')]
     #[Assert\Length(min: 8, minMessage: 'Le mot de passe doit faire au moins 8 caractères')]
     #[Assert\Regex(pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/', message: 'Le mot de passe doit contenir au moins une minuscule, une majuscule, un chiffre et un caractère spécial')]
-    #[Groups(['User:read', 'User:write'])]
     private ?string $password = null;
 
     #[ORM\Column(type: 'boolean')]

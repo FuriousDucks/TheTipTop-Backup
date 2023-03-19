@@ -7,5 +7,4 @@ npm run build --no-interaction
 php bin/console doctrine:database:create -n --if-not-exists
 php bin/console doctrine:migration:migrate --no-interaction
 php bin/console doctrine:fixtures:load --no-interaction
-chmod -R 777 ./public/images
 exec apache2-foreground "$@"
