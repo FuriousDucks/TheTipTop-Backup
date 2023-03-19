@@ -5655,7 +5655,7 @@ statuses@2.0.1:
 
 stimulus-password-visibility@^2.1.1:
   version "2.1.1"
-  resolved "https://registry.yarnpkg.com/stimulus-password-visibility/-/stimulus-password-visibility-2.1.1.tgz#b366223c7650704507a38a3e5d126e8474abad3e"
+  resolved "https://registry.npmjs.org/stimulus-password-visibility/-/stimulus-password-visibility-2.1.1.tgz"
   integrity sha512-FnscC06Ux7mgfJo9s7OceOQ59yU1Tm8sWByG89hnMPcWvYSX/1yx3wFxNOgKhtxaDPdvtb+ERgmv6F9JvPJc7w==
 
 string-width@^4.2.3:
@@ -5972,7 +5972,7 @@ v8flags@^2.1.1:
 
 vanilla-cookieconsent@^2.8.9:
   version "2.8.9"
-  resolved "https://registry.yarnpkg.com/vanilla-cookieconsent/-/vanilla-cookieconsent-2.8.9.tgz#2c143dc3a9561ff1cdf28b4d94de6a5f3f4ea8e2"
+  resolved "https://registry.npmjs.org/vanilla-cookieconsent/-/vanilla-cookieconsent-2.8.9.tgz"
   integrity sha512-4seMLm+oOLYT4HTrjai9ceIRmRP00apkoEg/fV3P9GtN0QPPGuPQfe2UwXPuZZfR5E0t9EVvVFITIOwPtxOGkQ==
 
 vary@~1.1.2:
