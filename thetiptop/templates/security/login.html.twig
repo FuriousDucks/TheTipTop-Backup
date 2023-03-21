@@ -4,19 +4,20 @@
 
 {% block body %}
 <div class="row justify-content-center align-items-center py-5">
-    <div class="col-sm-12 col-md-6" role="document">
+    <div class="col-sm-12 col-md-6 col-xl-4" role="document">
         <div class="modal-content rounded-4 shadow">
             <div class="modal-body p-5">
                 <form method="post" class="d-grid">
                     <h1 class="fs-3 fw-bold m-5 mt-0 text-center">Connexion</h1>
                     <div class="form-floating mb-3">
                         <input type="email" class="form-control rounded-3" id="floatingInput"
-                            placeholder="utilisateur@example.com" value="{{ last_username }}" name="email">
+                            placeholder="utilisateur@example.com" value="{{ last_username }}" name="email" required>
                         <label for="floatingInput" autofocus>Adresse email</label>
                     </div>
                     <div class="form-floating mb-3">
                         <input type="password" class="form-control rounded-3" id="floatingPassword"
-                            placeholder="Password" autocomplete="current-password" name="password">
+                            placeholder="Password" autocomplete="current-password" name="password" required
+                            data-toggle="password">
                         <label for="floatingPassword">Mot de passe</label>
                     </div>
                     <div class="checkbox mb-3">
@@ -25,7 +26,8 @@
                         </label>
                     </div>
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                    <button class="w-50-m mb-2 btn btn-lg rounded-3 btn-primary mx-auto" type="submit">Connexion</button>
+                    <button class="w-50-m mb-2 btn btn-lg rounded-3 btn-primary mx-auto"
+                        type="submit">Connexion</button>
                     <br>
                     <hr class="my-4">
                     <h2 class="fs-5 fw-bold mb-3 text-center">Ou utilisez un tiers</h2>

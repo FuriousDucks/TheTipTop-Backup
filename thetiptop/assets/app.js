@@ -19,9 +19,23 @@ import 'vanilla-cookieconsent/dist/cookieconsent.js';
 
 import 'sweetalert2/src/sweetalert2.scss';
 
-
 $(document).ready(function () {
     AOS.init();
+    $("input[type='password']").each(function () {
+        let eye = $('<i class="fa fa-eye" aria-hidden="true"></i>');
+        eye.css({
+            position: "absolute",
+            right: "10px",
+            top: "50%",
+            transform: "translate(-50%,-50%)",
+            cursor: "pointer",
+        });
+        $(this).after(eye);
+        $(this).next().click(function () {
+            $(this).toggleClass("fa-eye fa-eye-slash");
+            $(this).prev().attr("type", $(this).prev().attr("type") === "password" ? "text" : "password");
+        });
+    });
     $(".datepicker").datepicker({
         dateFormat: 'dd/mm/yy',
         changeMonth: true,

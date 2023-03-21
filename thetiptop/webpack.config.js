@@ -9,6 +9,7 @@ Encore
     .setPublicPath('/build')
     .addEntry('app', './assets/app.js')
     .addEntry('home', './assets/home.js')
+    .addEntry('participate', './assets/participate.js')
     .addStyleEntry('css/app', './assets/styles/app.scss')
     .enableStimulusBridge('./assets/controllers.json')
     .splitEntryChunks()
