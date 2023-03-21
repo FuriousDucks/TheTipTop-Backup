@@ -4,6 +4,7 @@
     }
 
     #cover-section {
+        position: relative;
         background-image: url("../../public/images/home/green-tea.jpg");
         background-size: cover;
         background-position: center;
@@ -11,8 +12,18 @@
         height: 721px;
         width: 100vw;
 
-        .title-card {
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: #0000008c !important;
+        }
+
+        .title-card {
+            z-index: 1;
 
             .img-card {
                 width: 100%;
@@ -22,24 +33,41 @@
         }
     }
 
-    #desc-section {
-        .descriptif {
-            height: 600px;
+    .container {
+        &.body {
+            margin-top: 50px;
         }
-    }
 
-    #gifts-section {
-        .gifts {
-            .gift {
-                .card {
-                    min-height: 376px;
-                    max-height: 377px;
-                }
+        #desc-section {
+            background-image: url("../../public/images/home/desc-tea.png");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: right top;
 
-                img {
-                    width: 100%;
-                    height: 200px;
-                    object-fit: contain;
+            .descriptif {
+                width: 478px;
+                height: 478px;
+                object-fit: contain;
+            }
+
+            @media (max-width: 1024px) {
+                background-image: none;
+            }
+        }
+
+        #gifts-section {
+            .gifts {
+                .gift {
+                    .card {
+                        min-height: 376px;
+                        max-height: 377px;
+                    }
+
+                    img {
+                        width: 100%;
+                        height: 200px;
+                        object-fit: contain;
+                    }
                 }
             }
         }
