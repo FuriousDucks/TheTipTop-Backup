@@ -28,6 +28,8 @@
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                     <button class="w-50-m mb-2 btn btn-lg rounded-3 btn-primary mx-auto"
                         type="submit">Connexion</button>
+                        {# mot de passe oublié #}
+                    <a class="text-decoration-none" href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?</a>
                     <br>
                     <hr class="my-4">
                     <h2 class="fs-5 fw-bold mb-3 text-center">Ou utilisez un tiers</h2>

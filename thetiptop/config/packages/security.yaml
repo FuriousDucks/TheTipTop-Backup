@@ -12,7 +12,6 @@ security:
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_SUPERADMIN]
         ROLE_USER:        ROLE_USER
     access_denied_url: home
-    enable_authenticator_manager: true
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/

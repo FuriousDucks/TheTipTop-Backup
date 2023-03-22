@@ -13,7 +13,7 @@
                 <ul class="dropdown-menu text-small">
                     {% if app.user %}
                     {% if is_granted('ROLE_USER') %}
-                    <li><a class="dropdown-item" href="#">Mon compte</a></li>
+                    <li><a class="dropdown-item" href="{{ path('my-account') }}">Mon compte</a></li>
                     <li><a class="dropdown-item" href="#">Mes gains</a></li>
                     <li><a class="dropdown-item" href="#">Participer au concours</a></li>
                     {% endif %}
