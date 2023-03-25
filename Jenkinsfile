@@ -25,8 +25,8 @@ pipeline{
         stage('Clean'){
             steps{
                 script{
-                    // sh 'docker compose -f docker-compose.yml down -v'
-                    sh 'docker stop ${CONTAINER_NAME} && docker rm ${CONTAINER_NAME} || true'
+                    // sh 'docker stop ${CONTAINER_NAME} || true'
+                    sh 'docker compose -f docker-compose.yml down -v'
                     sh 'docker system prune -af --volumes'
                 }
             }
