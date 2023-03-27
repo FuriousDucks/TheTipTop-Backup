@@ -2,8 +2,7 @@
 
 namespace App\Controller;
 
-use App\Form\RegistrationFormType;
-use Doctrine\ORM\EntityManager;
+use App\Form\ProfileType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,14 +15,14 @@ class AccountController extends AbstractController
     public function index(Request $request, EntityManagerInterface $em): Response
     {
         $user = $this->getUser();
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->createForm(ProfileType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // $user->setUpdatedAt(new \DateTimeImmutable());
             $em->persist($user);
             $em->flush();
-            $this->addFlash('success', 'Your profile has been updated successfully');
+            $this->addFlash('success', 'Votre profil a bien été mis à jour');
         }
+
         return $this->render('pages/profile.html.twig', [
             'profileForm' => $form->createView(),
         ]);
