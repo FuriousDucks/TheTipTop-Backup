@@ -11,6 +11,6 @@ class ParticipateController extends AbstractController
     #[Route('/participer', name: 'participate')]
     public function index(): Response
     {
-        return $this->render('pages/participate.html.twig', []);
+        return $this->render('pages/participate.html.twig');
     }
 }
