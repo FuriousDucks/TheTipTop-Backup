@@ -7,7 +7,8 @@ pipeline{
         registryCredential = 'dockerhubuser'
         SCANNER_HOME = tool 'sonar-scanner'
         SONNAR_TOKEN = credentials('sonar-token')
-        SONNAR_URL = 'https://sonarqube.dsp-archiwebf22-eb-we-fh.fr'
+        // SONNAR_URL = 'https://sonarqube.dsp-archiwebf22-eb-we-fh.fr'
+        SONNAR_URL = 'http://46.101.35.94:3004'
     }
     
     options{
