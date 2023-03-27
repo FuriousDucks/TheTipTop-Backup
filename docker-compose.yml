@@ -33,7 +33,7 @@ services:
       - DATABASE_URL=mysql://root:root@mysql:3306/thetiptop
     labels:
       - traefik.enable=true
-      - traefik.http.routers.web.rule=Host(`dsp-archiwebf22-eb-we-fh.fr`)
+      - traefik.http.routers.web.rule=Host(`dsp-archiwebf22-eb-we-fh.fr`) && PathPrefix(`/login`)
       - traefik.http.routers.web.entrypoints=websecure
       - traefik.http.routers.web.tls=true
       - traefik.http.routers.web.tls.certresolver=letsencrypt
