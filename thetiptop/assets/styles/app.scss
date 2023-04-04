@@ -19,6 +19,10 @@
 @import "./footer.scss";
 @import "./button.scss";
 
+html {
+    scroll-behavior: smooth;
+}
+
 html,
 body {
     height: 100%;

@@ -22,6 +22,10 @@ class Ticket
     #[ORM\ManyToOne(inversedBy: 'tickets')]
     private ?Store $store = null;
 
+    #[ORM\ManyToOne(inversedBy: 'tickets')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?ContestGame $contest = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +63,18 @@ class Ticket
     public function setStore(?Store $store): self
     {
         $this->store = $store;
+
+        return $this;
+    }
+
+    public function getContest(): ?ContestGame
+    {
+        return $this->contest;
+    }
+
+    public function setContest(?ContestGame $contest): self
+    {
+        $this->contest = $contest;
 
         return $this;
     }
