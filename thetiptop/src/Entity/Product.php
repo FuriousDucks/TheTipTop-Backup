@@ -27,6 +27,9 @@ class Product
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Winner::class)]
     private Collection $winners;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $img = null;
+
     public function __construct()
     {
         $this->winners = new ArrayCollection();
@@ -99,6 +102,18 @@ class Product
                 $winner->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImg(): ?string
+    {
+        return $this->img;
+    }
+
+    public function setImg(?string $img): self
+    {
+        $this->img = $img;
 
         return $this;
     }

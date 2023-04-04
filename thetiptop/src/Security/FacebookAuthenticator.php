@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Entity\Customer;
 use App\Entity\User; // your user entity
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
@@ -61,13 +62,16 @@ class FacebookAuthenticator extends OAuth2Authenticator implements Authenticatio
                 // 3) Maybe you just want to "register" them by creating
                 // a User object
                 if (!$user) {
-                    $user = new User();
+                    $user = new Customer();
                     $user->setEmail($email);
+                    $user->setAddress('');
+                    $user->setSocial('Facebook');
+                    $user->setPhone($facebookUser->getPhoneNumber());
+                    $user->setDateOfBirth($facebookUser->getBirthday());
                     $user->setFirstName($facebookUser->getFirstName());
                     $user->setLastName($facebookUser->getLastName());
                     $user->setIsVerified(true);
                     $user->setPassword('');
-                    $user->setRoles(['ROLE_USER']);
                     $user->setFacebookId($facebookUser->getId());
                     $this->entityManager->persist($user);
                     $this->entityManager->flush();

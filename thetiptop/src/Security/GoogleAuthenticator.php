@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Entity\Customer;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
@@ -50,15 +51,16 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
                 if ($user) {
                     return $user;
                 }
+
                 if (!$user) {
-                    $user = new User();
+                    $user = new Customer();
                     $user->setEmail($email);
+                    $user->setAddress('');
+                    $user->setSocial('Google');
                     $user->setFirstName($googleUser->getFirstName());
                     $user->setLastName($googleUser->getLastName());
                     $user->setIsVerified(true);
                     $user->setPassword('');
-                    $user->setRoles(['ROLE_USER']);
-                    $user->setFacebookId('');
                     $this->entityManager->persist($user);
                     $this->entityManager->flush();
                 }

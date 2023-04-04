@@ -33,3 +33,9 @@ body {
 .main {
     min-height: 78vh;
 }
+
+.form-control {
+    &.datepicker {
+        padding: 1rem 0.75rem;
+    }
+}

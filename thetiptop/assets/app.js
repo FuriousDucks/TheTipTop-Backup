@@ -43,6 +43,22 @@ $(document).ready(function () {
         yearRange: "-100:-18",
         maxDate: 0
     });
+
+    $(".datepicker").on("keyup", function () {
+        let input = $(this);
+        let inputVal = input.val();
+        let inputLength = inputVal.length;
+        if (inputLength === 2 || inputLength === 5) {
+            input.val(inputVal + "/");
+        }
+        if (inputLength > 10) {
+            input.val(inputVal.slice(0, -1));
+        }
+        if (isNaN(inputVal.slice(-1))) {
+            input.val(inputVal.slice(0, -1));
+        }
+    });
+
     // obtain plugin
     var cc = initCookieConsent();
 

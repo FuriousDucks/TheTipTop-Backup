@@ -27,9 +27,13 @@ class Store
     #[ORM\OneToMany(mappedBy: 'store', targetEntity: Ticket::class)]
     private Collection $tickets;
 
+    #[ORM\OneToMany(mappedBy: 'store', targetEntity: Employee::class)]
+    private Collection $employees;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
+        $this->employees = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -97,6 +101,36 @@ class Store
             // set the owning side to null (unless already changed)
             if ($ticket->getStore() === $this) {
                 $ticket->setStore(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Employee>
+     */
+    public function getEmployees(): Collection
+    {
+        return $this->employees;
+    }
+
+    public function addEmployee(Employee $employee): self
+    {
+        if (!$this->employees->contains($employee)) {
+            $this->employees->add($employee);
+            $employee->setStore($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmployee(Employee $employee): self
+    {
+        if ($this->employees->removeElement($employee)) {
+            // set the owning side to null (unless already changed)
+            if ($employee->getStore() === $this) {
+                $employee->setStore(null);
             }
         }
 

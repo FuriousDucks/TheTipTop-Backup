@@ -5,10 +5,10 @@
 {% block body %}
 <section id="profile" class="first-item d-flex align-items-center">
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center pt-5 pt-md-0">
             <div class="col-12 col-md-6">
-                <h1>Mon profile</h1>
-                {{ form_start(profileForm, {'attr': {'class': 'row g-3'}}) }}
+                <h2 class="text-center mb-3 mb-md-5">Mes informations</h2>
+                {{ form_start(profileForm, {'attr': {'class': 'row g-3 justify-content-center'}}) }}
                 <div class="form-floating col-12 col-md-6">
                     {{ form_widget(profileForm.firstName) }}
                     {{ form_label(profileForm.firstName) }}
@@ -20,9 +20,9 @@
                     {{ form_errors(profileForm.lastName) }}
                 </div>
                 <div class="form-floating col-12 col-md-6">
-                    {{ form_widget(profileForm.tel) }}
-                    {{ form_label(profileForm.tel) }}
-                    {{ form_errors(profileForm.tel) }}
+                    {{ form_widget(profileForm.phone) }}
+                    {{ form_label(profileForm.phone) }}
+                    {{ form_errors(profileForm.phone) }}
                 </div>
 
                 <div class="form-floating col-12 col-md-6">
@@ -30,15 +30,44 @@
                     {{ form_label(profileForm.email) }}
                     {{ form_errors(profileForm.email) }}
                 </div>
+
+                <div class="form-floating col-12 col-md-12">
+                    {{ form_widget(profileForm.address) }}
+                    {{ form_label(profileForm.address) }}
+                    {{ form_errors(profileForm.address) }}
+                </div>
+
                 <div class="col-12 col-md-6">
-                    {{ form_label(profileForm.dateOfBirth) }}
                     {{ form_widget(profileForm.dateOfBirth) }}
                     {{ form_errors(profileForm.dateOfBirth) }}
                 </div>
-                <div class="col-12 col-md-6 d-flex justify-content-center align-items-end">
-                    <button type="submit" class="btn btn-outline-success w-100 mx-auto">Modifier</button>
+                <div class="col-6 d-flex justify-content-center align-items-end">
+                    <button type="submit" class="btn btn-outline-success h-100 w-100 mx-auto">Modifier</button>
                 </div>
                 {{ form_end(profileForm) }}
+            </div>
+            <div class="col-12 col-md-6 mt-5 mt-sm-5 mt-md-0">
+                <h2 class="text-center mb-3 mb-md-5">Mot de passe</h2>
+                {{ form_start(passwordForm, {'attr': {'class': 'row g-3 justify-content-center'}}) }}
+                <div class="form-floating col-12 col-md-6">
+                    {{ form_widget(passwordForm.oldPassword) }}
+                    {{ form_label(passwordForm.oldPassword) }}
+                    {{ form_errors(passwordForm.oldPassword) }}
+                </div>
+                <div class="form-floating col-12 col-md-6">
+                    {{ form_widget(passwordForm.password.first) }}
+                    {{ form_label(passwordForm.password.first) }}
+                    {{ form_errors(passwordForm.password.first) }}
+                </div>
+                <div class="form-floating col-12 col-md-6">
+                    {{ form_widget(passwordForm.password.second) }}
+                    {{ form_label(passwordForm.password.second) }}
+                    {{ form_errors(passwordForm.password.second) }}
+                </div>
+                <div class="col-6 d-flex justify-content-center align-items-end">
+                    <button type="submit" class="btn btn-outline-success h-100 w-100 mx-auto">Modifier</button>
+                </div>
+                {{ form_end(passwordForm) }}
             </div>
         </div>
     </div>
