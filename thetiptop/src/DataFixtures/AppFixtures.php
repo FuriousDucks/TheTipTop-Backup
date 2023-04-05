@@ -24,10 +24,10 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         // $this->Users($manager);
-        // $this->Products($manager);
-        $this->Stores($manager);
-        $this->Contest($manager);
-        $this->Tickets($manager);
+        $this->Products($manager);
+        // $this->Stores($manager);
+        // $this->Contest($manager);
+        // $this->Tickets($manager);
     }
 
     public function Users(ObjectManager $manager): void
