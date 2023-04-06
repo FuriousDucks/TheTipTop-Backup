@@ -7,22 +7,23 @@ Accueil
 {% block body %}
 
 <div id="home">
-    <section id="cover-section" class="row d-flex align-items-center">
-        <div class="px-md-4 py-5 my-md-5 text-center title-card text-white d-sm-grid">
-            <img class="d-block mx-auto mb-4 img-card" src="{{ asset('/images/home/TheTipTop-white.png') }}"
+    <section id="cover-section" class="d-flex align-items-center">
+        <div class="d-flex py-5 title-card text-white" style="padding-right: 5rem">
+            <img class="d-flex w-50 mb-4 mt-3 img-card" style="padding-right: 4rem" src="{{ asset('/images/home/TheTipTop-white.png') }}"
                 alt="ThéTipTop logo">
-
-            <h1 class="display-5 fw-bold">Jeu concours</h1>
-
-            <div class="col-lg-6 mx-auto">
-                <p style="font-size: 21px">Le jeu concours <b>ThéTipTop</b> Participez au concours ThéTipTop et tentez de gagner 
-                un an de provision de thé d'une valeur de <b>360€</b> ! 
-                Achetez simplement des produits de thé d'une valeur minimale de 49 euros pour recevoir un reçu avec
-                un code à 10 chiffres.
-                Le concours dure 30 jours et propose la distribution de <b>1 500 000</b> tickets.
-                Ne manquez pas cette occasion de déguster votre thé préféré pendant toute une année !
-                </p>
-                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <div class="d-flex flex-column w-50 align-items-center">
+                <h1 class="display-4 pb-3 fw-bold">Jeu concours</h1>
+                <div class="d-flex ">
+                   <p style="font-size: 26px">Le jeu concours <b>ThéTipTop</b> Participez au concours ThéTipTop et tentez de gagner 
+                        un an de provision de thé d'une valeur de <b>360</b> euros ! 
+                        Achetez simplement des produits de thé d'une valeur minimale de <b>49 </b> euros pour recevoir un reçu avec
+                        un code à <b>10</b> chiffres.
+                        Le concours dure <b>30</b> jours et propose la distribution de <b>1.500.000</b> tickets.
+                        Ne manquez pas cette occasion de déguster votre thé préféré pendant toute une année !
+                    </p>
+                </div>
+            
+                <div class="py-3 gap-2 d-sm-flex justify-content-sm-center">
                     <button type="button" class="btn-lg px-4">Participer au jeu</button>
                 </div>
             </div>
