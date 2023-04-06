@@ -17,11 +17,11 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/legals', name: 'legals')]
+    #[Route('/mentions-legales/', name: 'mentionsLegales')]
     public function legals(): Response
     {
         return $this->render('pages/legalMentions.html.twig', [
-            'title' => 'Legals',
+            'title' => 'mentionsLegales',
         ]);
     }
 }
