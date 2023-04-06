@@ -6,9 +6,10 @@
             </a>
 
             <div class="dropdown ms-auto text-end">
-                <a href="#" class="d-block link-dark text-decoration-none dropdown" data-bs-toggle="dropdown"
+                <a href="#" class="d-flex link-dark text-decoration-none dropdown align-items-center" data-bs-toggle="dropdown"
                     aria-expanded="false">
-                    <i class="fas fa-user-circle fa-2x text-success"></i>
+                    <h5 class="d-flex align-items-center px-2 mb-0">{{app.user}} user account name</h5>
+                    <i class="fas fa-user-circle fa-3x text-success"></i>
                 </a>
                 <ul class="dropdown-menu text-small">
                     {% if app.user %}
