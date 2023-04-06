@@ -6,6 +6,8 @@ use ApiPlatform\Doctrine\Odm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CustomerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -39,6 +41,15 @@ class Customer extends User
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['Customer:read', 'Customer:write'])]
     private ?string $facebookId = null;
+
+    #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Winner::class)]
+    private Collection $gains;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->gains = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -101,6 +112,36 @@ class Customer extends User
     public function setFacebookId(?string $facebookId): self
     {
         $this->facebookId = $facebookId;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Winner>
+     */
+    public function getGains(): Collection
+    {
+        return $this->gains;
+    }
+
+    public function addGain(Winner $gain): self
+    {
+        if (!$this->gains->contains($gain)) {
+            $this->gains->add($gain);
+            $gain->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGain(Winner $gain): self
+    {
+        if ($this->gains->removeElement($gain)) {
+            // set the owning side to null (unless already changed)
+            if ($gain->getCustomer() === $this) {
+                $gain->setCustomer(null);
+            }
+        }
 
         return $this;
     }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\CustomerType;
 use App\Form\ResetPasswordType;
+use App\Repository\CustomerRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -54,8 +55,10 @@ class AccountController extends AbstractController
     }
 
     #[Route('/mes-gains', name: 'myearnings')]
-    public function earnings(): Response
+    public function earnings(CustomerRepository $customerRepository): Response
     {
-        return $this->render('pages/earnings.html.twig');
+        return $this->render('pages/earnings.html.twig',[
+            'gains' => $this->getUser()->getGains()
+        ]);
     }
 }

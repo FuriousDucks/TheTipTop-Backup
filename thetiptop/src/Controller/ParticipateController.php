@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\ContestGame;
 use App\Entity\Ticket;
 use App\Entity\Winner;
+use App\Repository\CustomerRepository;
 use App\Repository\ProductRepository;
 use App\Repository\TicketRepository;
 use App\Repository\WinnerRepository;
@@ -41,12 +42,12 @@ class ParticipateController extends AbstractController
                 throw new Exception('Le concours n\'est pas encore ouvert ou a déjà été clôturé.');
             else if (count($ticket->getContest()->getTickets()) === $ticket->getContest()->getMaxWinners())
                 throw new Exception('Le nombre maximum de gagnants a été atteint.');
-            elseif ($winnerRepository->findOneBy(['ticket' => $ticket]) || $winnerRepository->findOneBy(['client' => $this->getUser()]))
+            elseif ($winnerRepository->findOneBy(['ticket' => $ticket]) || $winnerRepository->findOneBy(['customer' => $this->getUser()]))
                 throw new Exception('Vous avez déjà gagné au concours.');
             else {
                 $winner = new Winner();
                 $winner->setTicket($ticket);
-                $winner->setClient($this->getUser());
+                $winner->setCustomer($this->getUser());
                 $winner->setDateOfDraw(new \DateTime());
                 $product = $productRepository->find($this->rules($winnerRepository, $ticket->getContest()->getMaxWinners()));
                 $winner->setProduct($product);

@@ -61,31 +61,31 @@ class AppFixtures extends Fixture
                 'title' => 'Infuseur à thé',
                 'description' => 'L\'infuseur est composé d\'acier inoxydable de qualité alimentaire.',
                 'price' => 2.99,
-                'image' => 'https://dsp-archiwebf22-eb-we-fh.fr/images/products/infuseur_the.webp'
+                'image' => 'infuseur_the.webp'
             ],
             [
                 'title' => 'Thé détox',
                 'description' => 'Le thé détox est un mélange de thé vert et morceaux de fruits.',
                 'price' => 4.99,
-                'image' => 'https://dsp-archiwebf22-eb-we-fh.fr/images/products/the_detox_100.jpg'
+                'image' => 'the_detox_100.jpg'
             ],
             [
                 'title' => 'Thé signature',
                 'description' => 'Thé signature bio',
                 'price' => 4.99,
-                'image' => 'https://dsp-archiwebf22-eb-we-fh.fr/images/products/the-signature.jpg'
+                'image' => 'the-signature.jpg'
             ],
             [
                 'title' => 'Coffret découverte d\'une valeur de 39€',
                 'description' => 'Coffret découverte d\'une valeur de 39€',
                 'price' => 39.99,
-                'image' => 'https://dsp-archiwebf22-eb-we-fh.fr/images/products/coffret-decouverte-39.jpg'
+                'image' => 'coffret-decouverte-39.jpg'
             ],
             [
                 'title' => 'Coffret découverte d\'une valeur de 69€',
                 'description' => 'Coffret découverte d\'une valeur de 69€',
                 'price' => 69.99,
-                'image' => 'https://dsp-archiwebf22-eb-we-fh.fr/images/products/coffret-decouverte-69.jpg'
+                'image' => 'coffret-decouverte-69.jpg'
             ]
         ];
 
