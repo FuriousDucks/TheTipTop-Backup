@@ -57,8 +57,9 @@ class AccountController extends AbstractController
     #[Route('/mes-gains', name: 'myearnings')]
     public function earnings(CustomerRepository $customerRepository): Response
     {
-        return $this->render('pages/earnings.html.twig',[
-            'gains' => $this->getUser()->getGains()
+        $customer = $customerRepository->find($this->getUser());
+        return $this->render('pages/earnings.html.twig', [
+            'gains' => $customer->getGains()
         ]);
     }
 }

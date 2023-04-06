@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Customer;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
 use App\Security\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,24 +30,25 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
-        $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $customer = new Customer();
+        $form = $this->createForm(RegistrationFormType::class, $customer);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword(
+            $customer->setPassword(
                 $userPasswordHasher->hashPassword(
-                    $user,
+                    $customer,
                     $form->get('password')->getData()
                 )
             );
 
-            $user->setCreatedAt(new \DateTimeImmutable());
-            $user->setUpdatedAt(new \DateTimeImmutable());
-            $entityManager->persist($user);
+            $customer->setCreatedAt(new \DateTimeImmutable());
+            $customer->setUpdatedAt(new \DateTimeImmutable());
+            $entityManager->persist($customer);
             $entityManager->flush();
+            $user = $userRepository->findOneBy(['email' => $customer->getEmail()]);
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
                     ->from(new Address('benbrahim.elmahdi@gmail.com', 'El Mahdi Benbrahim'))

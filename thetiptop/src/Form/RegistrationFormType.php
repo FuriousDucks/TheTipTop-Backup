@@ -2,12 +2,9 @@
 
 namespace App\Form;
 
-use App\Entity\User;
+use App\Entity\Customer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
-use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -52,7 +49,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('tel', TelType::class, [
+            ->add('phone', TelType::class, [
                 'label' => 'Téléphone',
                 'attr' => [
                     'placeholder' => 'Téléphone',
@@ -123,7 +120,7 @@ class RegistrationFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => Customer::class,
         ]);
     }
 }
