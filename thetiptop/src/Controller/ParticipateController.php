@@ -48,10 +48,11 @@ class ParticipateController extends AbstractController
                 $winner->setTicket($ticket);
                 $winner->setClient($this->getUser());
                 $winner->setDateOfDraw(new \DateTime());
-                $winner->setProduct($productRepository->find($this->rules($winnerRepository, $ticket->getContest()->getMaxWinners())));
+                $product = $productRepository->find($this->rules($winnerRepository, $ticket->getContest()->getMaxWinners()));
+                $winner->setProduct($product);
                 $entityManager->persist($winner);
                 $entityManager->flush();
-                $this->addFlash('success', 'Vous avez gagné le concours.');
+                $this->addFlash('success', 'Félicitations, vous avez gagné ' . $product->getTitle() . '.');
                 return $this->redirectToRoute('participate');
             }
         } catch (\Throwable $th) {
