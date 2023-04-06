@@ -52,4 +52,10 @@ class AccountController extends AbstractController
             ]);
         }
     }
+
+    #[Route('/mes-gains', name: 'myearnings')]
+    public function earnings(): Response
+    {
+        return $this->render('pages/earnings.html.twig');
+    }
 }
