@@ -42,7 +42,7 @@ class ParticipateController extends AbstractController
             else if (count($ticket->getContest()->getTickets()) === $ticket->getContest()->getMaxWinners())
                 throw new Exception('Le nombre maximum de gagnants a été atteint.');
             elseif ($winnerRepository->findOneBy(['ticket' => $ticket]) || $winnerRepository->findOneBy(['client' => $this->getUser()]))
-                throw new Exception('Vous avez déjà gagné un concours.');
+                throw new Exception('Vous avez déjà gagné au concours.');
             else {
                 $winner = new Winner();
                 $winner->setTicket($ticket);
