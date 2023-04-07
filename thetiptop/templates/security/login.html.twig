@@ -22,11 +22,11 @@
                     </div>
                     <div class="checkbox mb-3">
                         <label>
-                            <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                            <input type="checkbox" name="_remember_me" checked="true"> Se souvenir de moi
                         </label>
                     </div>
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                    <button class="button w-50-m mb-2 btn btn-lg rounded-3 btn-primary mx-auto"
+                    <button class="button w-50-m mb-2 btn btn-lg rounded-3 mx-auto"
                         type="submit">Connexion</button>
                     <a class="text-decoration-none" href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?</a>
                     <br>
