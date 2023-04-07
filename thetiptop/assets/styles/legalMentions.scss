@@ -1,7 +1,9 @@
 .main-container {
-    padding-left: 5vw;
-    height: calc(100vh - 250px);
+    padding-right: 7vw;
+    margin-right: -11px;
+    height: calc(100vh - 200px);
     overflow: auto;
+    margin-top: 19px;
 
     h1 {
         padding-bottom: 30px;
@@ -22,5 +24,10 @@
         list-style: none;
         padding: 0;
     }
-    
+}
+
+@media (max-width: 900px) {
+    .main-container {
+        height: calc(100vh - 250px);
+    }
 }
