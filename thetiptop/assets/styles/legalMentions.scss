@@ -1,8 +1,26 @@
 .main-container {
+    padding-left: 5vw;
+    height: calc(100vh - 250px);
+    overflow: auto;
+
+    h1 {
+        padding-bottom: 30px;
+        padding-top:40px;
+    }
+
     h4 {
         padding-bottom: 20px; 
         padding-top: 20px;
+        font-weight: 600;
     }
 
+    label {
+        color: rgba(0, 0, 0, 0.6);
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+    }
     
 }
