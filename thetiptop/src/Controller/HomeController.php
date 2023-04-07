@@ -25,4 +25,12 @@ public function apropos(): Response
         'title' => 'Apropos',
     ]);
 }
+#[Route('/faq', name: 'faq')]
+public function faq(): Response
+{
+    return $this->render('pages/faq.html.twig', [
+        'controller_name' => 'HomeController',
+        'title' => 'FAQ',
+    ]);
+}
 }
