@@ -3,8 +3,9 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Customer;
-use App\Controller\Admin\AdminCrudController;
-use App\Entity\Admin;
+use App\Entity\Employee;
+use App\Entity\Product;
+use App\Entity\Winner;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -22,7 +23,7 @@ class DashboardController extends AbstractDashboardController
         // Option 1. You can make your dashboard redirect to some common page of your backend
         //
         $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        return $this->redirect($adminUrlGenerator->setController(AdminCrudController::class)->generateUrl());
+        return $this->redirect($adminUrlGenerator->setController(CustomerCrudController::class)->generateUrl());
 
         // Option 2. You can make your dashboard redirect to different pages depending on the user
         //
@@ -39,13 +40,16 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Thetiptop');
+            ->setTitle('Thetiptop')
+            ->setFaviconPath('/images/app/logo.png');
     }
 
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('Clients', 'fas fa-list', Admin::class);
-        yield MenuItem::linkToCrud('Clients', 'fas fa-list', Admin::class);
+        yield MenuItem::linkToCrud('Clients', 'fas fa-list', Customer::class);
+        yield MenuItem::linkToCrud('Produits', 'fas fa-list', Product::class);
+        yield MenuItem::linkToCrud('Employés', 'fas fa-list', Employee::class);
+        yield MenuItem::linkToCrud('Gagnants', 'fas fa-list', Winner::class);
     }
 }

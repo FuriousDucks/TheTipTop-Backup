@@ -21,7 +21,7 @@ class Employee extends User
 
     public function getId(): ?int
     {
-        return $this->id;
+        return parent::getId();
     }
 
     public function getJob(): ?string
@@ -46,5 +46,10 @@ class Employee extends User
         $this->store = $store;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getFirstName() . ' ' . $this->getLastName();
     }
 }

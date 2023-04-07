@@ -46,6 +46,7 @@ class RegistrationController extends AbstractController
 
             $customer->setCreatedAt(new \DateTimeImmutable());
             $customer->setUpdatedAt(new \DateTimeImmutable());
+            $customer->setRoles(['ROLE_EMPLOYEE']);
             $entityManager->persist($customer);
             $entityManager->flush();
 

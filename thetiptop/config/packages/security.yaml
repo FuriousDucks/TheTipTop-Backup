@@ -7,10 +7,6 @@ security:
             entity:
                 class: App\Entity\User
                 property: email
-    role_hierarchy:
-        ROLE_ADMIN:       ROLE_ADMIN
-        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_SUPERADMIN]
-        ROLE_USER:        ROLE_USER
     access_denied_url: home
     firewalls:
         dev:
@@ -31,7 +27,8 @@ security:
                 secret:   '%kernel.secret%'
                 lifetime: 604800
     access_control:
-        - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/employe, roles: ROLE_EMPLOYEE }
         - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/register, roles: PUBLIC_ACCESS }

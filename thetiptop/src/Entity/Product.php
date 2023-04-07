@@ -2,12 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\ProductRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Winner;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
+
+#[\Vich\UploaderBundle\Mapping\Annotation\Uploadable]
 class Product
 {
     #[ORM\Id]
@@ -26,6 +30,9 @@ class Product
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Winner::class)]
     private Collection $winners;
+
+    #[UploadableField(mapping: 'product_image', fileNameProperty: 'img')]
+    private ?string $imgFile = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $img = null;
@@ -116,5 +123,10 @@ class Product
         $this->img = $img;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->title;
     }
 }
