@@ -191,7 +191,7 @@
 						<div class="block-grid "
 							style="min-width: 320px; max-width: 610px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; Margin: 0 auto; background-color: #fff;">
 							<div
-								style="background: linear-gradient(77.07deg, #CDBE78 59.39%, #FEF4D0 120.86%);padding-top:20px;padding-right:40px;padding-bottom:30px;padding-left:40px;">
+								style="background: #4c7031;padding-top:20px;padding-right:40px;padding-bottom:30px;padding-left:40px;">
 								<div class="txtTinyMce-wrapper"
 									style="line-height: 1.2; font-size: 12px; font-family: Open Sans, Helvetica Neue, Helvetica, Arial, sans-serif; color: #ffffff; mso-line-height-alt: 14px;">
 								</div>
@@ -212,8 +212,8 @@
 												<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 40px;padding-left: 40px;" align="center"><![endif]-->
 												<div style="font-size:1px;line-height:22px">&nbsp;</div>
 												<img class="center fixedwidth" align="center" border="0"
-													src="/images/app/logo.png"
-													alt="Logo" title="ThéTipTop"
+													src="{{ email.image('@images/app/logo.png') }}" alt="Logo"
+													title="ThéTipTop"
 													style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 100%; max-width: 183px; display: block;"
 													width="183">
 												<div style="font-size:1px;line-height:25px">&nbsp;</div>
@@ -265,7 +265,7 @@
 					<div style="background-color:transparent;">
 						<div class="block-grid "
 							style="min-width: 320px; max-width: 610px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; Margin: 0 auto; background-color: #625F5C;">
-							<div style="border-collapse: collapse;display: table;width: 100%;background-color:#066163;">
+							<div style="border-collapse: collapse;display: table;width: 100%;background-color:#4c7031;">
 								<!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:transparent;"><tr><td align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:610px"><tr class="layout-full-width" style="background-color:#625F5C"><![endif]-->
 								<!--[if (mso)|(IE)]><td align="center" width="610" style="background-color:#625F5C;width:610px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px; padding-top:0px; padding-bottom:0px;"><![endif]-->
 								<div class="col num12"
@@ -342,11 +342,11 @@
 													<p
 														style="font-size: 12px; line-height: 1.2; word-break: break-word; text-align: center; font-family: Open Sans, Helvetica Neue, Helvetica, Arial, sans-serif; mso-line-height-alt: 14px; margin: 0;">
 														<span
-															style="font-weight: 500;font-size: 15px;line-height: 22px;">Bonne
-															journée et à très vite sur
+															style="font-weight: 500;font-size: 15px;line-height: 22px;">
+															{{ '©' ~ 'now' | date('Y') }}&nbsp;
 															<a style="font-weight: 900;font-size: 15px;line-height: 22px; text-decoration: none;color: white;"
 																href="{{url('home')}}">
-																www.thetiptop.fr !
+																{{url('home')}}
 															</a>
 														</span>
 													</p>

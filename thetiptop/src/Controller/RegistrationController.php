@@ -48,17 +48,21 @@ class RegistrationController extends AbstractController
             $customer->setUpdatedAt(new \DateTimeImmutable());
             $entityManager->persist($customer);
             $entityManager->flush();
-            $user = $userRepository->findOneBy(['email' => $customer->getEmail()]);
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+
+            $this->emailVerifier->sendEmailConfirmation(
+                'app_verify_email',
+                $customer,
                 (new TemplatedEmail())
-                    ->from(new Address('benbrahim.elmahdi@gmail.com', 'El Mahdi Benbrahim'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
+                    ->from(new Address($this->getParameter("mail_from"), 'ThéTipTop'))
+                    ->to($customer->getEmail())
+                    ->subject('Veuillez confirmer votre adresse email')
+                    ->htmlTemplate('mails/confirm-mail.html.twig')
             );
-            
+
+            $this->addFlash('success', 'Un email de confirmation vous a été envoyé. Veuillez cliquer sur le lien contenu dans cet email pour valider votre adresse email.');
+
             return $userAuthenticator->authenticateUser(
-                $user,
+                $customer,
                 $authenticator,
                 $request
             );
@@ -80,8 +84,8 @@ class RegistrationController extends AbstractController
 
             return $this->redirectToRoute('app_register');
         }
-        
-        $this->addFlash('success', 'Your email address has been verified.');
+
+        $this->addFlash('success', 'Votre adresse email a été vérifiée.');
 
         return $this->redirectToRoute('app_register');
     }

@@ -1,14 +1,9 @@
 {
-    "_readme": [
-        "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
-        "This file is @generated automatically"
-    ],
-    "content-hash": "55d22588d74c4cd2af8b00fa004ab06f",
     "packages": [
         {
             "name": "league/html-to-markdown",
             "version": "5.1.0",
+            "version_normalized": "5.1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/html-to-markdown.git",
@@ -33,6 +28,7 @@
                 "unleashedtech/php-coding-standard": "^2.7",
                 "vimeo/psalm": "^4.22"
             },
+            "time": "2022-03-02T17:24:08+00:00",
             "bin": [
                 "bin/html-to-markdown"
             ],
@@ -42,6 +38,7 @@
                     "dev-master": "5.2-dev"
                 }
             },
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "League\\HTMLToMarkdown\\": "src/"
@@ -93,16 +90,9 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-03-02T17:24:08+00:00"
+            "install-path": "../league/html-to-markdown"
         }
     ],
-    "packages-dev": [],
-    "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": [],
-    "prefer-stable": false,
-    "prefer-lowest": false,
-    "platform": [],
-    "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "dev": true,
+    "dev-package-names": []
 }

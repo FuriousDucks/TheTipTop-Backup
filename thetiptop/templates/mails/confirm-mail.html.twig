@@ -1,7 +1,6 @@
 {% extends "mails/base.html.twig" %}
 
 {% block email_content %}
-
 <div
     style="color:black;font-family:Open Sans, Helvetica Neue, Helvetica, Arial, sans-serif;line-height:1.5;padding-top:10px;padding-right:40px;padding-bottom:10px;padding-left:40px;">
     <div class="txtTinyMce-wrapper"
@@ -14,22 +13,21 @@
             </span>
             <br><br>
             <span style="color: #474242; font-size: 15px;">
-                Vous avez demandé à réinitialiser votre mot de passe sur thetiptop.
+                Vous venez de vous inscrire sur thetiptop.
                 Si vous n'êtes pas à l'origine de cette demande, ignorez ce mail.
                 Ou contactez-nous à l'adresse suivante :
                 <a href="mailto:noreply@dsp-archiwebf22-eb-we-fh.fr">noreply@dsp-archiwebf22-eb-we-fh.fr</a>
                 <br><br>
-                Ce mail contient un lien qui vous permettra de réinitialiser votre mot de passe.
+                Ce mail contient un lien qui vous permettra de confirmer votre adresse email.
                 Ce dernier est valable
-                {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+                {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
                 <span>
-                    <a href="{{ url('app_reset_password', {'token': resetToken.token}) }}"
-                        style="color: #4c7031;font-weight: 600;font-size: 14px;"> Réinitialisez votre mot de passe</a>
+                    <a href="{{ signedUrl|raw }}" style="color: #4c7031;font-weight: 600;font-size: 14px;"> Confirmez
+                        votre adresse email</a>
                 </span>
+                <br><br>
             </span>
-            <br><br>
-
-        </p>
         </p>
     </div>
-</div>{% endblock %}
+</div>
+{% endblock %}
