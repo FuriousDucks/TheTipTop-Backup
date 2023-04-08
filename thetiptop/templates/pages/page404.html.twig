@@ -5,7 +5,13 @@
 {% endblock %}
 
 {% block body %}
-
+    <div class="container main-container d-flex align-items-center justify-content-center">
+        <section class="bg-white d-flex justify-content-between align-items-center shadow" style="padding-right: 20px; border-radius: 10px">
+            <div> <img class="d-flex" style="height: 185px" src="{{ asset('/images/home/error-404-with-the-cute-green-apple-mascot-free-vector.webp') }}"
+                       alt="404 Error"></div>
+            <div>Oops ! Il n'y a rien ici. Veuillez revenir à la page d'accueil pour <a href="{{ path('home') }}">continuer votre navigation !</a></div>
+        </section>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
