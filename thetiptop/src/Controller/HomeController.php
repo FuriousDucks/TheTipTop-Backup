@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -31,5 +32,18 @@ class HomeController extends AbstractController
         return $this->render('pages/cgu.html.twig', [
             'title' => 'CGU',
         ]);
+    }
+
+    #[Route('/{any}', name: 'fallback', requirements: ['any' => '.*'])]
+    public function fallback(): Response
+    {
+        return $this->render('pages/page404.html.twig', [
+            'title' => 'Error',
+        ]);
+    }
+
+    public function handle404(ResourceNotFoundException $exception): Response
+    {
+        return $this->redirectToRoute('fallback');
     }
 }
