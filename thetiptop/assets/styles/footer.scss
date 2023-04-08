@@ -1,3 +1,28 @@
-footer {
-    margin-top: 50px;
+.footer-wrapper {
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+
+    p {
+        font-size: 14px;
+    }
+
+    li.nav-item-custom {
+        border-right: 1px solid rgba(0,0,0,0.15);
+        line-height: 2px;
+        margin: 10px 0;
+    }
+}
+
+@media (max-width: 900px) {
+    .footer-wrapper {
+        justify-content: center;
+        flex-direction: column-reverse;
+        margin-top: 10px;
+        font-size: 14px;
+
+        p {
+            font-size: 12px;
+        }
+    }
 }
