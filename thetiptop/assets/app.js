@@ -18,7 +18,12 @@ import 'vanilla-cookieconsent/dist/cookieconsent.css';
 import 'vanilla-cookieconsent/dist/cookieconsent.js';
 
 import 'sweetalert2/src/sweetalert2.scss';
+import {
+    Chart
+} from 'chart.js';
+import zoomPlugin from 'chartjs-plugin-zoom';
 
+Chart.register(zoomPlugin);
 
 $(document).ready(function () {
     AOS.init();

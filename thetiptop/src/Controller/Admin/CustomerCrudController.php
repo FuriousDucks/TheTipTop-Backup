@@ -58,7 +58,7 @@ class CustomerCrudController extends AbstractCrudController
         $exportAction = Action::new('export', 'Exporter', 'fas fa-file-export')
             ->linkToCrudAction('export')
             ->addCssClass('btn btn-primary')
-            ->setHtmlAttributes(['target' => '_blank']);
+            ->setHtmlAttributes(['target' => '_blank'])->createAsGlobalAction();
 
 
         return $actions
