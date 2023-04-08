@@ -24,4 +24,12 @@ class HomeController extends AbstractController
             'title' => 'mentionsLegales',
         ]);
     }
+
+    #[Route('/CGU', name: 'CGU')]
+    public function CGU(): Response
+    {
+        return $this->render('pages/cgu.html.twig', [
+            'title' => 'CGU',
+        ]);
+    }
 }
