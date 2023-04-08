@@ -8,7 +8,6 @@ button {
     color: #36395A;
     cursor: pointer;
     display: inline-flex;
-    height: 48px;
     justify-content: center;
     line-height: 1;
     list-style: none;
@@ -35,5 +34,15 @@ button {
 
     &:active {
         color: #36395A;
+    }
+}
+
+.btn-primary {
+    background-color: #4c7031;
+    border-color: #4c7031;
+
+    &:hover {
+        background-color: #198754;
+        border-color: #198754;
     }
 }
