@@ -1,6 +1,6 @@
 $('.gifts').slick({
     infinite: true,
-    speed: 300,
+    speed: 1000,
     autoplay: true,
     arrows: false,
     slidesToShow: 4,
