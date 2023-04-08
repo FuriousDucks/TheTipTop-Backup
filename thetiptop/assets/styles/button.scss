@@ -46,3 +46,10 @@ button {
         border-color: #198754;
     }
 }
+
+.form-control {
+    &:focus {
+        border-color: #4c7031;
+        box-shadow: 0 0 0 0.25rem rgba(76, 112, 49, 0.25);
+    }
+}
