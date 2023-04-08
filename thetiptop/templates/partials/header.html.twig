@@ -12,7 +12,7 @@
                 </a>
                 <ul class="dropdown-menu text-small">
                     {% if app.user %}
-                    {% if is_granted('ROLE_USER') %}
+                    {% if not is_granted('ROLE_ADMIN') and not is_granted('ROLE_EMPLOYEE') %}
                     <li><a class="dropdown-item" href="{{ path('my-account') }}">Mon compte</a></li>
                     <li><a class="dropdown-item" href="{{ path('myearnings') }}">Mes gains</a></li>
                     <li><a class="dropdown-item" href="{{ path('participate') }}">Participer au concours</a></li>

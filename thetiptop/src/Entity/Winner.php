@@ -27,6 +27,9 @@ class Winner
     #[ORM\JoinColumn(nullable: false)]
     private ?Customer $customer = null;
 
+    #[ORM\Column]
+    private ?bool $recovered = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -76,6 +79,18 @@ class Winner
     public function setCustomer(?Customer $customer): self
     {
         $this->customer = $customer;
+
+        return $this;
+    }
+
+    public function isRecovered(): ?bool
+    {
+        return $this->recovered;
+    }
+
+    public function setRecovered(bool $recovered): self
+    {
+        $this->recovered = $recovered;
 
         return $this;
     }

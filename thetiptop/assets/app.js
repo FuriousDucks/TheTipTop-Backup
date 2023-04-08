@@ -19,6 +19,7 @@ import 'vanilla-cookieconsent/dist/cookieconsent.js';
 
 import 'sweetalert2/src/sweetalert2.scss';
 
+
 $(document).ready(function () {
     AOS.init();
     $("input[type='password']").each(function () {

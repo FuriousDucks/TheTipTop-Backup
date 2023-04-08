@@ -21,12 +21,12 @@ class ProductCrudController extends AbstractCrudController
         return [
             TextField::new('title'),
             TextField::new('description'),
-            MoneyField::new('price')->setCurrency('EUR'),
+            MoneyField::new('price')->setCurrency('EUR')->setStoredAsCents(false),
             ImageField::new('img')
                 ->setBasePath('/images/products')
                 ->onlyOnForms()
                 ->onlyOnIndex(),
-            ImageField::new('imgFile')
+            ImageField::new('img')
                 ->setUploadDir('public/images/products')
                 ->setBasePath('/images/products')
                 ->setFormTypeOptions([
