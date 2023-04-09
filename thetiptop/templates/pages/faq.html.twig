@@ -7,4 +7,128 @@ Accueil
 
 
 {% block body %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>FAQ</title>
+
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <style type="text/css">
+      body{
+        background: #eee;
+        padding-top: 20px;
+        font-family: monospace;
+      }
+      .header{
+        border-radius: 20px 20px 0px 0px;
+        padding: 10px 0px;
+        background: DarkGreen	;
+        color: #fff;
+        width: 100%;
+        display: flex;
+        align-content: center;
+        justify-content: center;
+      }
+      .faq-item{
+        margin-bottom: 40px;
+        margin-top: 40px;
+      }
+      .faq-body{
+        display: none;
+        margin-top: 30px;
+      }
+      .faq-wrapper{
+        width: 100%;
+        margin: 0 auto;
+      }
+      .faq-inner{
+        padding: 30px;
+        background: white;
+      }
+      .faq-plus{
+        float: right;
+        font-size: 1.4em;
+        line-height: 1em;
+        cursor: pointer;
+      }
+      hr{
+        background-color: #9b9b9b;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="faq-wrapper">
+          <div class="header">
+            <h1>Foire aux questions</h1>
+          </div>
+          <div class="faq-inner">
+            <div class="faq-item">
+              <h3>
+                Comment s'inscrire ?
+                <span class="faq-plus">&plus;</span>
+              </h3>
+              <div class="faq-body">
+                ////////////////////////////////////////////////////////////.
+              </div>
+            </div>
+            <hr>
+            <div class="faq-item">
+              <h3>
+                Comment acceder a mes gains ?
+                <span class="faq-plus">&plus;</span>
+              </h3>
+              <div class="faq-body">
+               /////////////////////////////////////
+              </div>
+            </div>
+            <hr>
+            <div class="faq-item">
+              <h3>
+                Quels sont les differents cadeaux
+                <span class="faq-plus">&plus;</span>
+              </h3>
+              <div class="faq-body">
+                /////////////////////////////////////////
+              </div>
+            </div>
+            <hr>
+            <div class="faq-item">
+              <h3>
+                Comment réccupere mes gains?
+                <span class="faq-plus">&plus;</span>
+              </h3>
+              <div class="faq-body">
+                ////////////////////////////////////////////////////////////
+              </div>
+            </div>
+            <hr>
+            <div class="faq-item">
+              <h3>
+                Puis-je jouer plusieurs fois?
+                <span class="faq-plus">&plus;</span>
+              </h3>
+              <div class="faq-body">
+                ////////////////////////////////////////////
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(".faq-plus").on('click',function(){
+        $(this).parent().parent().find('.faq-body').slideToggle();
+      });
+    </script>
+  </body>
+
+</html>
+
 {% endblock %}
