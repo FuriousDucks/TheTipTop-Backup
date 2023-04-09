@@ -39,6 +39,15 @@ class ProductRepository extends ServiceEntityRepository
         }
     }
 
+    public function countUserPerProduct(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.winners', 'w')
+            ->select('p.title as title, COUNT(w.product) as winners')
+            ->groupBy('title')
+            ->getQuery()
+            ->getArrayResult();
+    }
 //    /**
 //     * @return Product[] Returns an array of Product objects
 //     */

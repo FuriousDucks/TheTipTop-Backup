@@ -32,6 +32,9 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('home');
+        }
         $customer = new Customer();
         $form = $this->createForm(RegistrationFormType::class, $customer);
         $form->handleRequest($request);
@@ -46,7 +49,6 @@ class RegistrationController extends AbstractController
 
             $customer->setCreatedAt(new \DateTimeImmutable());
             $customer->setUpdatedAt(new \DateTimeImmutable());
-            $customer->setRoles(['ROLE_EMPLOYEE']);
             $entityManager->persist($customer);
             $entityManager->flush();
 

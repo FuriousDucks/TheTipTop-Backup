@@ -16,12 +16,12 @@
                     <li><a class="dropdown-item" href="{{ path('my-account') }}">Mon compte</a></li>
                     <li><a class="dropdown-item" href="{{ path('myearnings') }}">Mes gains</a></li>
                     <li><a class="dropdown-item" href="{{ path('participate') }}">Participer au concours</a></li>
-                    {% endif %}
-                    {% if is_granted('ROLE_ADMIN') %}
-                    <li><a class="dropdown-item" href="#">Statistiques</a></li>
-                    {% endif %}
-                    {% if is_granted('ROLE_EMPLOYEE') %}
-                    <li><a class="dropdown-item" href="#">Visualiser les gains attribués</a></li>
+                    {% elseif is_granted('ROLE_ADMIN') or is_granted('ROLE_EMPLOYEE') %}
+                    <li>
+                        <a class="dropdown-item" href="{{ path('admin') }}">
+                            {{ is_granted('ROLE_ADMIN') ? 'Espace administrateur' : 'Espace employé' }}
+                        </a>
+                    </li>
                     {% endif %}
                     <li><a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a></li>
                     {% else %}

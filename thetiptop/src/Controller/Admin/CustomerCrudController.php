@@ -8,7 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
@@ -36,8 +36,7 @@ class CustomerCrudController extends AbstractCrudController
             yield TextField::new('lastname')->setLabel('Nom'),
             yield TelephoneField::new('phone')->setLabel('Téléphone'),
             yield TextField::new('address')->setLabel('Adresse'),
-            yield TextField::new('date_of_birth')->setLabel('Date de naissance')->setCssClass('datepicker'),
-
+            yield TextField::new('date_of_birth')->setLabel('Date de naissance'),
         ];
     }
 

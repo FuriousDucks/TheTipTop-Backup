@@ -39,6 +39,26 @@ class TicketRepository extends ServiceEntityRepository
         }
     }
 
+    public function usedTickets()
+    {
+        return $this->createQueryBuilder('t')
+            ->select('COUNT(t.id) as used')
+            ->leftJoin('App\Entity\Winner', 'w', 'WITH', 'w.ticket = t.id')
+            ->where('w.ticket IS NOT NULL')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function unusedTickets()
+    {
+        return $this->createQueryBuilder('t')
+            ->select('count(t.id) as unused')
+            ->leftJoin('App\Entity\Winner', 'w', 'WITH', 'w.ticket = t.id')
+            ->where('w.ticket IS NULL')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
 //    /**
 //     * @return Ticket[] Returns an array of Ticket objects
 //     */

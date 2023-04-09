@@ -18,6 +18,17 @@ import 'vanilla-cookieconsent/dist/cookieconsent.css';
 import 'vanilla-cookieconsent/dist/cookieconsent.js';
 
 import 'sweetalert2/src/sweetalert2.scss';
+
+import {
+    startStimulusApp
+} from '@symfony/stimulus-bridge';
+
+export const app = startStimulusApp(require.context(
+    '@symfony/stimulus-bridge/lazy-controller-loader!./controllers',
+    true,
+    /\.(j|t)sx?$/
+));
+
 import {
     Chart
 } from 'chart.js';
@@ -27,6 +38,7 @@ Chart.register(zoomPlugin);
 
 $(document).ready(function () {
     AOS.init();
+    console.log("chart");
     $("input[type='password']").each(function () {
         let eye = $('<i class="fa fa-eye" aria-hidden="true"></i>');
         eye.css({

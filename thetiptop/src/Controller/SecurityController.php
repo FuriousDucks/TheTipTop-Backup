@@ -38,9 +38,6 @@ class SecurityController extends AbstractController
     {
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
-        if ($error) {
-            dd($error->getMessage());
-        }
         return $this->render('@EasyAdmin/page/login.html.twig', [
             'error' => $error,
             'last_username' => $lastUsername,
@@ -53,9 +50,7 @@ class SecurityController extends AbstractController
             'username_label' => 'Votre identifiant',
             'password_label' => 'Votre mot de passe',
             'sign_in_label' => 'Connexion',
-            // the 'name' HTML attribute of the <input> used for the username field (default: '_username')
             'username_parameter' => 'my_custom_username_field',
-            // the 'name' HTML attribute of the <input> used for the password field (default: '_password')
             'password_parameter' => 'my_custom_password_field',
             'forgot_password_enabled' => true,
             'forgot_password_path' => '/reset-password',
