@@ -2,10 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\TicketRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TicketRepository;
+use ApiPlatform\Metadata\ApiResource;
 
 #[ORM\Entity(repositoryClass: TicketRepository::class)]
+#[ApiResource(
+    extraProperties: [
+        'standard_put' => true,
+    ]
+)]
 class Ticket
 {
     #[ORM\Id]

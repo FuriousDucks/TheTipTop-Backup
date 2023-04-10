@@ -2,10 +2,18 @@
 
 namespace App\Entity;
 
-use App\Repository\WinnerRepository;
+use ApiPlatform\Metadata\ApiResource;
+use App\Entity\Ticket;
+use App\Entity\Product;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\WinnerRepository;
 
+#[ApiResource(
+    extraProperties: [
+        'standard_put' => true,
+    ]
+)]
 #[ORM\Entity(repositoryClass: WinnerRepository::class)]
 class Winner
 {

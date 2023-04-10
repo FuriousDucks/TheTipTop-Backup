@@ -25,8 +25,9 @@ class AccountController extends AbstractController
         $passwordForm->handleRequest($request);
         try {
             if ($passwordForm->isSubmitted() && $passwordForm->isValid()) {
-                if ($user->getPassword() !== $passwordForm->get('oldPassword')->getData())
+                if ($user->getPassword() !== $passwordForm->get('oldPassword')->getData()) {
                     throw new \Exception('Ancien mot de passe incorrect');
+                }
                 $user->setPassword(
                     $userPasswordHasher->hashPassword(
                         $user,
@@ -36,7 +37,7 @@ class AccountController extends AbstractController
                 $em->persist($user);
                 $em->flush();
                 $this->addFlash('success', 'Votre mot de passe a bien été mis à jour');
-            } else if ($form->isSubmitted() && $form->isValid()) {
+            } elseif ($form->isSubmitted() && $form->isValid()) {
                 $user->setPassword(
                     $user->getPassword()
                 );
@@ -44,13 +45,15 @@ class AccountController extends AbstractController
                 $em->flush();
                 $this->addFlash('success', 'Votre profil a bien été mis à jour');
             }
-        } catch (\Exception $e) {
-            $this->addFlash('error', $e->getMessage());
-        } finally {
+
             return $this->render('pages/profile.html.twig', [
                 'profileForm' => $form->createView(),
                 'passwordForm' => $passwordForm->createView(),
             ]);
+
+        } catch (\Exception $e) {
+            $this->addFlash('error', $e->getMessage());
+            return $this->redirectToRoute('my-account');
         }
     }
 

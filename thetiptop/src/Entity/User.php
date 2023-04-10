@@ -8,6 +8,7 @@ use App\Repository\UserRepository;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use Serializable;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -19,24 +20,28 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 #[ORM\DiscriminatorColumn(name: "type", type: Types::STRING)]
 #[ORM\DiscriminatorMap(["user" => User::class, "customer" => Customer::class, 'admin' => Admin::class, 'employee' => Employee::class])]
 #[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte avec cette adresse email')]
-#[ApiResource()]
+#[ApiResource(
+    extraProperties: [
+        'standard_put' => true,
+    ]
+)]
 #[ApiFilter(SearchFilter::class, properties: ['email' => 'exact'])]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, Serializable, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['Customer:read', 'Customer:write'])]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank(message: 'L\'adresse email est obligatoire')]
     #[Assert\Email(message: 'L\'adresse email n\'est pas valide')]
-    #[Groups(['Customer:read', 'Customer:write'])]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?string $email = null;
 
     #[ORM\Column]
-    #[Groups(['Customer:read', 'Customer:write'])]
+    #[Groups(['customer:read', 'customer:write'])]
     private array $roles = [];
 
     /**
@@ -49,28 +54,50 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(type: 'boolean')]
-    #[Groups(['Customer:read', 'Customer:write'])]
+    #[Groups(['customer:read', 'customer:write'])]
     private $isVerified = false;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['Customer:read', 'Customer:write'])]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['Customer:read', 'Customer:write'])]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?string $lastName = null;
 
     #[ORM\Column(nullable: true, options: ['default' => 'CURRENT_TIMESTAMP'])]
-    #[Groups(['Customer:read', 'Customer:write'])]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true, options: ['default' => 'CURRENT_TIMESTAMP'])]
-    #[Groups(['Customer:read', 'Customer:write'])]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()
     {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
     }
+
+    public function serialize(): string
+    {
+        return serialize([
+            $this->id,
+            $this->email,
+            $this->password,
+        ]);
+    }
+
+
+    public function unserialize($serialized): void
+    {
+        [
+            $this->id,
+            $this->email,
+            $this->password,
+        ] = unserialize($serialized, ['allowed_classes' => false]);
+    }
+
 
     public function getId(): ?int
     {

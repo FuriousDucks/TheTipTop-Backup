@@ -23,11 +23,11 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        // $this->Users($manager);
+        $this->Users($manager);
         $this->Products($manager);
-        // $this->Stores($manager);
-        // $this->Contest($manager);
-        // $this->Tickets($manager);
+        $this->Stores($manager);
+        $this->Contest($manager);
+        $this->Tickets($manager);
     }
 
     public function Users(ObjectManager $manager): void
@@ -35,19 +35,26 @@ class AppFixtures extends Fixture
         // Admins
         $user = new Admin();
         $user->setEmail('benbrahim.elmahdi@gmail.com');
+        $user->setFirstName('EL MAHDI');
+        $user->setLastName('Benbrahim');
         $user->setPassword($this->userPasswordHasher->hashPassword($user, 'password'));
         $user->setRoles(['ROLE_ADMIN']);
+        $user->setLogged(false);
         $manager->persist($user);
 
         // Employees
         $user = new Employee();
         $user->setEmail('ElMahdiBENBRAHIM@etu-digitalschool.paris');
+        $user->setFirstName('EL MAHDI');
+        $user->setLastName('Benbrahim');
         $user->setPassword($this->userPasswordHasher->hashPassword($user, 'password'));
         $user->setRoles(['ROLE_EMPLOYEE']);
         $manager->persist($user);
 
         // Users
         $user->setEmail('furious.duck.g4@gmail.com');
+        $user->setFirstName('Furious');
+        $user->setLastName('Duck');
         $user->setPassword($this->userPasswordHasher->hashPassword($user, 'password'));
         // $user->setRoles(['ROLE_ADMIN']); // Default role is ROLE_USER
         $manager->persist($user);

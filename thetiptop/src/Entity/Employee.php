@@ -2,10 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\EmployeeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use App\Repository\EmployeeRepository;
 
 #[ORM\Entity(repositoryClass: EmployeeRepository::class)]
+#[ApiResource(
+    extraProperties: [
+        'standard_put' => true,
+    ]
+)]
 class Employee extends User
 {
     #[ORM\Id]

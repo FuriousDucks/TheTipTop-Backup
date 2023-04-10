@@ -2,12 +2,18 @@
 
 namespace App\Entity;
 
-use App\Repository\StoreRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\StoreRepository;
+use ApiPlatform\Metadata\ApiResource;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: StoreRepository::class)]
+#[ApiResource(
+    extraProperties: [
+        'standard_put' => true,
+    ]
+)]
 class Store
 {
     #[ORM\Id]

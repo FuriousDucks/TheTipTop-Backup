@@ -12,7 +12,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
-#[ApiResource()]
+#[ApiResource(
+    extraProperties: [
+        'standard_put' => true,
+    ]
+)]
 #[ApiFilter(SearchFilter::class, properties: ['email' => 'exact'])]
 
 class Customer extends User
@@ -23,23 +27,23 @@ class Customer extends User
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['Customer:read', 'Customer:write'])]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?string $address = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['Customer:read', 'Customer:write'])]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?string $social = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['Customer:read', 'Customer:write'])]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?string $phone = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['Customer:read', 'Customer:write'])]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?string $dateOfBirth = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['Customer:read', 'Customer:write'])]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?string $facebookId = null;
 
     #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Winner::class)]
@@ -61,7 +65,7 @@ class Customer extends User
         return $this->address;
     }
 
-    public function setAddress(string $address): self
+    public function setAddress(?string $address): self
     {
         $this->address = $address;
 

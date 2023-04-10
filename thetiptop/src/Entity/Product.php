@@ -4,14 +4,17 @@ namespace App\Entity;
 
 use App\Entity\Winner;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
-
-#[\Vich\UploaderBundle\Mapping\Annotation\Uploadable]
+#[ApiResource(
+    extraProperties: [
+        'standard_put' => true,
+    ]
+)]
 class Product
 {
     #[ORM\Id]
@@ -30,9 +33,6 @@ class Product
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Winner::class)]
     private Collection $winners;
-
-    #[UploadableField(mapping: 'product_image', fileNameProperty: 'img')]
-    private ?string $imgFile = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $img = null;

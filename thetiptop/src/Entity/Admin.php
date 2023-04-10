@@ -2,10 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\AdminRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AdminRepository;
+use ApiPlatform\Metadata\Tests\Fixtures\ApiResource\User;
 
 #[ORM\Entity(repositoryClass: AdminRepository::class)]
+#[ApiResource(
+    extraProperties: [
+        'standard_put' => true,
+    ]
+)]
 class Admin extends User
 {
     #[ORM\Id]

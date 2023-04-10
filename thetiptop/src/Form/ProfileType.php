@@ -2,9 +2,10 @@
 
 namespace App\Form;
 
-use App\Entity\User;
+use App\Entity\Customer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -42,9 +43,13 @@ class ProfileType extends AbstractType
                     new NotBlank([
                         'message' => 'Veuillez renseigner votre date de naissance',
                     ]),
+                    new Regex([
+                        'pattern' => '/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/(19|20)\d\d$/',
+                        'message' => 'Votre date de naissance doit être au format JJ/MM/AAAA',
+                    ]),
                 ],
             ])
-            ->add('tel', TelType::class, [
+            ->add('phone', TelType::class, [
                 'label' => 'Téléphone',
                 'attr' => [
                     'placeholder' => 'Téléphone',
@@ -73,6 +78,15 @@ class ProfileType extends AbstractType
                         'placeholder' => 'Email',
                         'class' => 'form-control',
                     ],
+                    'required' => false,
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => 'Veuillez renseigner votre email',
+                        ]),
+                        new Email([
+                            'message' => 'Veuillez renseigner un email valide',
+                        ]),
+                    ],
                 ]
             );
     }
@@ -80,7 +94,7 @@ class ProfileType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => Customer::class,
         ]);
     }
 }

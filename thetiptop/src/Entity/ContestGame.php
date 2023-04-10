@@ -10,7 +10,11 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ContestGameRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    extraProperties: [
+        'standard_put' => true,
+    ]
+)]
 class ContestGame
 {
     #[ORM\Id]
@@ -78,7 +82,7 @@ class ContestGame
 
         return $this;
     }
-    
+
     public function getMaxWinners(): ?int
     {
         return $this->maxWinners;
