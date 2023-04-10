@@ -6,6 +6,9 @@
 parameters:
     locale: fr
     mail_from: '%env(MAIL_FROM)%'
+    mailchimp_key: '%env(MAILCHIMP_KEY)%'
+    mailchimp_server: '%env(MAILCHIMP_SERVER)%'
+    mailchimp_list_id: '%env(MAILCHIMP_LIST_ID)%'
 
 services:
     # default configuration for services in *this* file

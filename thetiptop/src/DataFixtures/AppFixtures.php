@@ -106,7 +106,7 @@ class AppFixtures extends Fixture
         $batchSize = 20;
         for ($i = 1; $i <= 500; $i++) {
             $ticket = new Ticket();
-            $ticketNumber = str_pad($i, 7, '0', STR_PAD_LEFT);
+            $ticketNumber = str_pad($i, 10, '0', STR_PAD_LEFT);
             $ticket->setNumber($ticketNumber);
             $ticket->setAmount(mt_rand(49, 100));
             $stores = $manager->getRepository(Store::class)->findAll();
@@ -114,8 +114,8 @@ class AppFixtures extends Fixture
                 return $store->getId();
             }, $stores);
             $ticket->setStore($stores[array_rand($ids)]);
-            $contest = $manager->getRepository(ContestGame::class)->findAll();
-            $ticket->setContest($contest[0]);
+            $contest = $manager->getRepository(ContestGame::class)->find(1);
+            $ticket->setContest($contest);
             $manager->persist($ticket);
             $manager->flush();
             if (($i % $batchSize) === 0) {
@@ -159,7 +159,7 @@ class AppFixtures extends Fixture
         $contest->setTitle('ThéTipTop');
         $contest->setStartDate(new \DateTime('2023-04-01'));
         $contest->setEndDate(new \DateTime('2023-4-30'));
-        $contest->setMaxWinners(1000000);
+        $contest->setMaxWinners(1500000);
         $manager->persist($contest);
         $manager->flush();
     }

@@ -38,19 +38,20 @@ class ParticipateController extends AbstractController
                 return $ticket->getNumber() == $ticketNumber;
             });
             $ticket = array_pop($ticket);
-            if ($ticket->getContest()->getStartDate() > new \DateTime() || $ticket->getContest()->getEndDate() < new \DateTime())
+            if ($ticket->getContest()->getStartDate() > new \DateTime() || $ticket->getContest()->getEndDate() < new \DateTime()) {
                 throw new Exception('Le concours n\'est pas encore ouvert ou a déjà été clôturé.');
-            else if (count($ticket->getContest()->getTickets()) === $ticket->getContest()->getMaxWinners())
+            } elseif (count($ticket->getContest()->getTickets()) === $ticket->getContest()->getMaxWinners()) {
                 throw new Exception('Le nombre maximum de gagnants a été atteint.');
-            elseif ($winnerRepository->findOneBy(['ticket' => $ticket]) || $winnerRepository->findOneBy(['customer' => $this->getUser()]))
-                throw new Exception('Vous avez déjà gagné au concours.');
-            else {
+            } elseif ($winnerRepository->findOneBy(['ticket' => $ticket])) {
+                throw new Exception('Ce ticket a déjà été gagnant.');
+            } else {
                 $winner = new Winner();
                 $winner->setTicket($ticket);
                 $winner->setCustomer($this->getUser());
                 $winner->setDateOfDraw(new \DateTime());
                 $product = $productRepository->find($this->rules($winnerRepository, $ticket->getContest()->getMaxWinners()));
                 $winner->setProduct($product);
+                $winner->setRecovered(false);
                 $entityManager->persist($winner);
                 $entityManager->flush();
                 $this->addFlash('success', 'Félicitations, vous avez gagné ' . $product->getTitle() . '.');
@@ -71,30 +72,36 @@ class ParticipateController extends AbstractController
             shuffle($possibilities);
             $gain = 0;
             foreach ($possibilities as $possibility) {
-                if ($gain !== 0)
+                if ($gain !== 0) {
                     break;
+                }
                 $count = $winnerRepository->count(['product' => $possibility]);
                 $percentage = (($count * 100) / $max);
                 switch ($possibility) {
                     case 1:
-                        if ($percentage < 60)
+                        if ($percentage < 60) {
                             $gain = $possibility;
+                        }
                         break;
                     case 2:
-                        if ($percentage < 20)
+                        if ($percentage < 20) {
                             $gain = $possibility;
+                        }
                         break;
                     case 3:
-                        if ($percentage < 10)
+                        if ($percentage < 10) {
                             $gain = $possibility;
+                        }
                         break;
                     case 4:
-                        if ($percentage < 6)
+                        if ($percentage < 6) {
                             $gain = $possibility;
+                        }
                         break;
                     case 5:
-                        if ($percentage < 4)
+                        if ($percentage < 4) {
                             $gain = $possibility;
+                        }
                         break;
                     default:
                         break;
