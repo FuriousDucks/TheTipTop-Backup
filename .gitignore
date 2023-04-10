@@ -1,5 +1,6 @@
 
 ###> symfony/framework-bundle ###
+/thetiptop/.env
 /thetiptop/.env.local
 /thetiptop/.env.local.php
 /thetiptop/.env.*.local
