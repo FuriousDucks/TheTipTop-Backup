@@ -16,6 +16,7 @@
         "knpuniversity/oauth2-client-bundle": "^2.13",
         "league/oauth2-facebook": "^2.2",
         "league/oauth2-google": "^4.0",
+        "lexik/jwt-authentication-bundle": "^2.18",
         "mailchimp/marketing": "^3.0",
         "nelmio/cors-bundle": "^2.3",
         "phpdocumentor/reflection-docblock": "^5.3",
