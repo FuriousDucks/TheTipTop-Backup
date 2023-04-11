@@ -5,7 +5,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends locales apt-utils git libicu-dev g++ libpng-dev libxml2-dev libzip-dev libonig-dev libxslt-dev;
 
 RUN docker-php-ext-configure intl
-RUN docker-php-ext-install pdo pdo_mysql gd opcache intl zip calendar dom mbstring zip unzip php-zip gd xsl
+RUN docker-php-ext-install pdo pdo_mysql gd opcache intl zip calendar dom mbstring zip gd xsl
 RUN pecl install apcu && docker-php-ext-enable apcu
 RUN pecl install xdebug  && docker-php-ext-enable  xdebug \
     && echo "xdebug.mode=coverage" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
