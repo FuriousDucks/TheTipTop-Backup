@@ -2,15 +2,15 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Admin;
 use App\Entity\ContestGame;
 use App\Entity\Employee;
 use App\Entity\Product;
 use App\Entity\Store;
 use App\Entity\Ticket;
+use App\Entity\User;
+use App\Entity\Customer;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Proxies\__CG__\App\Entity\Customer;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
@@ -34,13 +34,12 @@ class AppFixtures extends Fixture
     public function Users(ObjectManager $manager): void
     {
         // Admins
-        $user = new Admin();
+        $user = new User();
         $user->setEmail('benbrahim.elmahdi@gmail.com');
         $user->setFirstName('EL MAHDI');
         $user->setLastName('Benbrahim');
         $user->setPassword($this->userPasswordHasher->hashPassword($user, 'password'));
         $user->setRoles(['ROLE_ADMIN']);
-        $user->setLogged(false);
         $manager->persist($user);
 
         // Employees
