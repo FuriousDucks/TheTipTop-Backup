@@ -38,6 +38,7 @@ class AppFixtures extends Fixture
         $user->setEmail('benbrahim.elmahdi@gmail.com');
         $user->setFirstName('EL MAHDI');
         $user->setLastName('Benbrahim');
+        $user->setIsVerified(true);
         $user->setPassword($this->userPasswordHasher->hashPassword($user, 'password'));
         $user->setRoles(['ROLE_ADMIN']);
         $manager->persist($user);
@@ -47,15 +48,17 @@ class AppFixtures extends Fixture
         $user->setEmail('ElMahdiBENBRAHIM@etu-digitalschool.paris');
         $user->setFirstName('EL MAHDI');
         $user->setLastName('Benbrahim');
+        $user->setIsVerified(true);
         $user->setPassword($this->userPasswordHasher->hashPassword($user, 'password'));
         $user->setRoles(['ROLE_EMPLOYEE']);
         $manager->persist($user);
-
+        
         // Users
         $user = new Customer();
         $user->setEmail('furious.duck.g4@gmail.com');
         $user->setFirstName('Furious');
         $user->setLastName('Duck');
+        $user->setIsVerified(true);
         $user->setPassword($this->userPasswordHasher->hashPassword($user, 'password'));
         // $user->setRoles(['ROLE_ADMIN']); // Default role is ROLE_USER
         $manager->persist($user);
