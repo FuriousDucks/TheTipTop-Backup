@@ -68,7 +68,7 @@ class ParticipateController extends AbstractController
     public function rules(WinnerRepository $winnerRepository, $max): int
     {
         try {
-            $possibilities = [1, 2, 3, 4, 5, 6];
+            $possibilities = [1, 2, 3, 4, 5];
             shuffle($possibilities);
             $gain = 0;
             foreach ($possibilities as $possibility) {

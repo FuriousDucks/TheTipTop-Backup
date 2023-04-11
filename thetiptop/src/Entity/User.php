@@ -2,13 +2,16 @@
 
 namespace App\Entity;
 
+use Serializable;
+use App\Entity\Admin;
+use App\Entity\Customer;
+use App\Entity\Employee;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use Serializable;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -31,46 +34,46 @@ class User implements UserInterface, Serializable, PasswordAuthenticatedUserInte
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['customer:read', 'customer:write'])]
+    #[Groups(['read:Customer', 'write:Customer'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank(message: 'L\'adresse email est obligatoire')]
     #[Assert\Email(message: 'L\'adresse email n\'est pas valide')]
-    #[Groups(['customer:read', 'customer:write'])]
+    #[Groups(['read:Customer', 'write:Customer'])]
     private ?string $email = null;
 
     #[ORM\Column]
-    #[Groups(['customer:read', 'customer:write'])]
+    #[Groups(['read:Customer', 'write:Customer'])]
     private array $roles = [];
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
-    // #[Assert\NotBlank(message: 'Le mot de passe est obligatoire')]
-    // #[Assert\Length(min: 8, minMessage: 'Le mot de passe doit faire au moins 8 caractères')]
-    // #[Assert\Regex(pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/', message: 'Le mot de passe doit contenir au moins une minuscule, une majuscule, un chiffre et un caractère spécial')]
+    #[Assert\NotBlank(message: 'Le mot de passe est obligatoire')]
+    #[Assert\Length(min: 8, minMessage: 'Le mot de passe doit faire au moins 8 caractères')]
+    #[Assert\Regex(pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/', message: 'Le mot de passe doit contenir au moins une minuscule, une majuscule, un chiffre et un caractère spécial')]
     private ?string $password = null;
 
     #[ORM\Column(type: 'boolean')]
-    #[Groups(['customer:read', 'customer:write'])]
+    #[Groups(['read:Customer', 'write:Customer'])]
     private $isVerified = false;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['customer:read', 'customer:write'])]
+    #[Groups(['read:Customer', 'write:Customer'])]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['customer:read', 'customer:write'])]
+    #[Groups(['read:Customer', 'write:Customer'])]
     private ?string $lastName = null;
 
     #[ORM\Column(nullable: true, options: ['default' => 'CURRENT_TIMESTAMP'])]
-    #[Groups(['customer:read', 'customer:write'])]
+    #[Groups(['read:Customer', 'write:Customer'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true, options: ['default' => 'CURRENT_TIMESTAMP'])]
-    #[Groups(['customer:read', 'customer:write'])]
+    #[Groups(['read:Customer', 'write:Customer'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()

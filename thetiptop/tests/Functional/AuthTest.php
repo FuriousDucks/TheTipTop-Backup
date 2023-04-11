@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Integration;
+namespace App\Tests\Functional;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -14,7 +14,7 @@ class AuthTest extends WebTestCase
 
         $form = $crawler->selectButton('Connexion')->form();
 
-        $form['email'] = 'benbrahim.elmahdi@gmail.com';
+        $form['email'] = 'furious.duck.g4@gmail.com';
         $form['password'] = 'password';
 
         $client->submit($form);

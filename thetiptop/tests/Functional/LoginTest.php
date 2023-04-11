@@ -1,9 +1,7 @@
 <?php
 
-namespace App\Tests\Integration;
+namespace App\Tests\Functional;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Panther\Client;
 use Symfony\Component\Panther\PantherTestCase;
 
 class LoginTest extends PantherTestCase

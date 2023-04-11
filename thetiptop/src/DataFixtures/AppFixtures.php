@@ -10,6 +10,7 @@ use App\Entity\Store;
 use App\Entity\Ticket;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Proxies\__CG__\App\Entity\Customer;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
@@ -52,6 +53,7 @@ class AppFixtures extends Fixture
         $manager->persist($user);
 
         // Users
+        $user = new Customer();
         $user->setEmail('furious.duck.g4@gmail.com');
         $user->setFirstName('Furious');
         $user->setLastName('Duck');

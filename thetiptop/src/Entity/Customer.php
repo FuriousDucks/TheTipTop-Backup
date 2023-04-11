@@ -27,23 +27,23 @@ class Customer extends User
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['customer:read', 'customer:write'])]
+    #[Groups(['read:Customer', 'write:Customer'])]
     private ?string $address = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['customer:read', 'customer:write'])]
+    #[Groups(['read:Customer', 'write:Customer'])]
     private ?string $social = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['customer:read', 'customer:write'])]
+    #[Groups(['read:Customer', 'write:Customer'])]
     private ?string $phone = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['customer:read', 'customer:write'])]
+    #[Groups(['read:Customer', 'write:Customer'])]
     private ?string $dateOfBirth = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['customer:read', 'customer:write'])]
+    #[Groups(['read:Customer', 'write:Customer'])]
     private ?string $facebookId = null;
 
     #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Winner::class)]
