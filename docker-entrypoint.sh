@@ -1,3 +1,4 @@
+export NODE_ENV=production
 chmod -R 777 ./public/*
 composer install -n
 yarn install --force

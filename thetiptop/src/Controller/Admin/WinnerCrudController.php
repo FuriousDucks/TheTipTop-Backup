@@ -26,15 +26,14 @@ class WinnerCrudController extends AbstractCrudController
             yield AssociationField::new('ticket')->setDisabled(true),
             yield DateField::new('dateofdraw')->setDisabled(true)->setLabel('Date du tirage'),
             yield AssociationField::new('customer')->setDisabled(true)->setLabel('Client'),
-            yield BooleanField::new('recovered')->setLabel('Gain récupéré'),
+            yield BooleanField::new('recovered')->setLabel('Gain récupéré')->setHelp('Le gain a-t-il été récupéré ?')->onlyOnForms(),
         ];
     }
-    
+
     public function configureActions(Actions $actions): Actions
     {
         return $actions
             ->remove(Crud::PAGE_INDEX, Action::NEW)
-            ->remove(Crud::PAGE_INDEX, Action::EDIT)
             ->remove(Crud::PAGE_INDEX, Action::DELETE);
     }
 
