@@ -35,8 +35,8 @@ pipeline{
             steps{
                 script{
                     sh 'docker stop ${CONTAINER_NAME} && docker rm ${CONTAINER_NAME} || true'
-                    // sh 'docker rmi ${LOCAL_IMAGE} || true'
-                    sh 'docker system prune -af --volumes'
+                    sh 'docker rmi ${LOCAL_IMAGE} || true'
+                    // sh 'docker system prune -af --volumes'
                 }
             }
             post{
@@ -66,9 +66,9 @@ pipeline{
         stage('Test'){
             steps{
                 script{
-                    sh 'docker exec -t ${CONTAINER_NAME} composer install -n'
-                    sh 'docker exec -t ${CONTAINER_NAME} yarn add --dev @symfony/webpack-encore && yarn build -n'
-                    sh 'docker exec -t ${CONTAINER_NAME} composer require --dev symfony/test-pack -n'
+                    // sh 'docker exec -t ${CONTAINER_NAME} composer install -n'
+                    // sh 'docker exec -t ${CONTAINER_NAME} yarn add --dev @symfony/webpack-encore && yarn build -n'
+                    sh 'docker exec -t ${CONTAINER_NAME} composer require --dev symfony/test-pack symfony/browser-kit symfony/css-selector -n'
                     sh 'docker exec -t ${CONTAINER_NAME} vendor/bin/simple-phpunit --coverage-html=coverage --coverage-clover=coverage.xml'
                     sh 'docker exec -t ${CONTAINER_NAME} vendor/bin/simple-phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
                     sh 'mkdir -p test-results'
