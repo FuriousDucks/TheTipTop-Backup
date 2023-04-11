@@ -21,6 +21,15 @@ pipeline{
                 deleteDir()
                 checkout scm
             }
+
+            post{
+                failure{
+                    mail to: 'benbrahim.elmahdi@gmail.com',
+                    subject: 'TheTipTop - Checkout Failed',
+                    body: 'TheTipTop - Checkout Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}',
+                    attachLog: true,
+                }
+            }
         }
 
         stage('Clean'){
@@ -31,12 +40,28 @@ pipeline{
                     // sh 'docker system prune -af --volumes'
                 }
             }
+            post{
+                failure{
+                    mail to: 'benbrahim.elmahdi@gmail.com',
+                    subject: 'TheTipTop - Clean Failed',
+                    body: 'TheTipTop - Clean Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}',
+                    attachLog: true,
+                }
+            }
         }
 
         stage('Deploy Staging'){
             steps{
                 script{
                     sh 'docker compose -f docker-compose.yml up -d'
+                }
+            }
+            post{
+                failure{
+                    mail to: 'benbrahim.elmahdi@gmail.com',
+                    subject: 'TheTipTop - Deploy Staging Failed',
+                    body: 'TheTipTop - Deploy Staging Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}',
+                    attachLog: true,
                 }
             }
         }
@@ -54,6 +79,12 @@ pipeline{
             post{
                 always{
                     junit 'storage/logs/*.xml'
+                }
+                failure{
+                    mail to: 'benbrahim.elmahdi@gmail.com',
+                    subject: 'TheTipTop - Test Failed',
+                    body: 'TheTipTop - Test Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}',
+                    attachLog: true,
                 }
             }
         }
@@ -73,11 +104,27 @@ pipeline{
                     }
                 }
             }
+            post{
+                failure{
+                    mail to: 'benbrahim.elmahdi@gmail.com',
+                    subject: 'TheTipTop - SonarQube Failed',
+                    body: 'TheTipTop - SonarQube Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}',
+                    attachLog: true,
+                }
+            }
         }
 
         stage('Archive'){
             steps{
                 archiveArtifacts artifacts: 'storage/logs/*.xml', fingerprint: true
+            }
+            post{
+                failure{
+                    mail to: 'benbrahim.elmahdi@gmail.com',
+                    subject: 'TheTipTop - Archive Failed',
+                    body: 'TheTipTop - Archive Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}',
+                    attachLog: true,
+                }
             }
         }
         
@@ -96,6 +143,12 @@ pipeline{
                 always{
                     sh 'docker logout'
                 }
+                failure{
+                    mail to: 'benbrahim.elmahdi@gmail.com',
+                    subject: 'TheTipTop - Clean Failed',
+                    body: 'TheTipTop - Clean Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}',
+                    attachLog: true,
+                }
             }
         }
 
@@ -111,16 +164,13 @@ pipeline{
                 } */
                 echo 'Deploy prod'
             }
-        }
-
-        stage('Check Prod'){
-            steps{
-                /* script{
-                    sshagent(['ssh-key']){
-                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@prod "docker ps"'
-                    }
-                } */
-                echo 'Check'
+            post{
+                failure{
+                    mail to: 'benbrahim.elmahdi@gmail.com',
+                    subject: 'TheTipTop - Deploy Prod Failed',
+                    body: 'TheTipTop - Deploy Prod Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}',
+                    attachLog: true,
+                }
             }
         }
     }
