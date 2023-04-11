@@ -1,4 +1,4 @@
-export NODE_ENV=production
+# export NODE_ENV=production
 chmod -R 777 ./public/*
 composer install -n
 npm install --force
