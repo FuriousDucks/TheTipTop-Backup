@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes gains{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <h1 class="text-center my-5">Mes gains</h1>
+        <div class="row justify-content-center">
+            {% if gains is not empty %}
+            {% for gain in gains %}
+            <figure class="figure col-4 shadow-lg p-3 mx-1 bg-body-tertiary rounded">
+                <img src="{{ asset('/images/products/' ~ gain.product.img) }}" class="figure-img img-fluid rounded"
+                    alt="{{ gain.product.title }}">
+                <figcaption class="figure-caption">{{ gain.product.title }}</figcaption>
+                <figcaption class="figure-caption">{{ gain.product.description }}</figcaption>
+                <figcaption class="figure-caption float-end">Gagné le {{ gain.dateOfDraw|date('d/m/Y') }}</figcaption>
+            </figure>
+            {% endfor %}
+            {% else %}
+            <p class="text-center">Vous n'avez pas encore gagné de cadeaux</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('participate') }}
+{% endblock %}

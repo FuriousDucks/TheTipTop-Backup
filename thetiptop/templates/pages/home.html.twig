@@ -11,15 +11,15 @@ Accueil
         <div class="px-md-4 py-5 my-md-5 text-center title-card text-white d-sm-grid">
             <img class="d-block mx-auto mb-4 img-card" src="{{ asset('/images/home/TheTipTop-white.png') }}"
                 alt="ThéTipTop logo">
-            {# <h1 class="display-5 fw-bold">Jeu concours ThéTipTop</h1> #}
+            <h1 class="display-5 fw-bold">ThéTipTop</h1>
 
 
-            <h1 class="display-5 fw-bold" {{ stimulus_controller('symfony/ux-typed', {
+            <h2 class="display-5 fw-bold" {{ stimulus_controller('symfony/ux-typed', {
                 strings: [
-                    'Jeu concours ThéTipTop',
+                    'Jeu concours',
                 ],
                 showCursor: false
-            }) }}></h1>
+            }) }}></h2>
 
 
             <div class="col-lg-6 mx-auto">
@@ -29,16 +29,16 @@ Accueil
                     infusions, etc.
                     L’ensemble des thés sont bios et Handmades</p>
                 <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                    <button type="button" class="btn btn-success btn-lg px-4">Participer au jeu</button>
-                    <button type="button" class="btn btn-light btn-lg px-4">Descriptif du jeu</button>
+                    <a href="{{ path('participate') }}" class="button btn-lg px-4">Participer au jeu</a>
+                    <a href="#desc-section" class="button btn-lg px-4">Descriptif du jeu</a>
                 </div>
             </div>
         </div>
     </section>
-    <div class="container mt-5">
-        <section id="desc-section" class="row p-4 pb-0 pe-lg-0 pt-0 align-items-center rounded-3 border shadow-lg">
-            <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
-                <h2 class="display-4 fw-bold lh-1">Descriptif du jeu</h2>
+    <div class="container body">
+        <section id="desc-section" class="row rounded-3 border shadow-lg">
+            <div class="col-md-12 col-lg-8 p-5">
+                <h2 class="display-4 fw-bold lh-1 mb-3 mb-lg-5 text-sm-center text-lg-start">Descriptif du jeu</h2>
                 <p class="lead">Le jeu concours <b>ThéTipTop</b> se déroule sur une durée de 30 jours et offre
                     la
                     distribution de 1 500 000 tickets. Pour être éligible à ce concours, il est nécessaire d'acheter des
@@ -49,17 +49,7 @@ Accueil
                     déterminer le
                     gagnant d'un an de thé d'une valeur de 360€
                 </p>
-                <p class="lead">
-                    Afin de participer au jeu-concours, veuillez vous inscrire en entrant votre numéro de ticket.
-                </p>
                 <p class="lead">Il est important de noter que ce jeu-concours est 100 % gagnant.</p>
-                <p class="lead">Attention : Pour le tirage au sort du gros lot, le nombre de participations
-                    d’un client n'augmente
-                    pas ses
-                    chances de gagner.</p>
-            </div>
-            <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden shadow-lg">
-                <img class="rounded-lg-3 descriptif" src="{{ asset('/images/home/desc.png') }}" alt="Descriptif">
             </div>
         </section>
 
@@ -145,15 +135,15 @@ Accueil
                             promotions.</p>
                     </div>
                     <div class="col-md-10 mx-auto col-lg-5">
-                        {# newsletter form #}
-                        <form class="p-4 p-md-5 border rounded-3 bg-light">
+                        <form class="p-4 p-md-5 border rounded-3 bg-light" action="{{ path('newsletter') }}"
+                            method="post">
                             <div class="form-floating mb-3">
-                                <input type="email" class="form-control" id="floatingInput" placeholder="">
-                                <label for="floatingInput">Email address</label>
+                                <input type="email" class="form-control" id="mail" name="email">
+                                <label for="mail">Email address</label>
                             </div>
-                            <button class="w-100 btn btn-lg btn-outline-success" type="submit">S'inscrire</button>
+                            <button class="w-100 button btn-lg" type="submit">S'abonner</button>
                             <hr class="my-4">
-                            <small class="text-muted">En cliquant sur S'inscrire, vous acceptez les conditions
+                            <small class="text-muted">En cliquant sur S'abonner, vous acceptez les conditions
                                 d'utilisation et la politique de confidentialité.</small>
                         </form>
                     </div>

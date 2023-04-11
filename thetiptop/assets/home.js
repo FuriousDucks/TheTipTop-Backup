@@ -2,6 +2,7 @@ $('.gifts').slick({
     infinite: true,
     speed: 300,
     autoplay: true,
+    arrows: false,
     slidesToShow: 4,
     slidesToScroll: 2,
     responsive: [{
@@ -18,13 +19,15 @@ $('.gifts').slick({
         {
             breakpoint: 768,
             settings: {
-                slidesToShow: 2
+                slidesToShow: 2,
+                slidesToScroll: 1
             }
         },
         {
             breakpoint: 480,
             settings: {
-                slidesToShow: 1
+                slidesToShow: 1,
+                slidesToScroll: 1
             }
         }
     ]

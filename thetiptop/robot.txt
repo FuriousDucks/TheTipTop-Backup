@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dsp-archiwebf22-eb-we-fh.fr/sitemap.xml

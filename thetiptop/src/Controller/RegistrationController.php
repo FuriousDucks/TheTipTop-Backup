@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Customer;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
 use App\Security\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,34 +30,42 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
-        $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        if ($this->getUser()) {
+            return $this->redirectToRoute('home');
+        }
+        $customer = new Customer();
+        $form = $this->createForm(RegistrationFormType::class, $customer);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword(
+            $customer->setPassword(
                 $userPasswordHasher->hashPassword(
-                    $user,
+                    $customer,
                     $form->get('password')->getData()
                 )
             );
 
-            $user->setCreatedAt(new \DateTimeImmutable());
-            $user->setUpdatedAt(new \DateTimeImmutable());
-            $entityManager->persist($user);
+            $customer->setCreatedAt(new \DateTimeImmutable());
+            $customer->setUpdatedAt(new \DateTimeImmutable());
+            $entityManager->persist($customer);
             $entityManager->flush();
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+
+            $this->emailVerifier->sendEmailConfirmation(
+                'app_verify_email',
+                $customer,
                 (new TemplatedEmail())
-                    ->from(new Address('benbrahim.elmahdi@gmail.com', 'El Mahdi Benbrahim'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
+                    ->from(new Address($this->getParameter("mail_from"), 'ThéTipTop'))
+                    ->to($customer->getEmail())
+                    ->subject('Veuillez confirmer votre adresse email')
+                    ->htmlTemplate('mails/confirm-mail.html.twig')
             );
-            
+
+            $this->addFlash('success', 'Un email de confirmation vous a été envoyé. Veuillez cliquer sur le lien contenu dans cet email pour valider votre adresse email.');
+
             return $userAuthenticator->authenticateUser(
-                $user,
+                $customer,
                 $authenticator,
                 $request
             );
@@ -77,8 +87,8 @@ class RegistrationController extends AbstractController
 
             return $this->redirectToRoute('app_register');
         }
-        
-        $this->addFlash('success', 'Your email address has been verified.');
+
+        $this->addFlash('success', 'Votre adresse email a été vérifiée.');
 
         return $this->redirectToRoute('app_register');
     }

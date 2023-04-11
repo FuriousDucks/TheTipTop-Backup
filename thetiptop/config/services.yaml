@@ -4,6 +4,11 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    locale: fr
+    mail_from: '%env(MAIL_FROM)%'
+    mailchimp_key: '%env(MAILCHIMP_KEY)%'
+    mailchimp_server: '%env(MAILCHIMP_SERVER)%'
+    mailchimp_list_id: '%env(MAILCHIMP_LIST_ID)%'
 
 services:
     # default configuration for services in *this* file

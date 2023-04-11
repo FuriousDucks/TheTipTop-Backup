@@ -7,7 +7,8 @@ pipeline{
         registryCredential = 'dockerhubuser'
         SCANNER_HOME = tool 'sonar-scanner'
         SONNAR_TOKEN = credentials('sonar-token')
-        SONNAR_URL = 'https://sonarqube.dsp-archiwebf22-eb-we-fh.fr'
+        // SONNAR_URL = 'https://sonarqube.dsp-archiwebf22-eb-we-fh.fr'
+        SONNAR_URL = 'http://46.101.35.94:3004'
     }
     
     options{
@@ -25,9 +26,9 @@ pipeline{
         stage('Clean'){
             steps{
                 script{
-                    // sh 'docker compose -f docker-compose.yml down -v'
                     sh 'docker stop ${CONTAINER_NAME} && docker rm ${CONTAINER_NAME} || true'
-                    sh 'docker system prune -af --volumes'
+                    sh 'docker rmi ${LOCAL_IMAGE} || true'
+                    // sh 'docker system prune -af --volumes'
                 }
             }
         }

@@ -15,9 +15,14 @@ class FacebookController extends AbstractController
     {
         return $clientRegistry
             ->getClient('facebook_main')
-            ->redirect([
-                'public_profile', 'email'
-            ]);
+            ->redirect(
+                [
+                    'public_profile', 'email'
+                ],
+                [
+                    'prompt' => 'consent',
+                ]
+            );
     }
 
     #[Route('/connect/facebook/check', name: 'connect_facebook_check')]

@@ -1,38 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Connexion{% endblock %}
 
 {% block body %}
-<div class="row justify-content-center align-items-center py-5">
-    <div class="col-sm-12 col-md-6" role="document">
+<div class="row justify-content-center align-items-center py-5 w-100">
+    <div class="col-sm-12 col-md-6 col-xl-4" role="document">
         <div class="modal-content rounded-4 shadow">
-            {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
             <div class="modal-body p-5">
                 <form method="post" class="d-grid">
                     <h1 class="fs-3 fw-bold m-5 mt-0 text-center">Connexion</h1>
                     <div class="form-floating mb-3">
                         <input type="email" class="form-control rounded-3" id="floatingInput"
-                            placeholder="utilisateur@example.com" value="{{ last_username }}" name="email">
+                            placeholder="utilisateur@example.com" value="{{ last_username }}" name="email" required>
                         <label for="floatingInput" autofocus>Adresse email</label>
                     </div>
                     <div class="form-floating mb-3">
                         <input type="password" class="form-control rounded-3" id="floatingPassword"
-                            placeholder="Password" autocomplete="current-password" name="password">
+                            placeholder="Password" autocomplete="current-password" name="password" required
+                            data-toggle="password">
                         <label for="floatingPassword">Mot de passe</label>
                     </div>
                     <div class="checkbox mb-3">
                         <label>
-                            <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                            <input type="checkbox" name="_remember_me" checked="true"> Se souvenir de moi
                         </label>
                     </div>
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                    <button class="w-50 mb-2 btn btn-lg rounded-3 btn-primary mx-auto" type="submit">Connexion</button>
+                    <button class="button w-50-m mb-2 btn btn-lg rounded-3 mx-auto"
+                        type="submit">Connexion</button>
+                    <a class="text-decoration-none" href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?</a>
                     <br>
-                    {# <small class="text-muted">En cliquant sur "Inscription", vous acceptez nos conditions d'utilisation
-                        et
-                        notre politique de confidentialité.</small> #}
                     <hr class="my-4">
                     <h2 class="fs-5 fw-bold mb-3 text-center">Ou utilisez un tiers</h2>
                     <div class="d-flex justify-content-center">

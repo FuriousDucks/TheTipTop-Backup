@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Participer{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <h1 class="text-center">Participez à notre jeu concours</h1>
+        <form id="participate-form" action="{{ path('luck') }}" method="post"
+            class="row g-3 justify-content-center col-12 col-md-6 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+            <div class="form-floating col-12">
+                <input type="text" class="form-control" id="number" name="number" placeholder="Numéro de ticket"
+                    required>
+                <label for="number">Numéro de ticket</label>
+                <div id="alert-message" class="alert alert-danger mt-1 {{ (error is defined) ? 'd-block' : 'd-none' }}">{{ error ?? '' }}
+                </div>
+            </div>
+            <div class="col-12 d-flex justify-content-center align-items-end">
+                <button type="submit" class="button btn-lg btn-success p-3 h-100 w-75 mx-auto">Tentez votre
+                    chance</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('participate') }}
+{% endblock %}

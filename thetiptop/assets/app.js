@@ -17,8 +17,43 @@ import 'jquery-ui/themes/base/all.css';
 import 'vanilla-cookieconsent/dist/cookieconsent.css';
 import 'vanilla-cookieconsent/dist/cookieconsent.js';
 
+import 'sweetalert2/src/sweetalert2.scss';
+
+import {
+    startStimulusApp
+} from '@symfony/stimulus-bridge';
+
+export const app = startStimulusApp(require.context(
+    '@symfony/stimulus-bridge/lazy-controller-loader!./controllers',
+    true,
+    /\.(j|t)sx?$/
+));
+
+import {
+    Chart
+} from 'chart.js';
+import zoomPlugin from 'chartjs-plugin-zoom';
+
+Chart.register(zoomPlugin);
+
 $(document).ready(function () {
     AOS.init();
+    console.log("chart");
+    $("input[type='password']").each(function () {
+        let eye = $('<i class="fa fa-eye" aria-hidden="true"></i>');
+        eye.css({
+            position: "absolute",
+            right: "10px",
+            top: "50%",
+            transform: "translate(-50%,-50%)",
+            cursor: "pointer",
+        });
+        $(this).after(eye);
+        $(this).next().click(function () {
+            $(this).toggleClass("fa-eye fa-eye-slash");
+            $(this).prev().attr("type", $(this).prev().attr("type") === "password" ? "text" : "password");
+        });
+    });
     $(".datepicker").datepicker({
         dateFormat: 'dd/mm/yy',
         changeMonth: true,
@@ -26,6 +61,22 @@ $(document).ready(function () {
         yearRange: "-100:-18",
         maxDate: 0
     });
+
+    $(".datepicker").on("keyup", function () {
+        let input = $(this);
+        let inputVal = input.val();
+        let inputLength = inputVal.length;
+        if (inputLength === 2 || inputLength === 5) {
+            input.val(inputVal + "/");
+        }
+        if (inputLength > 10) {
+            input.val(inputVal.slice(0, -1));
+        }
+        if (isNaN(inputVal.slice(-1))) {
+            input.val(inputVal.slice(0, -1));
+        }
+    });
+
     // obtain plugin
     var cc = initCookieConsent();
 

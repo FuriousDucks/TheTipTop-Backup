@@ -5,30 +5,26 @@
                 <img class="main-logo" src="{{ asset('/images/app/logo.png') }}" alt="ThéTipTop logo">
             </a>
 
-            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="#" class="nav-link px-2 link-dark">Overview</a></li>
-                <li><a href="#" class="nav-link px-2 link-secondary">Inventory</a></li>
-                <li><a href="#" class="nav-link px-2 link-secondary">Customers</a></li>
-                <li><a href="#" class="nav-link px-2 link-secondary">Products</a></li>
-            </ul>
-
-            <div class="dropdown text-end">
-                <a href="#" class="d-block link-dark text-decoration-none dropdown" data-bs-toggle="dropdown"
+            <div class="dropdown ms-auto text-end">
+                <a href="#" class="d-flex justify-content-between align-items-center link-dark text-decoration-none dropdown" data-bs-toggle="dropdown"
                     aria-expanded="false">
+                    {% if app.user %}
+                    <span class="user-firstname me-2">{{ app.user.firstName }}</span>
+                    {% endif %}
                     <i class="fas fa-user-circle fa-2x text-success"></i>
                 </a>
                 <ul class="dropdown-menu text-small">
                     {% if app.user %}
-                    {% if is_granted('ROLE_USER') %}
-                    <li><a class="dropdown-item" href="#">Mon compte</a></li>
-                    <li><a class="dropdown-item" href="#">Mes gains</a></li>
-                    <li><a class="dropdown-item" href="#">Participer au concours</a></li>
-                    {% endif %}
-                    {% if is_granted('ROLE_ADMIN') %}
-                    <li><a class="dropdown-item" href="#">Statistiques</a></li>
-                    {% endif %}
-                    {% if is_granted('ROLE_CASHIER') %}
-                    <li><a class="dropdown-item" href="#">Visualiser les gains attribués</a></li>
+                    {% if not is_granted('ROLE_ADMIN') and not is_granted('ROLE_EMPLOYEE') %}
+                    <li><a class="dropdown-item" href="{{ path('my-account') }}">Mon compte</a></li>
+                    <li><a class="dropdown-item" href="{{ path('myearnings') }}">Mes gains</a></li>
+                    <li><a class="dropdown-item" href="{{ path('participate') }}">Participer au concours</a></li>
+                    {% elseif is_granted('ROLE_ADMIN') or is_granted('ROLE_EMPLOYEE') %}
+                    <li>
+                        <a class="dropdown-item" href="{{ path('admin') }}">
+                            {{ is_granted('ROLE_ADMIN') ? 'Espace administrateur' : 'Espace employé' }}
+                        </a>
+                    </li>
                     {% endif %}
                     <li><a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a></li>
                     {% else %}
