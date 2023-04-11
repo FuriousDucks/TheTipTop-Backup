@@ -27,7 +27,7 @@ pipeline{
                     mail to: 'benbrahim.elmahdi@gmail.com',
                     subject: 'TheTipTop - Checkout Failed',
                     body: 'TheTipTop - Checkout Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}',
-                    attachLog: true,
+                    attachLog: true
                 }
             }
         }
@@ -45,7 +45,7 @@ pipeline{
                     mail to: 'benbrahim.elmahdi@gmail.com',
                     subject: 'TheTipTop - Clean Failed',
                     body: 'TheTipTop - Clean Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}',
-                    attachLog: true,
+                    attachLog: true
                 }
             }
         }
@@ -61,7 +61,7 @@ pipeline{
                     mail to: 'benbrahim.elmahdi@gmail.com',
                     subject: 'TheTipTop - Deploy Staging Failed',
                     body: 'TheTipTop - Deploy Staging Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}',
-                    attachLog: true,
+                    attachLog: true
                 }
             }
         }
@@ -84,7 +84,7 @@ pipeline{
                     mail to: 'benbrahim.elmahdi@gmail.com',
                     subject: 'TheTipTop - Test Failed',
                     body: 'TheTipTop - Test Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}',
-                    attachLog: true,
+                    attachLog: true
                 }
             }
         }
@@ -109,7 +109,7 @@ pipeline{
                     mail to: 'benbrahim.elmahdi@gmail.com',
                     subject: 'TheTipTop - SonarQube Failed',
                     body: 'TheTipTop - SonarQube Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}',
-                    attachLog: true,
+                    attachLog: true
                 }
             }
         }
@@ -123,7 +123,7 @@ pipeline{
                     mail to: 'benbrahim.elmahdi@gmail.com',
                     subject: 'TheTipTop - Archive Failed',
                     body: 'TheTipTop - Archive Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}',
-                    attachLog: true,
+                    attachLog: true
                 }
             }
         }
@@ -147,7 +147,7 @@ pipeline{
                     mail to: 'benbrahim.elmahdi@gmail.com',
                     subject: 'TheTipTop - Clean Failed',
                     body: 'TheTipTop - Clean Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}',
-                    attachLog: true,
+                    attachLog: true
                 }
             }
         }
@@ -169,7 +169,7 @@ pipeline{
                     mail to: 'benbrahim.elmahdi@gmail.com',
                     subject: 'TheTipTop - Deploy Prod Failed',
                     body: 'TheTipTop - Deploy Prod Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}',
-                    attachLog: true,
+                    attachLog: true
                 }
             }
         }
