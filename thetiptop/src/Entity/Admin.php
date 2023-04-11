@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiFilter;
 use App\Repository\AdminRepository;
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Doctrine\Odm\Filter\SearchFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Metadata\Tests\Fixtures\ApiResource\User;
 
