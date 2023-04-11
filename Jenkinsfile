@@ -67,7 +67,7 @@ pipeline{
             steps{
                 script{
                     sh 'docker exec -t ${CONTAINER_NAME} composer require --dev symfony/test-pack symfony/panther dbrekelmans/bdi -n'
-                    // sh 'docker exec -t ${CONTAINER_NAME} vendor/bin/bdi detect drivers -n'
+                    sh 'docker exec -t ${CONTAINER_NAME} apt-get install chromium-chromedriver firefox-geckodriver -y'
                     sh 'docker exec -t ${CONTAINER_NAME} vendor/bin/simple-phpunit --coverage-html=coverage --coverage-clover=coverage.xml'
                     sh 'docker exec -t ${CONTAINER_NAME} vendor/bin/simple-phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
                     sh 'mkdir -p test-results'
