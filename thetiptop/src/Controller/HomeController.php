@@ -64,4 +64,21 @@ class HomeController extends AbstractController
         }
 
     }
+
+    #[Route('/mentions-legales', name: 'mentionsLegales')]
+    public function legals(): Response
+    {
+        return $this->render('pages/legalMentions.html.twig', [
+            'title' => 'mentionsLegales',
+        ]);
+    }
+
+    #[Route('/CGU', name: 'CGU')]
+    public function CGU(): Response
+    {
+        return $this->render('pages/cgu.html.twig', [
+            'title' => 'CGU',
+        ]);
+    }
+
 }
