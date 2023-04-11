@@ -60,7 +60,7 @@ class AppFixtures extends Fixture
         $user->setLastName('Duck');
         $user->setIsVerified(true);
         $user->setPassword($this->userPasswordHasher->hashPassword($user, 'password'));
-        // $user->setRoles(['ROLE_ADMIN']); // Default role is ROLE_USER
+        // $user->setRoles(['ROLE_USER']); // Default role is ROLE_USER
         $manager->persist($user);
         $manager->flush();
     }
