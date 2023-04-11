@@ -66,6 +66,7 @@ pipeline{
         stage('Test'){
             steps{
                 script{
+                    sh 'docker exec -t ${CONTAINER_NAME} composer install -n'
                     sh 'docker exec -t ${CONTAINER_NAME} yarn add --dev @symfony/webpack-encore && yarn build -n'
                     sh 'docker exec -t ${CONTAINER_NAME} composer require --dev symfony/test-pack -n'
                     sh 'docker exec -t ${CONTAINER_NAME} vendor/bin/simple-phpunit --coverage-html=coverage --coverage-clover=coverage.xml'
