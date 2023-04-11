@@ -52,7 +52,7 @@ class AppFixtures extends Fixture
         $user->setPassword($this->userPasswordHasher->hashPassword($user, 'password'));
         $user->setRoles(['ROLE_EMPLOYEE']);
         $manager->persist($user);
-        
+
         // Users
         $user = new Customer();
         $user->setEmail('furious.duck.g4@gmail.com');
@@ -125,8 +125,8 @@ class AppFixtures extends Fixture
                 return $store->getId();
             }, $stores);
             $ticket->setStore($stores[array_rand($ids)]);
-            $contest = $manager->getRepository(ContestGame::class)->find(1);
-            $ticket->setContest($contest);
+            $contest = $manager->getRepository(ContestGame::class)->findAll();
+            $ticket->setContest($contest[0]);
             $manager->persist($ticket);
             $manager->flush();
             if (($i % $batchSize) === 0) {
