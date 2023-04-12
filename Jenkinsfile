@@ -149,10 +149,10 @@ pipeline{
             steps{
                 script{
                     sshagent(['ssh-key']){
-                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@prod "docker stop thetiptop"'
-                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@prod "docker rm thetiptop"'
-                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@prod "docker pull ebenbrah/thetiptop:latest"'
-                        sh 'ssh -o StrictHostKeyChecking=no -i /var/jenkins_home/.ssh/id_rsa root@prod "docker run -d -p 80:80 --name thetiptop thetiptop"'
+                        sh 'ssh root@64.226.113.4 "docker stop thetiptop"'
+                        sh 'ssh root@64.226.113.4 "docker rm thetiptop"'
+                        sh 'ssh root@64.226.113.4 "docker pull ebenbrah/thetiptop:latest"'
+                        sh 'ssh root@64.226.113.4 "docker run -d -p 80:80 --name thetiptop thetiptop"'
                     }
                 }
             }
