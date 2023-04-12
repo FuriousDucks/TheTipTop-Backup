@@ -10,8 +10,7 @@ pipeline{
         registryCredential = 'dockerhubuser'
         SCANNER_HOME = tool 'sonar-scanner'
         SONNAR_TOKEN = credentials('sonar-token')
-        // SONNAR_URL = 'https://sonarqube.dsp-archiwebf22-eb-we-fh.fr'
-        SONNAR_URL = 'http://46.101.35.94:3004'
+        SONNAR_URL = 'https://sonarqube.dsp-archiwebf22-eb-we-fh.fr'
     }
     
     options{
@@ -34,7 +33,30 @@ pipeline{
             }
         }
 
-        stage('Clean'){
+        stage('Clean Staging'){
+            when{
+                branch 'develop'
+            }
+            steps{
+                script{
+                    sh 'docker stop ${PREPROD_CONTAINER_NAME} && docker rm ${PREPROD_CONTAINER_NAME} || true'
+                    sh 'docker rmi ${PREPROD_LOCAL_IMAGE} || true'
+                    // sh 'docker system prune -af --volumes'
+                }
+            }
+            post{
+                failure{
+                    mail to: 'benbrahim.elmahdi@gmail.com',
+                    subject: 'TheTipTop - Clean Failed',
+                    body: 'TheTipTop - Clean Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}'
+                }
+            }
+        }
+
+        stage('Clean Prod'){
+            when{
+                branch 'master'
+            }
             steps{
                 script{
                     sh 'docker stop ${CONTAINER_NAME} && docker rm ${CONTAINER_NAME} || true'
@@ -52,9 +74,12 @@ pipeline{
         }
 
         stage('Deploy Staging'){
+            when{
+                branch 'develop'
+            }
             steps{
                 script{
-                    sh 'docker compose -f docker-compose.yml up -d'
+                    sh 'docker compose -f docker-compose-preprod.yml up -d'
                 }
             }
             post{
@@ -66,13 +91,17 @@ pipeline{
             }
         }
         
-        stage('Test'){
+        stage('Test Staging'){
+            when{
+                branch 'develop'
+            }
             steps{
                 script{
-                    sh 'docker exec -t ${CONTAINER_NAME} composer require --dev symfony/test-pack symfony/browser-kit symfony/css-selector -n'
-                    sh 'docker exec -t ${CONTAINER_NAME} vendor/bin/simple-phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
+                    sh 'docker exec -t ${PREPROD_CONTAINER_NAME} composer install -n'
+                    sh 'docker exec -t ${PREPROD_CONTAINER_NAME} composer require --dev symfony/test-pack-n'
+                    sh 'docker exec -t ${PREPROD_CONTAINER_NAME} vendor/bin/simple-phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
                     sh 'mkdir -p storage'
-                    sh 'docker cp ${CONTAINER_NAME}:/var/www/html/thetiptop/storage ${WORKSPACE}'
+                    sh 'docker cp ${PREPROD_CONTAINER_NAME}:/var/www/html/thetiptop/storage ${WORKSPACE}'
                 }
             }
             post{
@@ -124,10 +153,39 @@ pipeline{
             }
         }
         
-        stage('Push'){
+        stage('Push Staging'){
+            when{
+                branch 'develop'
+            }
             steps{
                 script{
                    docker.withRegistry('', registryCredential){
+                        sh 'docker tag ${PREPROD_LOCAL_IMAGE} ${IMAGE_NAME}:$BUILD_NUMBER'
+                        sh 'docker push ${PREPROD_IMAGE_NAME}:$BUILD_NUMBER'
+                        sh 'docker tag ${PREPROD_LOCAL_IMAGE} ${IMAGE_NAME}:latest'
+                        sh 'docker push ${PREPROD_IMAGE_NAME}:latest'
+                    }
+                }
+            }
+            post{
+                always{
+                    sh 'docker logout'
+                }
+                failure{
+                    mail to: 'benbrahim.elmahdi@gmail.com',
+                    subject: 'TheTipTop - Clean Failed',
+                    body: 'TheTipTop - Clean Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}'
+                }
+            }
+        }
+
+        stage('Push Prod'){
+            when{
+                branch 'master'
+            }
+            steps{
+                script{
+                    docker.withRegistry('', registryCredential){
                         sh 'docker tag ${LOCAL_IMAGE} ${IMAGE_NAME}:$BUILD_NUMBER'
                         sh 'docker push ${IMAGE_NAME}:$BUILD_NUMBER'
                         sh 'docker tag ${LOCAL_IMAGE} ${IMAGE_NAME}:latest'
@@ -147,18 +205,38 @@ pipeline{
             }
         }
 
-        stage('Deploy Prod'){
-            /* steps{
-                script{
-                    sshagent(['ssh-key']){
-                        sh 'ssh -tt -o StrictHostKeyChecking=no -l root 64.226.113.4 "cd /var/www/ && docker kill thetiptop && docker rm thetiptop && docker pull ebenbrah/thetiptop:latest && docker run -d --name thetiptop ebenbrah/thetiptop"'
-                    }
-                }
-            } */
+
+
+        stage('Deploy Staging'){
+            when{
+                branch 'develop'
+            }
             steps{
                 script{
-                    sshagent(['ssh-key']){
-                        sh 'ssh -tt -o StrictHostKeyChecking=no -l root 64.226.113.4 "cd /var/www/ && docker kill thetiptop && docker rm thetiptop && docker pull ebenbrah/thetiptop:latest && docker run -d --name thetiptop ebenbrah/thetiptop"'
+                    docker.withRegistry('', registryCredential){
+                        sh 'docker pull ${PREPROD_IMAGE_NAME}:latest'
+                        sh 'docker run -d --name ${PREPROD_CONTAINER_NAME} ${PREPROD_IMAGE_NAME}:latest'
+                    }
+                }
+            }
+            post{
+                failure{
+                    mail to: 'benbrahim.elmahdi@gmail.com',
+                    subject: 'TheTipTop - Deploy Prod Failed',
+                    body: 'TheTipTop - Deploy Prod Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}'
+                }
+            }
+        }
+
+        stage('Deploy Prod'){
+            when{
+                branch 'master'
+            }
+            steps{
+                script{
+                    docker.withRegistry('', registryCredential){
+                        sh 'docker pull ${IMAGE_NAME}:latest'
+                        sh 'docker run -d --name ${CONTAINER_NAME} ${IMAGE_NAME}:latest'
                     }
                 }
             }
