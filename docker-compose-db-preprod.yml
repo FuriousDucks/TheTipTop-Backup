@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8.0.23
+    container_name: preprodmysql
+    restart: always
+    ports:
+      - 3307:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=mysql
+    networks:
+      - preprod-mysql-network
+
+networks:
+  preprod-mysql-network:
+    external: true

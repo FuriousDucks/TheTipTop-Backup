@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./php/Dockerfile
+    image: preprod_thetiptop
+    container_name: preprod_web_thetiptop
+    restart: unless-stopped
+    command:
+      [
+        "/wait-for-it.sh",
+        "mysql:3307",
+        "--",
+        "/docker-entrypoint.sh"
+      ]
+    environment:
+      - APP_ENV=dev
+      - APP_DEBUG=true
+      - APP_URL=https://preprod.dsp-archiwebf22-eb-we-fh.fr/
+      - DB_CONNECTION=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3307
+      - DB_DATABASE=mysql
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+      - BROADCAST_DRIVER=log
+      - CACHE_DRIVER=file
+      - QUEUE_CONNECTION=sync
+      - SESSION_DRIVER=file
+      - SESSION_LIFETIME=120
+      - DATABASE_URL=mysql://root:root@preprodmysql:3307/thetiptop
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.web.rule=Host(`preprod.dsp-archiwebf22-eb-we-fh.fr`)
+      - traefik.http.routers.web.entrypoints=websecure
+      - traefik.http.routers.web.tls=true
+      - traefik.http.routers.web.tls.certresolver=letsencrypt
+      - traefik.http.services.web.loadbalancer.server.port=80
+      - traefik.docker.network=traefik
+    env_file:
+      - .env
+    networks:
+      - preprod-mysql-network
+      - traefik
+
+networks:
+  preprod-mysql-network:
+    name: "preprod-mysql-network"
+  traefik:
+    external: true

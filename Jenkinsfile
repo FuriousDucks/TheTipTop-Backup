@@ -2,13 +2,19 @@ pipeline{
     agent any
     environment{
         IMAGE_NAME = 'ebenbrah/thetiptop'
+        PREPROD_IMAGE_NAME = 'ebenbrah/preprodthetiptop'
         LOCAL_IMAGE = 'thetiptop'
+        PREPROD_LOCAL_IMAGE = 'preprod_thetiptop'
         CONTAINER_NAME = 'web_thetiptop'
+        PREPROD_CONTAINER_NAME = 'preprod_web_thetiptop'
         registryCredential = 'dockerhubuser'
         SCANNER_HOME = tool 'sonar-scanner'
         SONNAR_TOKEN = credentials('sonar-token')
-        // SONNAR_URL = 'https://sonarqube.dsp-archiwebf22-eb-we-fh.fr'
-        SONNAR_URL = 'http://46.101.35.94:3004'
+        SONNAR_URL = 'https://sonarqube.dsp-archiwebf22-eb-we-fh.fr'
+        def composeFiles = ['master' : 'docker-compose.yml', 'develop' : 'docker-compose-preprod.yml']
+        def imageNames = ['master' : 'ebenbrah/thetiptop', 'develop' : 'ebenbrah/preprodthetiptop']
+        def localImageNames = ['master' : 'thetiptop', 'develop' : 'preprod_thetiptop']
+        def containerNames = ['master' : 'web_thetiptop', 'develop' : 'preprod_web_thetiptop']
     }
     
     options{
@@ -33,9 +39,17 @@ pipeline{
 
         stage('Clean'){
             steps{
+                when{
+                   anyOf{
+                       branch 'master'
+                       branch 'develop'
+                   }
+                }
                 script{
-                    sh 'docker stop ${CONTAINER_NAME} && docker rm ${CONTAINER_NAME} || true'
-                    sh 'docker rmi ${LOCAL_IMAGE} || true'
+                    def imageName = imageNames[env.BRANCH_NAME]
+                    def containerName = containerNames[env.BRANCH_NAME]
+                    sh 'docker stop ${containerName} && docker rm ${containerName} || true'
+                    sh 'docker rmi ${imageName} || true'
                     // sh 'docker system prune -af --volumes'
                 }
             }
@@ -47,11 +61,19 @@ pipeline{
                 }
             }
         }
+        
 
         stage('Deploy Staging'){
             steps{
+                when{
+                   anyOf{
+                       branch 'master'
+                       branch 'develop'
+                   }
+                }
                 script{
-                    sh 'docker compose -f docker-compose.yml up -d'
+                    def composeFile = composeFiles[env.BRANCH_NAME]
+                    sh 'docker compose -f ${composeFile} up -d'
                 }
             }
             post{
@@ -65,11 +87,19 @@ pipeline{
         
         stage('Test'){
             steps{
+                when{
+                   anyOf{
+                       branch 'master'
+                       branch 'develop'
+                   }
+                }
                 script{
-                    sh 'docker exec -t ${CONTAINER_NAME} composer require --dev symfony/test-pack symfony/browser-kit symfony/css-selector -n'
-                    sh 'docker exec -t ${CONTAINER_NAME} vendor/bin/simple-phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
+                    def containerName = containerNames[env.BRANCH_NAME]
+                    sh 'docker exec -t ${containerName} composer install -n'
+                    sh 'docker exec -t ${containerName} composer require --dev symfony/test-pack symfony/browser-kit symfony/css-selector -n'
+                    sh 'docker exec -t ${containerName} vendor/bin/simple-phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
                     sh 'mkdir -p storage'
-                    sh 'docker cp ${CONTAINER_NAME}:/var/www/html/thetiptop/storage ${WORKSPACE}'
+                    sh 'docker cp ${containerName}:/var/www/html/thetiptop/storage ${WORKSPACE}'
                 }
             }
             post{
@@ -123,12 +153,20 @@ pipeline{
         
         stage('Push'){
             steps{
+                when{
+                   anyOf{
+                       branch 'master'
+                       branch 'develop'
+                   }
+                }
                 script{
+                    def imageName = imageNames[env.BRANCH_NAME]
+                    def localImageName = localImageNames[env.BRANCH_NAME]
                    docker.withRegistry('', registryCredential){
-                        sh 'docker tag ${LOCAL_IMAGE} ${IMAGE_NAME}:$BUILD_NUMBER'
-                        sh 'docker push ${IMAGE_NAME}:$BUILD_NUMBER'
-                        sh 'docker tag ${LOCAL_IMAGE} ${IMAGE_NAME}:latest'
-                        sh 'docker push ${IMAGE_NAME}:latest'
+                        sh 'docker tag ${localImageName} ${imageName}:$BUILD_NUMBER'
+                        sh 'docker push ${imageName}:$BUILD_NUMBER'
+                        sh 'docker tag ${localImageName} ${imageName}:latest'
+                        sh 'docker push ${imageName}:latest'
                     }
                 }
             }
@@ -147,8 +185,12 @@ pipeline{
         stage('Deploy Prod'){
             steps{
                 script{
-                    sshagent(['ssh-key']){
-                        sh 'ssh -tt -o StrictHostKeyChecking=no -l root 64.226.113.4 "cd /var/www/ && docker stop thetiptop && docker rm thetiptop && docker pull ebenbrah/thetiptop:latest && docker run -d -p 80:80 --name thetiptop ebenbrah/thetiptop"'
+                    docker.withRegistry('', registryCredential){
+                        def imageName = imageNames[env.BRANCH_NAME]
+                        def containerName = containerNames[env.BRANCH_NAME]
+                        sh 'docker pull ${imageName}:latest'
+                        sh 'docker stop ${containerName} && docker rm ${containerName} || true'
+                        sh 'docker run -d --name ${containerName} ${imageName}:latest'
                     }
                 }
             }

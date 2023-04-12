@@ -9,11 +9,9 @@ class LoginTest extends WebTestCase
 {
     public function testLoginPage(): void
     {
-        /* $client = static::createClient();
+        $client = static::createClient();
         $client->request('GET', '/login');
         $this->assertPageTitleContains('Connexion');
-        $this->assertSelectorTextContains('h1', 'Connexion'); */
-
-        $this->assertTrue(true);
+        $this->assertSelectorTextContains('h1', 'Connexion');
     }
 }
