@@ -147,9 +147,8 @@ pipeline{
         stage('Deploy Prod'){
             steps{
                 script{
-                    sshagent(credentials: ['ssh-key']){
-                        // sh 'ssh -tt -o StrictHostKeyChecking=no -l root 64.226.113.4 cd /var/www/ "docker stop thetiptop && docker rm thetiptop && docker pull ebenbrah/thetiptop:latest && docker run -d -p 80:80 --name thetiptop thetiptop"'
-                        sh 'ssh -tt -o StrictHostKeyChecking=no -l root 64.226.113.4 cd /var/www/ "ls -la"'
+                    sshagent(['ssh-key']){
+                        sh 'ssh -tt -o StrictHostKeyChecking=no -l root 64.226.113.4 "cd /var/www/ && docker stop thetiptop && docker rm thetiptop && docker pull ebenbrah/thetiptop:latest && docker run -d -p 80:80 --name thetiptop thetiptop"'
                     }
                 }
             }
