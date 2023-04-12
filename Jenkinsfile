@@ -71,6 +71,7 @@ pipeline{
                     sh 'docker exec -t ${CONTAINER_NAME} composer require --dev symfony/test-pack symfony/browser-kit symfony/css-selector -n'
                     sh 'docker exec -t ${CONTAINER_NAME} yarn install'
                     sh 'docker exec -t ${CONTAINER_NAME} yarn build'
+                    sh 'docker exec -t ${CONTAINER_NAME} php bin/console doctrine:database:create --env=test'
                     sh 'docker exec -t ${CONTAINER_NAME} vendor/bin/simple-phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
                     sh 'mkdir -p storage'
                     sh 'docker cp ${CONTAINER_NAME}:/var/www/html/thetiptop/storage ${WORKSPACE}'
