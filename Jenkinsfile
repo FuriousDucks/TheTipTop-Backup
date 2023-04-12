@@ -67,7 +67,6 @@ pipeline{
             steps{
                 script{
                     sh 'docker exec -t ${CONTAINER_NAME} composer require --dev symfony/test-pack symfony/browser-kit symfony/css-selector -n'
-                    // sh 'docker exec -t ${CONTAINER_NAME} vendor/bin/simple-phpunit --coverage-clover=coverage.xml'
                     sh 'docker exec -t ${CONTAINER_NAME} vendor/bin/simple-phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
                     sh 'mkdir -p storage'
                     sh 'docker cp ${CONTAINER_NAME}:/var/www/html/thetiptop/storage ${WORKSPACE}'
@@ -149,10 +148,10 @@ pipeline{
             steps{
                 script{
                     sshagent(['ssh-key']){
-                        sh 'ssh root@64.226.113.4 "docker stop thetiptop"'
-                        sh 'ssh root@64.226.113.4 "docker rm thetiptop"'
-                        sh 'ssh root@64.226.113.4 "docker pull ebenbrah/thetiptop:latest"'
-                        sh 'ssh root@64.226.113.4 "docker run -d -p 80:80 --name thetiptop thetiptop"'
+                        sh 'ssh -tt -o StrictHostKeyChecking=no -l root 64.226.113.4 cd /var/www/ "docker stop thetiptop"'
+                        sh 'ssh -tt -o StrictHostKeyChecking=no -l root 64.226.113.4 cd /var/www/ "docker rm thetiptop"'
+                        sh 'ssh -tt -o StrictHostKeyChecking=no -l root 64.226.113.4 cd /var/www/ "docker pull ebenbrah/thetiptop:latest"'
+                        sh 'ssh -tt -o StrictHostKeyChecking=no -l root 64.226.113.4 cd /var/www/ "docker run -d -p 80:80 --name thetiptop thetiptop"'
                     }
                 }
             }
