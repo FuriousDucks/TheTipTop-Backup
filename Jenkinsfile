@@ -1,3 +1,7 @@
+def composeFiles = ['master' : 'docker-compose.yml', 'develop' : 'docker-compose-preprod.yml']
+def imageNames = ['master' : 'ebenbrah/thetiptop', 'develop' : 'ebenbrah/preprodthetiptop']
+def localImageNames = ['master' : 'thetiptop', 'develop' : 'preprod_thetiptop']
+def containerNames = ['master' : 'web_thetiptop', 'develop' : 'preprod_web_thetiptop']
 pipeline{
     agent any
     environment{
@@ -11,10 +15,6 @@ pipeline{
         SCANNER_HOME = tool 'sonar-scanner'
         SONNAR_TOKEN = credentials('sonar-token')
         SONNAR_URL = 'https://sonarqube.dsp-archiwebf22-eb-we-fh.fr'
-        def composeFiles = ['master' : 'docker-compose.yml', 'develop' : 'docker-compose-preprod.yml']
-        def imageNames = ['master' : 'ebenbrah/thetiptop', 'develop' : 'ebenbrah/preprodthetiptop']
-        def localImageNames = ['master' : 'thetiptop', 'develop' : 'preprod_thetiptop']
-        def containerNames = ['master' : 'web_thetiptop', 'develop' : 'preprod_web_thetiptop']
     }
     
     options{
