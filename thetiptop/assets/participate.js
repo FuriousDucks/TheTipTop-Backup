@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $('#participate-form').submit(function (e) {
         let ticketNumber = $('#number').val();
-        let pattern = new RegExp(/^[0-9]{7}$/);
+        let pattern = new RegExp(/^[0-9]{10}$/);
         let alertMessage = $('#alert-message');
         if (!pattern.test(ticketNumber)) {
             e.preventDefault();

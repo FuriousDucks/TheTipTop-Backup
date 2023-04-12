@@ -29,7 +29,7 @@ class ParticipateController extends AbstractController
     {
         try {
             $ticketNumber = $request->get('number');
-            if (!preg_match('/^[0-9]{7}$/', $ticketNumber)) {
+            if (!preg_match('/^[0-9]{10}$/', $ticketNumber)) {
                 $this->addFlash('danger', 'Le numéro de ticket est invalide.');
                 throw new Exception('Le numéro de ticket est invalide.');
             }
