@@ -1,6 +1,6 @@
-pipeline{
+pipeline {
     agent any
-    environment{
+    environment {
         IMAGE_NAME = 'ebenbrah/thetiptop'
         PREPROD_IMAGE_NAME = 'ebenbrah/preprodthetiptop'
         LOCAL_IMAGE = 'thetiptop'
@@ -13,19 +13,19 @@ pipeline{
         SONNAR_URL = 'https://sonarqube.dsp-archiwebf22-eb-we-fh.fr'
     }
     
-    options{
+    options {
         buildDiscarder(logRotator(numToKeepStr: '5'))
     }
 
-    stages{
-        stage('Checkout'){
-            steps{
+    stages {
+        stage('Checkout') {
+            steps {
                 deleteDir()
                 checkout scm
             }
 
-            post{
-                failure{
+            post {
+                failure {
                     mail to: 'benbrahim.elmahdi@gmail.com',
                     subject: 'TheTipTop - Checkout Failed',
                     body: 'TheTipTop - Checkout Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}'
@@ -33,19 +33,19 @@ pipeline{
             }
         }
 
-        stage('Clean Staging'){
-            when{
+        stage('Clean Staging') {
+            when {
                 branch 'develop'
             }
-            steps{
-                script{
+            steps {
+                script {
                     sh 'docker stop ${PREPROD_CONTAINER_NAME} && docker rm ${PREPROD_CONTAINER_NAME} || true'
                     sh 'docker rmi ${PREPROD_LOCAL_IMAGE} || true'
                     // sh 'docker system prune -af --volumes'
                 }
             }
-            post{
-                failure{
+            post {
+                failure {
                     mail to: 'benbrahim.elmahdi@gmail.com',
                     subject: 'TheTipTop - Clean Failed',
                     body: 'TheTipTop - Clean Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}'
@@ -53,19 +53,19 @@ pipeline{
             }
         }
 
-        stage('Clean Prod'){
-            when{
+        stage('Clean Prod') {
+            when {
                 branch 'master'
             }
-            steps{
-                script{
+            steps {
+                script {
                     sh 'docker stop ${CONTAINER_NAME} && docker rm ${CONTAINER_NAME} || true'
                     sh 'docker rmi ${LOCAL_IMAGE} || true'
                     // sh 'docker system prune -af --volumes'
                 }
             }
-            post{
-                failure{
+            post {
+                failure {
                     mail to: 'benbrahim.elmahdi@gmail.com',
                     subject: 'TheTipTop - Clean Failed',
                     body: 'TheTipTop - Clean Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}'
@@ -73,17 +73,17 @@ pipeline{
             }
         }
 
-        stage('Deploy Staging'){
-            when{
+        stage('Deploy Staging') {
+            when {
                 branch 'develop'
             }
-            steps{
-                script{
+            steps {
+                script {
                     sh 'docker compose -f docker-compose-preprod.yml up -d'
                 }
             }
-            post{
-                failure{
+            post {
+                failure {
                     mail to: 'benbrahim.elmahdi@gmail.com',
                     subject: 'TheTipTop - Deploy Staging Failed',
                     body: 'TheTipTop - Deploy Staging Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}'
@@ -91,12 +91,12 @@ pipeline{
             }
         }
         
-        stage('Test Staging'){
-            when{
+        stage('Test Staging') {
+            when {
                 branch 'develop'
             }
-            steps{
-                script{
+            steps {
+                script {
                     sh 'docker exec -t ${PREPROD_CONTAINER_NAME} composer install -n'
                     sh 'docker exec -t ${PREPROD_CONTAINER_NAME} composer require --dev symfony/test-pack-n'
                     sh 'docker exec -t ${PREPROD_CONTAINER_NAME} vendor/bin/simple-phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
@@ -104,11 +104,11 @@ pipeline{
                     sh 'docker cp ${PREPROD_CONTAINER_NAME}:/var/www/html/thetiptop/storage ${WORKSPACE}'
                 }
             }
-            post{
-                always{
+            post {
+                always {
                     junit 'storage/logs/*.xml'
                 }
-                failure{
+                failure {
                     mail to: 'benbrahim.elmahdi@gmail.com',
                     subject: 'TheTipTop - Test Failed',
                     body: 'TheTipTop - Test Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}'
@@ -116,10 +116,10 @@ pipeline{
             }
         }
 
-        stage('SonarQube'){
-            steps{
-                script{
-                    withSonarQubeEnv('SonarQube'){
+        stage('SonarQube') {
+            steps {
+                script {
+                    withSonarQubeEnv('SonarQube') {
                         sh '${SCANNER_HOME}/bin/sonar-scanner \
                         -D sonar.projectKey=TheTipTop \
                         -D sonar.sources=. \
@@ -131,8 +131,8 @@ pipeline{
                     }
                 }
             }
-            post{
-                failure{
+            post {
+                failure {
                     mail to: 'benbrahim.elmahdi@gmail.com',
                     subject: 'TheTipTop - SonarQube Failed',
                     body: 'TheTipTop - SonarQube Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}'
@@ -140,12 +140,12 @@ pipeline{
             }
         }
 
-        stage('Archive'){
-            steps{
+        stage('Archive') {
+            steps {
                 archiveArtifacts artifacts: 'storage/logs/*.xml', fingerprint: true
             }
-            post{
-                failure{
+            post {
+                failure {
                     mail to: 'benbrahim.elmahdi@gmail.com',
                     subject: 'TheTipTop - Archive Failed',
                     body: 'TheTipTop - Archive Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}'
@@ -153,12 +153,12 @@ pipeline{
             }
         }
         
-        stage('Push Staging'){
-            when{
+        stage('Push Staging') {
+            when {
                 branch 'develop'
             }
-            steps{
-                script{
+            steps {
+                script {
                    docker.withRegistry('', registryCredential){
                         sh 'docker tag ${PREPROD_LOCAL_IMAGE} ${IMAGE_NAME}:$BUILD_NUMBER'
                         sh 'docker push ${PREPROD_IMAGE_NAME}:$BUILD_NUMBER'
@@ -167,11 +167,11 @@ pipeline{
                     }
                 }
             }
-            post{
-                always{
+            post {
+                always {
                     sh 'docker logout'
                 }
-                failure{
+                failure {
                     mail to: 'benbrahim.elmahdi@gmail.com',
                     subject: 'TheTipTop - Clean Failed',
                     body: 'TheTipTop - Clean Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}'
@@ -179,12 +179,12 @@ pipeline{
             }
         }
 
-        stage('Push Prod'){
-            when{
+        stage('Push Prod') {
+            when {
                 branch 'master'
             }
-            steps{
-                script{
+            steps {
+                script {
                     docker.withRegistry('', registryCredential){
                         sh 'docker tag ${LOCAL_IMAGE} ${IMAGE_NAME}:$BUILD_NUMBER'
                         sh 'docker push ${IMAGE_NAME}:$BUILD_NUMBER'
@@ -193,11 +193,11 @@ pipeline{
                     }
                 }
             }
-            post{
-                always{
+            post {
+                always {
                     sh 'docker logout'
                 }
-                failure{
+                failure {
                     mail to: 'benbrahim.elmahdi@gmail.com',
                     subject: 'TheTipTop - Clean Failed',
                     body: 'TheTipTop - Clean Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}'
@@ -205,22 +205,20 @@ pipeline{
             }
         }
 
-
-
-        stage('Deploy Staging'){
-            when{
+        stage('Deploy Staging') {
+            when {
                 branch 'develop'
             }
-            steps{
-                script{
+            steps {
+                script {
                     docker.withRegistry('', registryCredential){
                         sh 'docker pull ${PREPROD_IMAGE_NAME}:latest'
                         sh 'docker run -d --name ${PREPROD_CONTAINER_NAME} ${PREPROD_IMAGE_NAME}:latest'
                     }
                 }
             }
-            post{
-                failure{
+            post {
+                failure {
                     mail to: 'benbrahim.elmahdi@gmail.com',
                     subject: 'TheTipTop - Deploy Prod Failed',
                     body: 'TheTipTop - Deploy Prod Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}'
@@ -228,20 +226,20 @@ pipeline{
             }
         }
 
-        stage('Deploy Prod'){
-            when{
+        stage('Deploy Prod') {
+            when {
                 branch 'master'
             }
-            steps{
-                script{
+            steps {
+                script {
                     docker.withRegistry('', registryCredential){
                         sh 'docker pull ${IMAGE_NAME}:latest'
                         sh 'docker run -d --name ${CONTAINER_NAME} ${IMAGE_NAME}:latest'
                     }
                 }
             }
-            post{
-                failure{
+            post {
+                failure {
                     mail to: 'benbrahim.elmahdi@gmail.com',
                     subject: 'TheTipTop - Deploy Prod Failed',
                     body: 'TheTipTop - Deploy Prod Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}'
