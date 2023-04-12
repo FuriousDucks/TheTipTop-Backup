@@ -7,22 +7,24 @@ Accueil
 {% block body %}
 
 <div id="home">
-    <section id="cover-section" class="row d-flex align-items-center">
-        <div class="px-md-4 py-5 my-md-5 text-center title-card text-white d-sm-grid">
-            <img class="d-block mx-auto mb-4 img-card" src="{{ asset('/images/home/TheTipTop-white.png') }}"
-                alt="ThéTipTop logo">
-            <h1 class="display-5 fw-bold">ThéTipTop</h1>
+    <section id="cover-section" class="row d-flex justify-content-center align-items-center">
+        <div
+            class="row d-grid justify-content-center align-items-center px-md-4 py-5 my-md-5 text-center title-card text-white">
+            <div class="col-12 col-md-8 col-lg-6 mx-auto">
+                <img class="d-block mx-auto mb-4 img-card" src="{{ asset('/images/home/TheTipTop-white.png') }}"
+                    alt="ThéTipTop logo">
+                <h1 class="display-5 fw-bold">ThéTipTop</h1>
 
-
-            <h2 class="display-5 fw-bold" {{ stimulus_controller('symfony/ux-typed', {
+                <h2 class="display-5 fw-bold" {{ stimulus_controller('symfony/ux-typed', {
                 strings: [
                     'Jeu concours',
                 ],
                 showCursor: false
             }) }}></h2>
+            </div>
 
 
-            <div class="col-lg-6 mx-auto">
+            <div class="col-12 col-md-8 col-lg-6 mx-auto">
                 <p class="lead mb-4">ThéTipTop est une société ayant pour activité la promotion de gammes de thés de
                     très grande qualité avec
                     des mélanges signatures de l’entreprise, des thés détox, des thés blancs, des thés légumes,
@@ -30,7 +32,6 @@ Accueil
                     L’ensemble des thés sont bios et Handmades</p>
                 <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
                     <a href="{{ path('participate') }}" class="button btn-lg px-4">Participer au jeu</a>
-                    <a href="#desc-section" class="button btn-lg px-4">Descriptif du jeu</a>
                 </div>
             </div>
         </div>
@@ -56,89 +57,37 @@ Accueil
         <section id="gifts-section" class="row d-flex align-content-center justify-content-center mt-5 py-5">
             <h2 class="display-4 fw-bold lh-1 text-center mb-5">Cadeaux à gagner</h2>
             <div class="gifts mt-4">
+                {% for product in products %}
                 <div class="gift">
-                    <div class="card pt-3 shadow bg-body-tertiary rounded" style="width:18rem;">
-                        <img src="{{ asset('/images/home/infuseur_the.webp') }}" class="card-img-top"
-                            alt="infuseur thé">
+                    <div class="card pt-3 shadow bg-body-tertiary rounded mx-auto" style="width:18rem;">
+                        <img src="{{ asset('/images/products/' ~ product.img) }}" class="card-img-top" alt="infuseur thé">
                         <div class="card-body">
-                            <h5 class="card-title">Infuseur thé</h5>
-                            <h6 class="card-subtitle mb-2 text-muted price">10&euro;</h6>
-                            <p class="card-text">L'infuseur est composé d'acier inoxydable de qualité alimentaire.</p>
+                            <h5 class="card-title">{{ product.title }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted price">{{ product.price }}&euro;</h6>
+                            <p class="card-text">{{ product.description }}</p>
                         </div>
                     </div>
                 </div>
-                <div class="gift">
-                    <div class="card pt-3 shadow bg-body-tertiary rounded" style="width:18rem;">
-                        <img src="{{ asset('/images/home/the_detox_100.jpg') }}" class="card-img-top"
-                            alt="infuseur thé">
-                        <div class="card-body">
-                            <h5 class="card-title">Thé détox</h5>
-                            <h6 class="card-subtitle mb-2 text-muted price">5.76&euro;</h6>
-                            <p class="card-text">Le thé détox est un mélange de thé vert et morceaux de fruits.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="gift">
-                    <div class="card pt-3 shadow bg-body-tertiary rounded" style="width:18rem;">
-                        <img src="{{ asset('/images/home/infuseur_the.webp') }}" class="card-img-top"
-                            alt="infuseur thé">
-                        <div class="card-body">
-                            <h5 class="card-title">Infuseur thé</h5>
-                            <h6 class="card-subtitle mb-2 text-muted price">10&euro;</h6>
-                            <p class="card-text">L'infuseur est composé d'acier inoxydable de qualité alimentaire.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="gift">
-                    <div class="card pt-3 shadow bg-body-tertiary rounded" style="width:18rem;">
-                        <img src="{{ asset('/images/home/the_detox_100.jpg') }}" class="card-img-top"
-                            alt="infuseur thé">
-                        <div class="card-body">
-                            <h5 class="card-title">Thé détox</h5>
-                            <h6 class="card-subtitle mb-2 text-muted price">5.76&euro;</h6>
-                            <p class="card-text">Le thé détox est un mélange de thé vert et morceaux de fruits.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="gift">
-                    <div class="card pt-3 shadow bg-body-tertiary rounded" style="width:18rem;">
-                        <img src="{{ asset('/images/home/infuseur_the.webp') }}" class="card-img-top"
-                            alt="infuseur thé">
-                        <div class="card-body">
-                            <h5 class="card-title">Infuseur thé</h5>
-                            <h6 class="card-subtitle mb-2 text-muted price">10&euro;</h6>
-                            <p class="card-text">L'infuseur est composé d'acier inoxydable de qualité alimentaire.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="gift">
-                    <div class="card pt-3 shadow bg-body-tertiary rounded" style="width:18rem;">
-                        <img src="{{ asset('/images/home/the_detox_100.jpg') }}" class="card-img-top"
-                            alt="infuseur thé">
-                        <div class="card-body">
-                            <h5 class="card-title">Thé détox</h5>
-                            <h6 class="card-subtitle mb-2 text-muted price">5.76&euro;</h6>
-                            <p class="card-text">Le thé détox est un mélange de thé vert et morceaux de fruits.</p>
-                        </div>
-                    </div>
-                </div>
+                {% else %}
+                <p>Aucun produit à afficher</p>
+                {% endfor %}
             </div>
         </section>
         <section id="news-section" class="row d-flex align-items-center justify-content-center">
             <div class="container col-12 col-md-10 px-4 py-5">
                 <div class="row align-items-center g-lg-5 py-5">
-                    <div class="col-lg-7 text-center text-lg-start">
+                    <div class="col-12 col-lg-6 text-center text-lg-start">
                         <h2 class="display-4 fw-bold lh-1 my-3">Restez informé</h2>
                         <p class="col-lg-10 fs-4">Inscrivez-vous à notre newsletter pour être informé des dernières
                             nouveautés
                             et
                             promotions.</p>
                     </div>
-                    <div class="col-md-10 mx-auto col-lg-5">
+                    <div class="col-12 col-md-10 mx-auto col-lg-6">
                         <form class="p-4 p-md-5 border rounded-3 bg-light" action="{{ path('newsletter') }}"
                             method="post">
                             <div class="form-floating mb-3">
-                                <input type="email" class="form-control" id="mail" name="email">
+                                <input type="email" class="form-control" id="mail" name="email" required>
                                 <label for="mail">Email address</label>
                             </div>
                             <button class="w-100 button btn-lg" type="submit">S'abonner</button>

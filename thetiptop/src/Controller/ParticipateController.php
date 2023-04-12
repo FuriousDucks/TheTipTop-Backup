@@ -21,12 +21,20 @@ class ParticipateController extends AbstractController
     #[Route('/participer', name: 'participate')]
     public function index(): Response
     {
+        if (!$this->getUser()->isVerified()) {
+            $this->addFlash('danger', 'Vous devez vérifier votre adresse mail avant de participer.');
+            return $this->redirectToRoute('home');
+        }
         return $this->render('pages/participate.html.twig');
     }
 
     #[Route('/participer/tenter-la-chance', name: 'luck')]
     public function luck(Request $request, TicketRepository $ticketRepository, WinnerRepository $winnerRepository, ProductRepository $productRepository, EntityManagerInterface $entityManager): Response
     {
+        if (!$this->getUser()->getVerified()) {
+            $this->addFlash('danger', 'Vous devez vérifier votre adresse mail avant de participer.');
+            return $this->redirectToRoute('home');
+        }
         try {
             $ticketNumber = $request->get('number');
             if (!preg_match('/^[0-9]{10}$/', $ticketNumber)) {

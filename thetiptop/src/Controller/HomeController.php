@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ProductRepository;
 use MailchimpMarketing\ApiClient;
 use MailchimpMarketing\ApiException;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,11 +13,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'home')]
-    public function index(): Response
+    public function index(ProductRepository $productRepository): Response
     {
+
         return $this->render('pages/home.html.twig', [
             'controller_name' => 'HomeController',
             'title' => 'Accueil',
+            'products' => $productRepository->findAll(),
         ]);
     }
 
@@ -25,7 +28,8 @@ class HomeController extends AbstractController
     {
         $mail = $request->request->get('email');
         if(!filter_var($mail, FILTER_VALIDATE_EMAIL) || empty($mail)) {
-            return $this->json(['message' => 'Email invalide'], 400);
+            $this->addFlash('error', 'Veuillez entrer une adresse mail valide');
+            return $this->redirectToRoute('home');
         } else {
             try {
                 $mailchimp = new ApiClient();
@@ -39,27 +43,20 @@ class HomeController extends AbstractController
                     "status" => "subscribed",
                 ]);
 
-                if($request->isXmlHttpRequest()) {
-                    return $this->json(['message' => 'Vous êtes bien inscrit à la newsletter'], 200);
-                } else {
-                    $this->addFlash('success', 'Vous êtes bien inscrit à la newsletter');
-                    return $this->redirectToRoute('home');
-                }
+                $this->addFlash('success', 'Vous êtes bien inscrit à la newsletter');
+                return $this->redirectToRoute('home');
+
 
             } catch (ApiException $e) {
-                if($request->isXmlHttpRequest()) {
-                    return $this->json(['message' => $e->getMessage()], 500);
-                } else {
-                    $this->addFlash('error', $e->getMessage());
-                    return $this->redirectToRoute('home');
-                }
+
+                $this->addFlash('error', $e->getMessage());
+                return $this->redirectToRoute('home');
+
             } catch (\Exception $e) {
-                if($request->isXmlHttpRequest()) {
-                    return $this->json(['message' =>$e->getMessage()], 500);
-                } else {
-                    $this->addFlash('error', $e->getMessage());
-                    return $this->redirectToRoute('home');
-                }
+
+                $this->addFlash('error', $e->getMessage());
+                return $this->redirectToRoute('home');
+
             }
         }
 

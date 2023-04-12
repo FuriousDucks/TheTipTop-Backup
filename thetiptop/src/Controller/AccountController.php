@@ -19,24 +19,26 @@ class AccountController extends AbstractController
     public function index(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $userPasswordHasher, UserRepository $userRepository): Response
     {
         $user = $userRepository->find($this->getUser());
+        $oldPassword = $user->getPassword();
         $form = $this->createForm(CustomerType::class, $user);
         $form->handleRequest($request);
         $passwordForm = $this->createForm(ResetPasswordType::class, $user);
         $passwordForm->handleRequest($request);
         try {
             if ($passwordForm->isSubmitted() && $passwordForm->isValid()) {
-                if ($user->getPassword() !== $passwordForm->get('oldPassword')->getData()) {
+                if($userPasswordHasher->isPasswordValid($user, $passwordForm->get('oldPassword')->getData())) {
                     throw new \Exception('Ancien mot de passe incorrect');
+                } else {
+                    $user->setPassword(
+                        $userPasswordHasher->hashPassword(
+                            $user,
+                            $passwordForm->get('password')->getData()
+                        )
+                    );
+                    $em->persist($user);
+                    $em->flush();
+                    $this->addFlash('success', 'Votre mot de passe a bien été mis à jour');
                 }
-                $user->setPassword(
-                    $userPasswordHasher->hashPassword(
-                        $user,
-                        $passwordForm->get('password')->getData()
-                    )
-                );
-                $em->persist($user);
-                $em->flush();
-                $this->addFlash('success', 'Votre mot de passe a bien été mis à jour');
             } elseif ($form->isSubmitted() && $form->isValid()) {
                 $user->setPassword(
                     $user->getPassword()

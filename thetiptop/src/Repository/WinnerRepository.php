@@ -39,6 +39,15 @@ class WinnerRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllDistinct(): array
+    {
+        return $this->createQueryBuilder('w')
+            ->select('w')
+            ->distinct()
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Winner[] Returns an array of Winner objects
 //     */

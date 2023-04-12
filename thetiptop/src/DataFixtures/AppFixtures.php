@@ -115,7 +115,7 @@ class AppFixtures extends Fixture
     public function Tickets(ObjectManager $manager): void
     {
         $batchSize = 20;
-        for ($i = 1; $i <= 500; $i++) {
+        for ($i = 1; $i <= 1000; $i++) {
             $ticket = new Ticket();
             $ticketNumber = str_pad($i, 10, '0', STR_PAD_LEFT);
             $ticket->setNumber($ticketNumber);

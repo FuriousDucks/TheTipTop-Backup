@@ -2,26 +2,35 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Winner;
 use App\Entity\Customer;
+use App\Repository\WinnerRepository;
+use App\Repository\ProductRepository;
 use App\Repository\CustomerRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Response;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use Symfony\Component\HttpFoundation\Response;
 
 class CustomerCrudController extends AbstractCrudController
 {
     private CustomerRepository $customerRepository;
+    private WinnerRepository $winnerRepository;
+    private ProductRepository $productRepository;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(CustomerRepository $customerRepository)
+    public function __construct(CustomerRepository $customerRepository, WinnerRepository $winnerRepository, ProductRepository $productRepository, EntityManagerInterface $entityManager)
     {
         $this->customerRepository = $customerRepository;
+        $this->winnerRepository = $winnerRepository;
+        $this->productRepository = $productRepository;
+        $this->entityManager = $entityManager;
     }
     public static function getEntityFqcn(): string
     {
@@ -59,9 +68,14 @@ class CustomerCrudController extends AbstractCrudController
             ->addCssClass('btn btn-primary')
             ->setHtmlAttributes(['target' => '_blank'])->createAsGlobalAction();
 
+        $oneyearbutton = Action::new('oneyear', '1 an de thé', 'fas fa-gift')
+            ->linkToCrudAction('oneyear')
+            ->addCssClass('btn btn-primary')->createAsGlobalAction();
+
 
         return $actions
         ->add(Crud::PAGE_INDEX, $exportAction)
+        ->add(Crud::PAGE_INDEX, $oneyearbutton)
         ->remove(Crud::PAGE_INDEX, Action::NEW)
         ->remove(Crud::PAGE_INDEX, Action::EDIT)
         ->remove(Crud::PAGE_INDEX, Action::DELETE);
@@ -94,5 +108,42 @@ class CustomerCrudController extends AbstractCrudController
         $response->headers->set('Content-Type', 'text/csv', );
         $response->headers->set('Content-Disposition', 'attachment; filename="customers.csv"');
         return $response;
+    }
+
+    public function oneyear()
+    {
+        $exists = $this->winnerRepository->findOneBy(['product' => 6]);
+        if(!$exists) {
+            $winners = $this->winnerRepository->findAllDistinct();
+            $ids = [];
+
+            foreach ($winners as $winner) {
+                $ids[] = $winner->getCustomer()->getId();
+            }
+
+            $customer = $this->customerRepository->findOneBy(['id' => $ids[array_rand($ids)]]);
+
+            $winner = new Winner();
+            $winner->setCustomer($customer);
+            $winner->setDateOfDraw(new \DateTime());
+            $winner->setProduct($this->productRepository->findOneBy(['id' => 6]));
+            $winner->setRecovered(false);
+            $this->entityManager->persist($winner);
+            $this->entityManager->flush();
+
+            $this->addFlash('success', 'Le gagnant a bien été tiré au sort !');
+
+            return $this->redirect($this->generateUrl('admin', [
+                'action' => 'detail',
+                'entity' => 'Winner',
+                'id' => $winner->getId(),
+            ]));
+        } else {
+            $this->addFlash('danger', 'Le gagnant a déjà été tiré au sort !');
+            return $this->redirect($this->generateUrl('admin', [
+                'action' => 'index',
+                'entity' => 'Winner',
+            ]));
+        }
     }
 }

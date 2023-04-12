@@ -40,7 +40,6 @@ class DashboardController extends AbstractDashboardController
     public function statistics(ChartBuilderInterface $chartBuilder, WinnerRepository $winnerRepository, CustomerRepository $customerRepository, ProductRepository $productRepository, TicketRepository $ticketRepository): Response
     {
         return $this->render('admin/dashboard.html.twig', [
-            'chart' => $this->countUserPerProduct($chartBuilder, $winnerRepository, $productRepository),
             'countUserPerProduct' => $this->countUserPerProduct($chartBuilder, $winnerRepository, $productRepository),
             'usedandunusedtickets' => $this->countOfTicketUsed($chartBuilder, $ticketRepository),
         ]);
@@ -61,7 +60,7 @@ class DashboardController extends AbstractDashboardController
     {
         // yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToUrl('Statistiques', 'fa-solid fa-chart-gantt', '/admin/statistiques')->setPermission('ROLE_ADMIN');
-        yield MenuItem::linkToCrud('Gagnants', 'fas fa-gift', Winner::class)->setPermission('ROLE_EMPLOYEE');
+        yield MenuItem::linkToCrud('Gagnants', 'fas fa-gift', Winner::class);
         yield MenuItem::linkToCrud('Clients', 'fas fa-user', Customer::class)->setPermission('ROLE_ADMIN');
         yield MenuItem::linkToCrud('Produits', 'fab fa-product-hunt', Product::class)->setPermission('ROLE_ADMIN');
         yield MenuItem::linkToCrud('Employés', 'fas fa-users', Employee::class)->setPermission('ROLE_ADMIN');
