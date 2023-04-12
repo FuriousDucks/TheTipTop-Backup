@@ -66,10 +66,9 @@ pipeline{
         stage('Test'){
             steps{
                 script{
-                    sh 'docker exec -t ${CONTAINER_NAME} composer require --dev symfony/test-pack symfony/browser-kit symfony/css-selector -n || true'
-                    sh 'docker exec -t ${CONTAINER_NAME} vendor/bin/simple-phpunit --coverage-html=coverage --coverage-clover=coverage.xml'
+                    // sh 'docker exec -t ${CONTAINER_NAME} composer require --dev symfony/test-pack symfony/browser-kit symfony/css-selector -n'
                     sh 'docker exec -t ${CONTAINER_NAME} vendor/bin/simple-phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
-                    sh 'mkdir -p test-results'
+                    // sh 'mkdir -p test-results'
                     sh 'docker cp ${CONTAINER_NAME}:/var/www/html/thetiptop/storage ${WORKSPACE}'
                 }
             }
