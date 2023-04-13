@@ -68,6 +68,7 @@ pipeline{
         stage('Test'){
             steps{
                 script{
+                    sh 'docker exec -t ${CONTAINER_NAME} mkdir vendor'
                     sh 'docker exec -t ${CONTAINER_NAME} chmod -R 777 /vendor'
                     sh 'docker exec -t ${CONTAINER_NAME} chmod -R 777 /vendor/*'
                     sh 'docker exec -t ${CONTAINER_NAME} composer clear-cache -n'
