@@ -73,6 +73,7 @@ pipeline{
                     sh 'docker exec -t ${CONTAINER_NAME} yarn build'
                     sh 'docker exec -t ${CONTAINER_NAME} php bin/console d:d:c --env=test --if-not-exists -n'
                     sh 'docker exec -t ${CONTAINER_NAME} php bin/console d:m:m --env=test --no-interaction -n'
+                    sh 'docker exec -t ${CONTAINER_NAME} php bin/console lexik:jwt:generate-keypair -n'
                     sh 'docker exec -t ${CONTAINER_NAME} vendor/bin/simple-phpunit --coverage-clover storage/logs/coverage.xml --log-junit storage/logs/phpunit.junit.xml'
                     sh 'mkdir -p storage'
                     sh 'docker cp ${CONTAINER_NAME}:/var/www/html/thetiptop/storage ${WORKSPACE}'
