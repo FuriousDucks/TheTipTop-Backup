@@ -1,7 +1,7 @@
 pipeline{
     agent any
     environment{
-        IMAGE_NAME = 'ebenbrah/thetiptop'
+        IMAGE_NAME = 'ebenbrah/prodthetiptop'
         PREPROD_IMAGE_NAME = 'ebenbrah/preprodthetiptop'
         LOCAL_IMAGE = 'thetiptop'
         PREPROD_LOCAL_IMAGE = 'preprod_thetiptop'
@@ -185,9 +185,21 @@ pipeline{
             steps{
                 /* script{
                     sshagent(['ssh-key']){
-                        sh 'ssh -tt -o StrictHostKeyChecking=no -l root 64.226.113.4 "cd /var/www/ && docker kill thetiptop && docker rm thetiptop && docker pull ebenbrah/thetiptop:latest && docker run -d --name thetiptop ebenbrah/thetiptop"'
+                        sh 'ssh -tt -o StrictHostKeyChecking=no -l root 64.226.113.4 "cd /var/www/ && docker kill thetiptop && docker rm thetiptop && docker pull ebenbrah/thetiptop:latest && docker run -d --name thetiptop ebenbrah/prodthetiptop"'
                     }
                 } */
+                steps{
+                    script{
+                        sh 'docker compose -p "preprod" -f docker-compose-preprod.yml up -d'
+                    }
+                }
+                post{
+                    failure{
+                        mail to: 'benbrahim.elmahdi@gmail.com',
+                        subject: 'TheTipTop - Deploy Staging Failed',
+                        body: 'TheTipTop - Deploy Staging Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}'
+                    }
+                }
                 echo 'Deploy Prod'
             }
             post{
