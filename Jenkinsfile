@@ -128,7 +128,10 @@ pipeline{
             }
         }
         
-        stage('Push'){
+        stage('Push Prod'){
+            when{
+                branch 'master'
+            }
             steps{
                 script{
                    docker.withRegistry('', registryCredential){
@@ -151,20 +154,40 @@ pipeline{
             }
         }
 
-        stage('Deploy Prod'){
-            /* steps{
-                script{
-                    sshagent(['ssh-key']){
-                        sh 'ssh -tt -o StrictHostKeyChecking=no -l root 64.226.113.4 "cd /var/www/ && docker kill thetiptop && docker rm thetiptop && docker pull ebenbrah/thetiptop:latest && docker run -d --name thetiptop ebenbrah/thetiptop"'
-                    }
-                }
-            } */
+        stage('Push Preprod'){
+            when{
+                branch 'develop'
+            }
             steps{
                 script{
+                   docker.withRegistry('', registryCredential){
+                        sh 'docker tag ${PREPROD_LOCAL_IMAGE} ${PREPROD_IMAGE_NAME}:$BUILD_NUMBER'
+                        sh 'docker push ${PREPROD_IMAGE_NAME}:$BUILD_NUMBER'
+                        sh 'docker tag ${PREPROD_LOCAL_IMAGE} ${PREPROD_IMAGE_NAME}:latest'
+                        sh 'docker push ${PREPROD_IMAGE_NAME}:latest'
+                    }
+                }
+            }
+            post{
+                always{
+                    sh 'docker logout'
+                }
+                failure{
+                    mail to: 'benbrahim.elmahdi@gmail.com',
+                    subject: 'TheTipTop - Clean Failed',
+                    body: 'TheTipTop - Clean Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}'
+                }
+            }
+        }
+
+        stage('Deploy Prod'){
+            steps{
+                /* script{
                     sshagent(['ssh-key']){
                         sh 'ssh -tt -o StrictHostKeyChecking=no -l root 64.226.113.4 "cd /var/www/ && docker kill thetiptop && docker rm thetiptop && docker pull ebenbrah/thetiptop:latest && docker run -d --name thetiptop ebenbrah/thetiptop"'
                     }
-                }
+                } */
+                echo 'Deploy Prod'
             }
             post{
                 failure{
