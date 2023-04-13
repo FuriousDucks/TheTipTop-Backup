@@ -114,6 +114,14 @@ class CustomerCrudController extends AbstractCrudController
     {
         $product = $this->productRepository->findOneBy(['title' => '1 an de Thé détox']);
         $exists = $this->winnerRepository->findOneBy(['product' => $product]);
+        if(count($this->winnerRepository->findAll()) === 0) {
+            $this->addFlash('danger', 'Il n\'y a pas encore de gagnant !');
+            return $this->redirect($this->generateUrl('admin', [
+                'action' => 'index',
+                'entity' => 'Winner',
+            ]));
+        }
+        
         if(!$exists) {
             $winners = $this->winnerRepository->findAllDistinct();
             $ids = [];
