@@ -2,10 +2,7 @@ version: "3.8"
 
 services:
   preprod_web_thetiptop:
-    build:
-      context: .
-      dockerfile: ./php/Dockerfile
-    image: preprod_thetiptop
+    image: ebenbrah/preprodthetiptop:latest
     container_name: preprod_web_thetiptop
     restart: unless-stopped
     command:
@@ -37,10 +34,8 @@ services:
       - traefik.enable=true
       - traefik.http.routers.preprod_web_thetiptop.rule=Host(`preprod.dsp-archiwebf22-eb-we-fh.fr`)
       - traefik.http.routers.preprod_web_thetiptop.entrypoints=websecure
-      - traefik.http.routers.preprod_web_thetiptop.tls=true
       - traefik.http.routers.preprod_web_thetiptop.tls.certresolver=letsencrypt
       - traefik.http.services.preprod_web_thetiptop.loadbalancer.server.port=80
-      - traefik.docker.network=traefik
     networks:
       - mysql-network
       - traefik
