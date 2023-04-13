@@ -85,23 +85,6 @@ $(document).ready(function () {
         current_lang: 'en',
         autoclear_cookies: true, // default: false
         page_scripts: true, // default: false
-
-        // mode: 'opt-in'                          // default: 'opt-in'; value: 'opt-in' or 'opt-out'
-        // delay: 0,                               // default: 0
-        // auto_language: null                     // default: null; could also be 'browser' or 'document'
-        // autorun: true,                          // default: true
-        // force_consent: false,                   // default: false
-        // hide_from_bots: true,                   // default: true
-        // remove_cookie_tables: false             // default: false
-        // cookie_name: 'cc_cookie',               // default: 'cc_cookie'
-        // cookie_expiration: 182,                 // default: 182 (days)
-        // cookie_necessary_only_expiration: 182   // default: disabled
-        // cookie_domain: location.hostname,       // default: current domain
-        // cookie_path: '/',                       // default: root
-        // cookie_same_site: 'Lax',                // default: 'Lax'
-        // use_rfc_cookie: false,                  // default: false
-        // revision: 0,                            // default: 0
-
         onFirstAction: function (user_preferences, cookie) {
             // callback triggered only once
         },
@@ -117,15 +100,15 @@ $(document).ready(function () {
         languages: {
             'en': {
                 consent_modal: {
-                    title: 'We use cookies!',
-                    description: 'Hi, this website uses essential cookies to ensure its proper operation and tracking cookies to understand how you interact with it. The latter will be set only after consent. <button type="button" data-cc="c-settings" class="cc-link">Let me choose</button>',
+                    title: 'On utilise des cookies 🍪',
+                    description: 'Bonjour, ce site utilise des cookies essentiels pour assurer son bon fonctionnement et des cookies de suivi pour comprendre comment vous interagissez avec lui. Ces derniers ne seront définis qu\'après votre consentement. <button type="button" data-cc="c-settings" class="cc-link">Laissez-moi choisir</button>',
                     primary_btn: {
                         text: 'Accept all',
-                        role: 'accept_all' // 'accept_selected' or 'accept_all'
+                        role: 'accept_all'
                     },
                     secondary_btn: {
                         text: 'Reject all',
-                        role: 'accept_necessary' // 'settings' or 'accept_necessary'
+                        role: 'accept_necessary'
                     }
                 },
                 settings_modal: {
@@ -148,50 +131,50 @@ $(document).ready(function () {
                         }
                     ],
                     blocks: [{
-                        title: 'Cookie usage 📢',
-                        description: 'I use cookies to ensure the basic functionalities of the website and to enhance your online experience. You can choose for each category to opt-in/out whenever you want. For more details relative to cookies and other sensitive data, please read the full <a href="#" class="cc-link">privacy policy</a>.'
+                        title_fr: 'Utilisation des cookies 📢',
+                        description: 'J\'utilise des cookies pour assurer les fonctionnalités de base du site et pour améliorer votre expérience en ligne. Vous pouvez choisir pour chaque catégorie d\'opter pour l\'entrée / sortie à tout moment. Pour plus de détails relatifs aux cookies et autres données sensibles, veuillez lire la <a href="#" class="cc-link">politique de confidentialité</a> complète.',
                     }, {
-                        title: 'Strictly necessary cookies',
-                        description: 'These cookies are essential for the proper functioning of my website. Without these cookies, the website would not work properly',
+                        title: 'Cookies strictement nécessaires 🍪',
+                        description: 'Ces cookies sont essentiels au bon fonctionnement de mon site Web. Sans ces cookies, le site Web ne fonctionnerait pas correctement',
                         toggle: {
                             value: 'necessary',
                             enabled: true,
                             readonly: true // cookie categories with readonly=true are all treated as "necessary cookies"
                         }
                     }, {
-                        title: 'Performance and Analytics cookies',
-                        description: 'These cookies allow the website to remember the choices you have made in the past',
+                        title: 'Cookies de performance et d\'analyse 📈',
+                        description: 'Ces cookies permettent au site Web de se souvenir des choix que vous avez faits dans le passé',
                         toggle: {
-                            value: 'analytics', // your cookie category
+                            value: 'analytics',
                             enabled: false,
                             readonly: false
                         },
-                        cookie_table: [ // list of all expected cookies
+                        cookie_table: [
                             {
-                                col1: '^_ga', // match all cookies starting with "_ga"
+                                col1: '^_ga',
                                 col2: 'google.com',
-                                col3: '2 years',
+                                col3: '1 an',
                                 col4: 'description ...',
                                 is_regex: true
                             },
                             {
                                 col1: '_gid',
                                 col2: 'google.com',
-                                col3: '1 day',
+                                col3: '1 jour',
                                 col4: 'description ...',
                             }
                         ]
                     }, {
-                        title: 'Advertisement and Targeting cookies',
-                        description: 'These cookies collect information about how you use the website, which pages you visited and which links you clicked on. All of the data is anonymized and cannot be used to identify you',
+                        title: 'Cookies publicitaires et de ciblage',
+                        description: 'Ces cookies collectent des informations sur la façon dont vous utilisez le site Web, les pages que vous avez visitées et les liens sur lesquels vous avez cliqué. Toutes les données sont anonymisées et ne peuvent pas être utilisées pour vous identifier',
                         toggle: {
                             value: 'targeting',
                             enabled: false,
                             readonly: false
                         }
                     }, {
-                        title: 'More information',
-                        description: 'For any queries in relation to our policy on cookies and your choices, please <a class="cc-link" href="#yourcontactpage">contact us</a>.',
+                        title: 'Plus d\'informations',
+                        description: 'Pour toute question relative à notre politique en matière de cookies et vos choix, veuillez <a class="cc-link" href="#yourcontactpage">nous contacter</a>.',
                     }]
                 }
             }

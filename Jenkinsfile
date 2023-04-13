@@ -149,8 +149,8 @@ pipeline{
                 }
                 failure{
                     mail to: 'benbrahim.elmahdi@gmail.com',
-                    subject: 'TheTipTop - Clean Failed',
-                    body: 'TheTipTop - Clean Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}'
+                    subject: 'TheTipTop - Push Prod Failed',
+                    body: 'TheTipTop - Push Prod Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}'
                 }
             }
         }
@@ -175,8 +175,8 @@ pipeline{
                 }
                 failure{
                     mail to: 'benbrahim.elmahdi@gmail.com',
-                    subject: 'TheTipTop - Clean Failed',
-                    body: 'TheTipTop - Clean Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}'
+                    subject: 'TheTipTop - Push Preprod Failed',
+                    body: 'TheTipTop - Push Preprod - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}'
                 }
             }
         }
@@ -196,11 +196,10 @@ pipeline{
                 post{
                     failure{
                         mail to: 'benbrahim.elmahdi@gmail.com',
-                        subject: 'TheTipTop - Deploy Staging Failed',
-                        body: 'TheTipTop - Deploy Staging Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}'
+                        subject: 'TheTipTop - Deploy Prod Failed',
+                        body: 'TheTipTop - Deploy Prod Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}'
                     }
                 }
-                echo 'Deploy Prod'
             }
             post{
                 failure{
