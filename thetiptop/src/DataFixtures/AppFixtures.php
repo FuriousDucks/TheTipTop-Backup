@@ -97,7 +97,13 @@ class AppFixtures extends Fixture
                 'description' => 'Coffret découverte d\'une valeur de 69€',
                 'price' => 69.99,
                 'image' => 'coffret-decouverte-69.jpg'
-            ]
+            ],
+            [
+                'title' => '1 an de Thé détox',
+                'description' => 'Le thé détox est un mélange de thé vert et morceaux de fruits.',
+                'price' => 360,
+                'image' => 'the_detox_100.jpg'
+            ],
         ];
 
         foreach ($product as $item) {

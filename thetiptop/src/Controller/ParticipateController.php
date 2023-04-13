@@ -31,7 +31,7 @@ class ParticipateController extends AbstractController
     #[Route('/participer/tenter-la-chance', name: 'luck')]
     public function luck(Request $request, TicketRepository $ticketRepository, WinnerRepository $winnerRepository, ProductRepository $productRepository, EntityManagerInterface $entityManager): Response
     {
-        if (!$this->getUser()->getVerified()) {
+        if (!$this->getUser()->isVerified()) {
             $this->addFlash('danger', 'Vous devez vérifier votre adresse mail avant de participer.');
             return $this->redirectToRoute('home');
         }
@@ -57,7 +57,7 @@ class ParticipateController extends AbstractController
                 $winner->setTicket($ticket);
                 $winner->setCustomer($this->getUser());
                 $winner->setDateOfDraw(new \DateTime());
-                $product = $productRepository->find($this->rules($winnerRepository, $ticket->getContest()->getMaxWinners()));
+                $product = $productRepository->find($this->rules($winnerRepository, $ticket->getContest()->getMaxWinners(), $productRepository));
                 $winner->setProduct($product);
                 $winner->setRecovered(false);
                 $entityManager->persist($winner);
@@ -73,10 +73,15 @@ class ParticipateController extends AbstractController
         }
     }
 
-    public function rules(WinnerRepository $winnerRepository, $max): int
+    public function rules(WinnerRepository $winnerRepository, $max, ProductRepository $productRepository): int
     {
         try {
-            $possibilities = [1, 2, 3, 4, 5];
+            $products = $productRepository->findAll();
+            $ids = [];
+            foreach ($products as $product) {
+                array_push($ids, $product->getId());
+            }
+            $possibilities = $ids;
             shuffle($possibilities);
             $gain = 0;
             foreach ($possibilities as $possibility) {

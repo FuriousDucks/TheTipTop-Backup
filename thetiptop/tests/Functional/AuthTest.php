@@ -14,7 +14,7 @@ class AuthTest extends WebTestCase
 
         $form = $crawler->selectButton('Connexion')->form();
 
-        $form['email'] = 'furious.duck.g4@gmail.com';
+        $form['email'] = 'benbrahim.elmahdi@gmail.com';
         $form['password'] = 'password';
 
         $client->submit($form);

@@ -19,7 +19,6 @@ class AccountController extends AbstractController
     public function index(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $userPasswordHasher, UserRepository $userRepository): Response
     {
         $user = $userRepository->find($this->getUser());
-        $oldPassword = $user->getPassword();
         $form = $this->createForm(CustomerType::class, $user);
         $form->handleRequest($request);
         $passwordForm = $this->createForm(ResetPasswordType::class, $user);

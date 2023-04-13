@@ -112,7 +112,8 @@ class CustomerCrudController extends AbstractCrudController
 
     public function oneyear()
     {
-        $exists = $this->winnerRepository->findOneBy(['product' => 6]);
+        $product = $this->productRepository->findOneBy(['title' => '1 an de Thé détox']);
+        $exists = $this->winnerRepository->findOneBy(['product' => $product]);
         if(!$exists) {
             $winners = $this->winnerRepository->findAllDistinct();
             $ids = [];
@@ -126,7 +127,7 @@ class CustomerCrudController extends AbstractCrudController
             $winner = new Winner();
             $winner->setCustomer($customer);
             $winner->setDateOfDraw(new \DateTime());
-            $winner->setProduct($this->productRepository->findOneBy(['id' => 6]));
+            $winner->setProduct($product);
             $winner->setRecovered(false);
             $this->entityManager->persist($winner);
             $this->entityManager->flush();
