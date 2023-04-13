@@ -37,8 +37,8 @@ pipeline{
             steps{
                 script{
                     sh 'docker stop ${CONTAINER_NAME} && docker rm ${CONTAINER_NAME} || true'
-                    sh 'docker rmi ${LOCAL_IMAGE} || true'
-                    // sh 'docker system prune -af --volumes'
+                    // sh 'docker rmi ${LOCAL_IMAGE} || true'
+                    sh 'docker system prune -af --volumes'
                 }
             }
             post{
