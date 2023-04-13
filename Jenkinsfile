@@ -162,9 +162,9 @@ pipeline{
             steps{
                 script{
                    docker.withRegistry('', registryCredential){
-                        sh 'docker tag ${PREPROD_LOCAL_IMAGE} ${PREPROD_IMAGE_NAME}:$BUILD_NUMBER'
+                        sh 'docker tag ${LOCAL_IMAGE} ${PREPROD_IMAGE_NAME}:$BUILD_NUMBER'
                         sh 'docker push ${PREPROD_IMAGE_NAME}:$BUILD_NUMBER'
-                        sh 'docker tag ${PREPROD_LOCAL_IMAGE} ${PREPROD_IMAGE_NAME}:latest'
+                        sh 'docker tag ${LOCAL_IMAGE} ${PREPROD_IMAGE_NAME}:latest'
                         sh 'docker push ${PREPROD_IMAGE_NAME}:latest'
                     }
                 }

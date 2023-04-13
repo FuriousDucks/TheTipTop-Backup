@@ -103,20 +103,21 @@ $(document).ready(function () {
                     title: 'On utilise des cookies 🍪',
                     description: 'Bonjour, ce site utilise des cookies essentiels pour assurer son bon fonctionnement et des cookies de suivi pour comprendre comment vous interagissez avec lui. Ces derniers ne seront définis qu\'après votre consentement. <button type="button" data-cc="c-settings" class="cc-link">Laissez-moi choisir</button>',
                     primary_btn: {
-                        text: 'Accept all',
+                        text: 'Accepter tout',
                         role: 'accept_all'
                     },
                     secondary_btn: {
-                        text: 'Reject all',
+                        text: 'Refuser tout',
                         role: 'accept_necessary'
                     }
                 },
                 settings_modal: {
-                    title: 'Cookie preferences',
+                    title: 'Préférences en matière de cookies',
                     save_settings_btn: 'Save settings',
-                    accept_all_btn: 'Accept all',
-                    reject_all_btn: 'Reject all',
-                    close_btn_label: 'Close',
+                    save_settings_btn : 'Enregistrer les paramètres',
+                    accept_all_btn: 'Accepter tout',
+                    reject_all_btn: 'Refuser tout',
+                    close_btn_label: 'Fermer',
                     cookie_table_headers: [{
                             col1: 'Name'
                         },
