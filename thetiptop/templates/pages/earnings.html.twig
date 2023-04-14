@@ -11,11 +11,11 @@
             {% if gains is not empty %}
             {% for gain in gains %}
             <figure class="figure col-4 shadow-lg p-3 mx-1 bg-body-tertiary rounded">
-                <img src="{{ asset('/images/products/' ~ gain.product.img) }}" class="figure-img img-fluid rounded"
+                <img src="{{ asset('/images/products/' ~ gain.product.img ?? '') }}" class="figure-img img-fluid rounded"
                     alt="{{ gain.product.title }}">
-                <figcaption class="figure-caption">{{ gain.product.title }}</figcaption>
-                <figcaption class="figure-caption">{{ gain.product.description }}</figcaption>
-                <figcaption class="figure-caption float-end">Gagné le {{ gain.dateOfDraw|date('d/m/Y') }}</figcaption>
+                <figcaption class="figure-caption">{{ gain.product.title ?? '' }}</figcaption>
+                <figcaption class="figure-caption">{{ gain.product.description ?? '' }}</figcaption>
+                <figcaption class="figure-caption float-end">Gagné le {{ gain.dateOfDraw|date('d/m/Y') ?? '' }}</figcaption>
             </figure>
             {% endfor %}
             {% else %}
