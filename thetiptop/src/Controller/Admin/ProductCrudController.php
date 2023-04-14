@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Product;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
@@ -20,7 +21,7 @@ class ProductCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            TextField::new('id')->setLabel('ID')->hideOnForm(),
+            NumberField::new('id')->setLabel('ID')->hideOnForm(),
             TextField::new('title')->setLabel('Titre'),
             TextField::new('description')->setLabel('Description'),
             MoneyField::new('price')->setCurrency('EUR')->setStoredAsCents(false)->setLabel('Prix'),

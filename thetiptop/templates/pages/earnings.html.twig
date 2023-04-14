@@ -15,7 +15,7 @@
                     alt="{{ gain.product.title }}">
                 <figcaption class="figure-caption">{{ gain.product.title ?? '' }}</figcaption>
                 <figcaption class="figure-caption">{{ gain.product.description ?? '' }}</figcaption>
-                <figcaption class="figure-caption float-end">Gagné le {{ gain.dateOfDraw|date('d/m/Y') ?? '' }}</figcaption>
+                <figcaption class="figure-caption float-end">Gagné le {{ gain.dateOfDraw|date('d/m/Y')}}</figcaption>
             </figure>
             {% endfor %}
             {% else %}

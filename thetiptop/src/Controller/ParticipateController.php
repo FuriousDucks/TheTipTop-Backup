@@ -2,10 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\ContestGame;
-use App\Entity\Ticket;
 use App\Entity\Winner;
-use App\Repository\CustomerRepository;
 use App\Repository\ProductRepository;
 use App\Repository\TicketRepository;
 use App\Repository\WinnerRepository;
@@ -53,17 +50,17 @@ class ParticipateController extends AbstractController
             } elseif ($winnerRepository->findOneBy(['ticket' => $ticket])) {
                 throw new Exception('Ce ticket a déjà été gagnant.');
             } else {
+                $products = $productRepository->findAll();
                 $winner = new Winner();
                 $winner->setTicket($ticket);
                 $winner->setCustomer($this->getUser());
                 $winner->setDateOfDraw(new \DateTime());
-                $products = $productRepository->findAll();
                 $product = $productRepository->find($this->rules($winnerRepository, $ticket->getContest()->getMaxWinners(), $products) ?? $products[0]->getId());
                 $winner->setProduct($product);
                 $winner->setRecovered(false);
                 $entityManager->persist($winner);
                 $entityManager->flush();
-                $this->addFlash('success', 'Félicitations, vous avez gagné ' . $product->getTitle() . '.');
+                $this->addFlash('success', 'Félicitations, vous avez gagné ' . $product->getTitle() . ' avec le ticket ' . $ticket->getNumber() . ', vous pouvez le voir dans la page "Mes gains".');
                 return $this->redirectToRoute('participate');
             }
         } catch (\Throwable $th) {
