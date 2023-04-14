@@ -120,8 +120,14 @@ class CustomerCrudController extends AbstractCrudController
                 'action' => 'index',
                 'entity' => 'Winner',
             ]));
+        } elseif (!$product) {
+            $this->addFlash('danger', 'Le produit 1 an de Thé détox n\'existe pas !, veuillez le créer !');
+            return $this->redirect($this->generateUrl('admin', [
+                'action' => 'index',
+                'entity' => 'Product',
+            ]));
         }
-        
+
         if(!$exists) {
             $winners = $this->winnerRepository->findAllDistinct();
             $ids = [];
