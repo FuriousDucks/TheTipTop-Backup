@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Product;
 use App\Entity\Winner;
 use App\Repository\ProductRepository;
 use App\Repository\TicketRepository;
@@ -51,18 +52,16 @@ class ParticipateController extends AbstractController
                 throw new Exception('Ce ticket a déjà été gagnant.');
             } else {
                 $products = $productRepository->findAll();
-                dump($products);
-                dd($this->rules($winnerRepository, $ticket->getContest()->getMaxWinners(), $products));
                 $winner = new Winner();
                 $winner->setTicket($ticket);
                 $winner->setCustomer($this->getUser());
                 $winner->setDateOfDraw(new \DateTime());
-                $product = $productRepository->find($this->rules($winnerRepository, $ticket->getContest()->getMaxWinners(), $products) ?? $products[0]->getId());
+                $product = $this->rules($winnerRepository, $ticket->getContest()->getMaxWinners(), $products);
                 $winner->setProduct($product);
                 $winner->setRecovered(false);
                 $entityManager->persist($winner);
                 $entityManager->flush();
-                $this->addFlash('success', 'Félicitations, vous avez gagné ' . $product->getTitle() . ' avec le ticket ' . $ticket->getNumber() . ', vous pouvez le voir dans la page "Mes gains".');
+                $this->addFlash('success', 'Félicitations, vous avez gagné ' . $product->getTitle() . ' avec le ticket ' . $ticket->getNumber() . ', vous pouvez le voir dans la page Mes gains.');
                 return $this->redirectToRoute('participate');
             }
         } catch (\Throwable $th) {
@@ -73,44 +72,39 @@ class ParticipateController extends AbstractController
         }
     }
 
-    public function rules(WinnerRepository $winnerRepository, $max, array $products): int
+    public function rules(WinnerRepository $winnerRepository, $max, array $products): Product
     {
         try {
-            $ids = [];
-            foreach ($products as $product) {
-                array_push($ids, $product->getId());
-            }
-            $possibilities = $ids;
-            shuffle($possibilities);
-            $gain = 0;
-            foreach ($possibilities as $possibility) {
-                if ($gain !== 0) {
+            shuffle($products);
+            $gain = null;
+            foreach ($products as $possibility) {
+                if ($gain !== null) {
                     break;
                 }
                 $count = $winnerRepository->count(['product' => $possibility]);
                 $percentage = (($count * 100) / $max);
-                switch ($possibility) {
-                    case 1:
+                switch ($possibility->getTitle()) {
+                    case 'Infuseur à thé':
                         if ($percentage < 60) {
                             $gain = $possibility;
                         }
                         break;
-                    case 2:
+                    case 'Thé détox':
                         if ($percentage < 20) {
                             $gain = $possibility;
                         }
                         break;
-                    case 3:
+                    case 'Thé signature':
                         if ($percentage < 10) {
                             $gain = $possibility;
                         }
                         break;
-                    case 4:
+                    case 'Coffret découverte d\'une valeur de 39€':
                         if ($percentage < 6) {
                             $gain = $possibility;
                         }
                         break;
-                    case 5:
+                    case 'Coffret découverte d\'une valeur de 69€':
                         if ($percentage < 4) {
                             $gain = $possibility;
                         }
