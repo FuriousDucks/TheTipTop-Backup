@@ -57,7 +57,8 @@ class ParticipateController extends AbstractController
                 $winner->setTicket($ticket);
                 $winner->setCustomer($this->getUser());
                 $winner->setDateOfDraw(new \DateTime());
-                $product = $productRepository->find($this->rules($winnerRepository, $ticket->getContest()->getMaxWinners(), $productRepository));
+                $products = $productRepository->findAll();
+                $product = $productRepository->find($this->rules($winnerRepository, $ticket->getContest()->getMaxWinners(), $products) ?? $products[0]->getId());
                 $winner->setProduct($product);
                 $winner->setRecovered(false);
                 $entityManager->persist($winner);
@@ -73,10 +74,9 @@ class ParticipateController extends AbstractController
         }
     }
 
-    public function rules(WinnerRepository $winnerRepository, $max, ProductRepository $productRepository): int
+    public function rules(WinnerRepository $winnerRepository, $max, array $products): int
     {
         try {
-            $products = $productRepository->findAll();
             $ids = [];
             foreach ($products as $product) {
                 array_push($ids, $product->getId());
