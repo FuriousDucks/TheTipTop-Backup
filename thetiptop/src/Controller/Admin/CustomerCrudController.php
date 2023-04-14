@@ -112,7 +112,7 @@ class CustomerCrudController extends AbstractCrudController
 
     public function oneyear()
     {
-        $product = $this->productRepository->findOneBy(['title' => '1 an de thé']);
+        $product = $this->productRepository->findOneBy(['title' => '1 an de Thé détox']);
         $exists = $this->winnerRepository->findOneBy(['product' => $product]);
         if(count($this->winnerRepository->findAll()) === 0) {
             $this->addFlash('danger', 'Il n\'y a pas encore de gagnant !');
