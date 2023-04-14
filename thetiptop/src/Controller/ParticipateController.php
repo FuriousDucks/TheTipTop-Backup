@@ -51,6 +51,8 @@ class ParticipateController extends AbstractController
                 throw new Exception('Ce ticket a déjà été gagnant.');
             } else {
                 $products = $productRepository->findAll();
+                dump($products);
+                dd($this->rules($winnerRepository, $ticket->getContest()->getMaxWinners(), $products));
                 $winner = new Winner();
                 $winner->setTicket($ticket);
                 $winner->setCustomer($this->getUser());
