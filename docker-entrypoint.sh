@@ -1,6 +1,6 @@
-# export NODE_ENV=production
 chmod -R 777 ./public/*
 chmod -R 777 ./vendor/*
+chmod -R 777 ./var/*
 composer install -n
 npm install --force
 npm run build
