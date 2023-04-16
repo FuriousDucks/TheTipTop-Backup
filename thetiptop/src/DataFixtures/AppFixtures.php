@@ -58,6 +58,8 @@ class AppFixtures extends Fixture
         $user->setEmail('furious.duck.g4@gmail.com');
         $user->setFirstName('Furious');
         $user->setLastName('Duck');
+        $user->setPhone('0606060606');
+        $user->setDateOfBirth("07/08/1998");
         $user->setIsVerified(true);
         $user->setPassword($this->userPasswordHasher->hashPassword($user, 'password'));
         // $user->setRoles(['ROLE_USER']); // Default role is ROLE_USER
