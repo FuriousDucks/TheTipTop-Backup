@@ -192,17 +192,8 @@ pipeline{
                         sh 'ssh -tt -o StrictHostKeyChecking=no -l root 64.226.113.4 "cd /var/www/ && docker kill thetiptop && docker rm thetiptop && docker pull ebenbrah/thetiptop:latest && docker run -d --name thetiptop ebenbrah/prodthetiptop"'
                     }
                 } */
-                steps{
-                    script{
-                        sh 'docker compose -p "preprod" -f docker-compose-preprod.yml up --force-recreate --build  -d'
-                    }
-                }
-                post{
-                    failure{
-                        mail to: 'benbrahim.elmahdi@gmail.com',
-                        subject: 'TheTipTop - Deploy Prod Failed',
-                        body: 'TheTipTop - Deploy Prod Failed - ${BUILD_URL} - ${BUILD_NUMBER} - ${JOB_NAME} - ${GIT_COMMIT} - ${GIT_BRANCH}'
-                    }
+                script{
+                    sh 'docker compose -p "preprod" -f docker-compose-preprod.yml up --force-recreate --build  -d'
                 }
             }
             post{
