@@ -53,7 +53,7 @@ pipeline{
         stage('Deploy Staging'){
             steps{
                 script{
-                    sh 'docker compose -f docker-compose.yml up -d'
+                    sh 'docker compose -f docker-compose.yml up --force-recreate --build -d'
                 }
             }
             post{
@@ -194,7 +194,7 @@ pipeline{
                     }
                 } */
                 script{
-                    sh 'docker compose -p "preprod" -f docker-compose-preprod.yml up --force-recreate --build  -d'
+                    sh 'docker compose -p "preprod" -f docker-compose-preprod.yml up --force-recreate --build -d'
                 }
             }
             post{
