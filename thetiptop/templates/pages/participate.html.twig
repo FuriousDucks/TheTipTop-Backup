@@ -13,8 +13,11 @@
                 <input type="text" class="form-control" id="number" name="number" placeholder="Numéro de ticket"
                     required>
                 <label for="number">Numéro de ticket</label>
-                <div id="alert-message" class="alert alert-danger mt-1 {{ (error is defined) ? 'd-block' : 'd-none' }}">{{ error ?? '' }}
+                <div id="alert-message" class="alert alert-danger mt-1 {{ (error is defined) ? 'd-block' : 'd-none' }}">
+                    {{ error ?? '' }}
                 </div>
+                <small>Pour tester le formulaire, vous pouvez utiliser les numéros de tickets suivants : 0000000001,
+                    0000000002, ..., 0000001000.</small>
             </div>
             <div class="col-12 d-flex justify-content-center align-items-end">
                 <button type="submit" class="button btn-lg btn-success p-3 h-100 w-75 mx-auto">Tentez votre
