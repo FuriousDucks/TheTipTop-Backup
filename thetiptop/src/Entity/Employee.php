@@ -26,7 +26,7 @@ class Employee extends User
     private ?Store $store = null;
 
 
-    public function __serialize(): array
+    /* public function __serialize(): array
     {
         return [
             $this->id,
@@ -44,7 +44,7 @@ class Employee extends User
             $this->store,
             parent::__unserialize($data),
         ] = $data;
-    }
+    } */
 
     public function getId(): ?int
     {

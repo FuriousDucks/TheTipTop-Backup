@@ -56,7 +56,7 @@ class Customer extends User
     }
 
 
-    public function __serialize(): array
+    /* public function __serialize(): array
     {
         return [
             $this->id,
@@ -82,7 +82,7 @@ class Customer extends User
             $this->gains,
             parent::__unserialize($data),
         ] = $data;
-    }
+    } */
 
     public function getId(): ?int
     {

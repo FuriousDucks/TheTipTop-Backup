@@ -101,7 +101,7 @@ class User implements UserInterface, Serializable, PasswordAuthenticatedUserInte
         ] = unserialize($serialized, ['allowed_classes' => false]);
     }
 
-    public function __serialize(): array
+    /* public function __serialize(): array
     {
         return [
             $this->id,
@@ -117,7 +117,7 @@ class User implements UserInterface, Serializable, PasswordAuthenticatedUserInte
             $this->email,
             $this->password,
         ] = $data;
-    }
+    } */
 
 
     public function getId(): ?int
