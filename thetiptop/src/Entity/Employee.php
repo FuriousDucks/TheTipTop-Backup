@@ -30,12 +30,9 @@ class Employee extends User
     {
         return [
             $this->id,
-            $this->email,
-            $this->password,
-            $this->firstName,
-            $this->lastName,
             $this->job,
             $this->store,
+            parent::__serialize(),
         ];
     }
 
@@ -43,12 +40,9 @@ class Employee extends User
     {
         [
             $this->id,
-            $this->email,
-            $this->password,
-            $this->firstName,
-            $this->lastName,
             $this->job,
             $this->store,
+            parent::__unserialize($data),
         ] = $data;
     }
 

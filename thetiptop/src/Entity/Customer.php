@@ -60,16 +60,13 @@ class Customer extends User
     {
         return [
             $this->id,
-            $this->email,
-            $this->password,
-            $this->firstName,
-            $this->lastName,
             $this->address,
             $this->social,
             $this->phone,
             $this->dateOfBirth,
             $this->facebookId,
             $this->gains,
+            parent::__serialize(),
         ];
     }
 
@@ -77,16 +74,13 @@ class Customer extends User
     {
         [
             $this->id,
-            $this->email,
-            $this->password,
-            $this->firstName,
-            $this->lastName,
             $this->address,
             $this->social,
             $this->phone,
             $this->dateOfBirth,
             $this->facebookId,
             $this->gains,
+            parent::__unserialize($data),
         ] = $data;
     }
 
