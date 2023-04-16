@@ -55,6 +55,41 @@ class Customer extends User
         $this->gains = new ArrayCollection();
     }
 
+
+    public function __serialize(): array
+    {
+        return [
+            $this->id,
+            $this->email,
+            $this->password,
+            $this->firstName,
+            $this->lastName,
+            $this->address,
+            $this->social,
+            $this->phone,
+            $this->dateOfBirth,
+            $this->facebookId,
+            $this->gains,
+        ];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        [
+            $this->id,
+            $this->email,
+            $this->password,
+            $this->firstName,
+            $this->lastName,
+            $this->address,
+            $this->social,
+            $this->phone,
+            $this->dateOfBirth,
+            $this->facebookId,
+            $this->gains,
+        ] = $data;
+    }
+
     public function getId(): ?int
     {
         return parent::getId();

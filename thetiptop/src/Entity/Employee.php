@@ -25,6 +25,33 @@ class Employee extends User
     #[ORM\ManyToOne(inversedBy: 'employees')]
     private ?Store $store = null;
 
+
+    public function __serialize(): array
+    {
+        return [
+            $this->id,
+            $this->email,
+            $this->password,
+            $this->firstName,
+            $this->lastName,
+            $this->job,
+            $this->store,
+        ];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        [
+            $this->id,
+            $this->email,
+            $this->password,
+            $this->firstName,
+            $this->lastName,
+            $this->job,
+            $this->store,
+        ] = $data;
+    }
+
     public function getId(): ?int
     {
         return parent::getId();
