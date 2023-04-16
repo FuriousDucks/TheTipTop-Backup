@@ -71,6 +71,7 @@ pipeline{
                     sh 'docker exec -t ${CONTAINER_NAME} chmod -R 777 public'
                     sh 'docker exec -t ${CONTAINER_NAME} composer clear-cache -n'
                     sh 'docker exec -t ${CONTAINER_NAME} composer require --dev symfony/test-pack symfony/browser-kit symfony/css-selector -n'
+                    sh 'docker exec -t ${CONTAINER_NAME} chmod -R 777 var'
                     sh 'docker exec -t ${CONTAINER_NAME} yarn install'
                     sh 'docker exec -t ${CONTAINER_NAME} yarn build'
                     sh 'docker exec -t ${CONTAINER_NAME} php bin/console d:d:c --env=test --if-not-exists -n'
