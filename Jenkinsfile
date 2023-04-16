@@ -1,8 +1,8 @@
 pipeline{
     agent any
     environment{
-        IMAGE_NAME = 'ebenbrah/prodthetiptop'
-        PREPROD_IMAGE_NAME = 'ebenbrah/preprodthetiptop'
+        IMAGE_NAME = 'ebenbrah/preprodthetiptop'
+        PREPROD_IMAGE_NAME = 'ebenbrah/prodthetiptop'
         LOCAL_IMAGE = 'thetiptop'
         PREPROD_LOCAL_IMAGE = 'preprod_thetiptop'
         CONTAINER_NAME = 'web_thetiptop'
